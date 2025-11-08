@@ -1,0 +1,172 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.register-card {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+}
+
+mat-form-field {
+  margin-top: 5px;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+mat-card-title mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+mat-card-subtitle {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+mat-card-content {
+  padding: 0 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.name-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.half-width {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.terms-section {
+  margin: 20px 0 24px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.terms-error {
+  font-size: 12px;
+  color: #f44336;
+  margin-top: 8px;
+  margin-left: 4px;
+}
+
+.register-button {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+mat-divider {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.login-text {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Estilos para los hints y errores */
+mat-hint {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .register-container {
+    padding: 20px 10px;
+  }
+
+  .register-card {
+    padding: 16px;
+  }
+
+  mat-card-title {
+    font-size: 24px;
+  }
+
+  mat-card-content {
+    padding: 0 10px;
+  }
+
+  .name-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+}
+
+/* Animación para campos inválidos */
+mat-form-field.ng-invalid.ng-touched .mat-form-field-outline {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}

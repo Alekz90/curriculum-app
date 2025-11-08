@@ -1,1 +1,129 @@
-<p>register-page works!</p>,
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>person_add</mat-icon>
+        Crear Cuenta
+      </mat-card-title>
+      <mat-card-subtitle>Completa los datos para registrarte</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-Mail</mat-label>
+          <input 
+            matInput 
+            type="email" 
+            formControlName="email" 
+            placeholder="ejemplo@email.com">
+          <mat-icon matPrefix>email</mat-icon>
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <mat-error>
+              {{ getEmailError() }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Nombres -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre de usuario</mat-label>
+          <input 
+            matInput 
+            type="text" 
+            formControlName="userName" 
+            placeholder="Nombre de usuario">
+          <mat-icon matPrefix>person</mat-icon>
+          @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+            <mat-error>
+              {{ getUserNameError() }}
+            </mat-error>
+          }
+        </mat-form-field>
+        
+        <!-- Contraseña -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input 
+            matInput 
+            [type]="hidePassword ? 'password' : 'text'" 
+            formControlName="password"
+            placeholder="Mínimo 10 caracteres">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button 
+            mat-icon-button 
+            matSuffix 
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Ocultar contraseña'">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-hint>{{ patternPasswordMessage }}</mat-hint>
+          @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+            <mat-error>
+              {{ getPasswordError() }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Confirmar Contraseña -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirmar Contraseña</mat-label>
+          <input 
+            matInput 
+            [type]="hideConfirmPassword ? 'password' : 'text'" 
+            formControlName="confirmPassword"
+            placeholder="Repite tu contraseña">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button 
+            mat-icon-button 
+            matSuffix 
+            type="button"
+            (click)="hideConfirmPassword = !hideConfirmPassword"
+            [attr.aria-label]="'Ocultar contraseña'">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty) {
+            <mat-error>
+              {{ getConfirmPasswordError() }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Términos y Condiciones -->
+        <div class="terms-section">
+          <mat-checkbox formControlName="acceptTerms">
+            Acepto los 
+            <a href="#" class="terms-link">términos y condiciones</a>
+          </mat-checkbox>
+          @if (registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched) {
+            <mat-error class="terms-error" >
+              Debes aceptar los términos y condiciones
+            </mat-error>
+          }
+        </div>
+
+        <!-- Botón de Registro -->
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit"
+          class="full-width register-button"
+          [disabled]="registerForm.invalid">
+          <mat-icon>person_add</mat-icon>
+          Registrarse
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="card-actions">
+      <mat-divider></mat-divider>
+      <p class="login-text">
+        ¿Ya tienes una cuenta? 
+        <a mat-button color="primary" routerLink="/login">Inicia sesión aquí</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>
