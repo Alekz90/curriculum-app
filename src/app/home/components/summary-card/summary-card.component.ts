@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
-import { MaterialModule } from '../../../material.module';
+import { Component, input } from '@angular/core';
+import { MaterialModule } from '@app/material.module';
+import { ProfessionalDetailResponse } from '@app/interface/professional-detail.interface';
 
 @Component({
   selector: 'summary-card',
   imports: [MaterialModule],
   templateUrl: './summary-card.component.html',
-  styleUrls: ['./summary-card.component.css'],
 })
-export class SummaryCardComponent { 
+export class SummaryCardComponent {
+
+  //@Input({ required: true }) detail!: ProfessionalDetailResponse;
+
+  detail = input.required<ProfessionalDetailResponse>();
+  showActions = input<boolean>(false);
   
 }

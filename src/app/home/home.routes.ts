@@ -1,15 +1,15 @@
 import { Routes } from "@angular/router";
-import { VerificationPageComponent } from "./pages/verification-page/verification-page.component";
-import { DashboardPageComponent } from "./pages/dashboard-page/dashboard-page.component";
-import { ConstantsRoutes } from "../utils/constants";
-import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
-import { TemplatePageComponent } from "./pages/template-page/template-page.component";
-import { LinkPageComponent } from "./pages/link-page/link-page.component";
-import { CertificationPageComponent } from "./pages/certification-page/certification-page.component";
-import { EducationPageComponent } from "./pages/education-page/education-page.component";
-import { AbilityPageComponent } from "./pages/ability-page/ability-page.component";
-import { LocationPageComponent } from "./pages/location-page/location-page.component";
-import { HomePageComponent } from "./pages/home-page/home-page.component";
+import { ConstantsRoutes } from "@utils/constants";
+import { VerificationPageComponent } from "@home/pages/verification-page/verification-page.component";
+import { DashboardPageComponent } from "@home/pages/dashboard-page/dashboard-page.component";
+import { ProfilePageComponent } from "@home/pages/profile-page/profile-page.component";
+import { TemplatePageComponent } from "@home/pages/template-page/template-page.component";
+import { LinkPageComponent } from "@home/pages/link-page/link-page.component";
+import { CertificationPageComponent } from "@home/pages/certification-page/certification-page.component";
+import { EducationPageComponent } from "@home/pages/education-page/education-page.component";
+import { AbilityPageComponent } from "@home/pages/ability-page/ability-page.component";
+import { LocationPageComponent } from "@home/pages/location-page/location-page.component";
+import { HomePageComponent } from "@home/pages/home-page/home-page.component";
 
 export const HomeRoutes: Routes = [
   {

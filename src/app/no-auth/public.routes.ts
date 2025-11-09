@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
-import { InitPageComponent } from "./pages/init-page/init-page.component";
-import { ConstantsRoutes } from "../utils/constants";
-import { LoginPageComponent } from "./pages/login-page/login-page.component";
-import { RegisterPageComponent } from "./pages/register-page/register-page.component";
-import { ResetPasswordPageComponent } from "./pages/reset-password-page/reset-password-page.component";
-import { SendingRecoveryPageComponent } from "./pages/sending-recovery-page/sending-recovery-page.component";
+import { ConstantsRoutes } from "@utils/constants";
+import { InitPageComponent } from "@noauth/pages/init-page/init-page.component";
+import { LoginPageComponent } from "@noauth/pages/login-page/login-page.component";
+import { RegisterPageComponent } from "@noauth/pages/register-page/register-page.component";
+import { ResetPasswordPageComponent } from "@noauth/pages/reset-password-page/reset-password-page.component";
+import { SendingRecoveryPageComponent } from "@noauth/pages/sending-recovery-page/sending-recovery-page.component";
 
 
 export const PublicRoutes: Routes = [

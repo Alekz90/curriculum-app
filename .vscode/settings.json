@@ -4,7 +4,7 @@
       "externalTemplate": true,
       "skipChangeDetectionOnPush": true,
       "skipTests": true,
-      //"skipStyle": true,
+      "skipStyle": true,
       "selectorPrefix": "",
       "suffix": "Component"
     },

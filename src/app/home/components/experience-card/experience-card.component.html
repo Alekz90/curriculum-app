@@ -1,0 +1,16 @@
+<mat-card class="detail-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Experiencia profesional</mat-card-title>
+    <mat-card-subtitle>{{ companyPositionComputed() }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ durationComputed() }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p class="content-card">{{ experience().activities }}</p>
+  </mat-card-content>
+  @if (showActions()) {
+    <mat-card-actions align="end">
+      <button matButton><mat-icon>edit</mat-icon></button>
+      <button matButton><mat-icon>delete</mat-icon></button>
+    </mat-card-actions>
+  }
+</mat-card>
