@@ -1,0 +1,30 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.drawer-container {
+  height: 100%;
+}
+
+.drawer-image {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.drawer-header {
+  padding: 7px;
+  text-align: center;
+}
+
+.content-container {
+  padding: 20px;
+}
+
+.menu-span-label {
+  padding-left: 5px;
+}
+
+.menu-mat-drawer {
+  width: 250px;
+}

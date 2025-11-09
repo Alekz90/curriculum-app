@@ -1,3 +1,39 @@
-<div class="home-container">
-  <router-outlet></router-outlet>
+
+<div class="container-page">
+  <mat-drawer-container class="drawer-container" hasBackdrop="True">
+    <mat-drawer #drawer mode="side" class="menu-mat-drawer">
+      <div class="drawer-header" fxLayout="column" fxLayoutAlign="center center">
+        <img mat-card-image src="assets/images/no-user.svg" alt="User Image" class="drawer-image">
+        <h3>Nombre de usuario</h3>
+        <p>ejemplo@correo.com</p>
+      </div>
+      <mat-nav-list>
+        @for (item of menuItems; track $index) {
+          <a mat-list-item [routerLink]="item.route" (click)="drawer.close(); title = item.label">
+              <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+              <span matLine class="menu-span-label">{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <mat-toolbar>
+        <button matIconButton class="example-icon" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>{{ title }}</span>
+        <span class="example-spacer"></span>
+        <button matIconButton (click)="goToProfile()">
+          <mat-icon>manage_accounts</mat-icon>
+        </button>
+        <button matIconButton (click)="goToLogout()">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </mat-toolbar>
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>      
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>
