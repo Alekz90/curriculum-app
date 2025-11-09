@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 import { Router, RouterLink } from '@angular/router';
-import { ConstantsRoutes } from "../../utils/constants";
+import { ConstantsRoutes } from '../../../utils/constants';
 
 @Component({
   selector: 'login-page',

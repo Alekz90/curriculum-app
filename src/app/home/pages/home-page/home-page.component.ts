@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
-import { ConstantsRoutes } from '../../utils/constants';
+import { ConstantsRoutes } from '../../../utils/constants';
 
 interface MenuItem {
   icon: string;
