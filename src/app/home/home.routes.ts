@@ -10,6 +10,9 @@ import { EducationPageComponent } from "@home/pages/education-page/education-pag
 import { AbilityPageComponent } from "@home/pages/ability-page/ability-page.component";
 import { LocationPageComponent } from "@home/pages/location-page/location-page.component";
 import { HomePageComponent } from "@home/pages/home-page/home-page.component";
+import { SummaryPageComponent } from "@home/pages/summary-page/summary-page.component";
+import { ExperiencePageComponent } from "@home/pages/experience-page/experience-page.component";
+import { LanguagePageComponent } from "@home/pages/language-page/language-page.component";
 
 export const HomeRoutes: Routes = [
   {
@@ -38,17 +41,17 @@ export const HomeRoutes: Routes = [
       {
         path: ConstantsRoutes.SUMMARIES.path,
         title: ConstantsRoutes.SUMMARIES.title,
-        component: CertificationPageComponent
+        component: SummaryPageComponent
       },
       {
         path: ConstantsRoutes.EXPERIENCES.path,
         title: ConstantsRoutes.EXPERIENCES.title,
-        component: TemplatePageComponent
+        component: ExperiencePageComponent
       },
       {
         path: ConstantsRoutes.LANGUAGES.path,
         title: ConstantsRoutes.LANGUAGES.title,
-        component: AbilityPageComponent
+        component: LanguagePageComponent
       },
       {
         path: ConstantsRoutes.ABILITIES.path,

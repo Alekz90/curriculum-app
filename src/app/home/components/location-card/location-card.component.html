@@ -1,17 +1,13 @@
-@if (isEdition()) {
+@if(isEdition()) {
   <section class="section-edit-mode">
     <button matButton="filled" class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
   </section>
-  @for (experience of experiences(); track experience.id) {
-    <mat-card class="detail-card" appearance="outlined">
-      <mat-card-content>
-        <table class="table-content-card">
+  <mat-card class="detail-card" appearance="outlined">
+    <table class="table-content-card">
           <tr>
             <td class="first-cell-content-card">
               <p class="content-card">
-                <strong>{{ generateCompanyPositionLabel(experience) }}</strong><br>
-                <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
-                <span [innerHTML]="experience.activities | replaceLine"></span>        
+                {{ location().city }}, {{ location().state }}, {{ location().country }}
               </p>
             </td>
             <td class="last-cell-content-card">
@@ -24,22 +20,16 @@
             </td>
           </tr>
         </table>
-      </mat-card-content>
-    </mat-card>
-  }
+  </mat-card>
 } @else {
   <mat-card class="detail-card" appearance="outlined">
     <mat-card-header>
-      <mat-card-title><strong>Experiencia profesional</strong></mat-card-title>
+      <mat-card-title><strong>Ubicación</strong></mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      @for (experience of experiences(); track experience.id) {
-        <p class="content-card">
-          <strong>{{ generateCompanyPositionLabel(experience) }}</strong><br>
-          <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
-          <span [innerHTML]="experience.activities | replaceLine"></span>        
-        </p>
-      }
+      <p class="content-card">
+          {{ location().city }}, {{ location().state }}, {{ location().country }}
+      </p>
     </mat-card-content>
     <mat-card-actions class="dashboard-mat-card-actions">
       @if (editEnabled()) {
@@ -49,6 +39,5 @@
         <button matButton><mat-icon>delete</mat-icon></button>
       }
     </mat-card-actions>
-    
   </mat-card>
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '@modules/material.module';
 import { Router, RouterLink } from '@angular/router';
-import { Constants } from '../../../utils/constants';
+import { Constants } from '@utils/constants';
 
 @Component({
   selector: 'register-page',

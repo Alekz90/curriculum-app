@@ -4,8 +4,8 @@ export interface EducationRequest {
   level:         EducationLevelEnum;
   institute:     string;
   degree:        string;
-  startDate:     string;
-  endDate:       string;
+  startYear:     number;
+  endYear:       number | null;
   stillStudying: boolean;
 }
 

@@ -1,28 +1,24 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConstantsRoutes } from '@app/utils/constants';
-import { LanguageResponse } from '@interfaces/language.interface';
+import { AddressResponse } from '@interfaces/address.interface';
 import { MaterialCardModule } from '@modules/material-card.module';
 
 @Component({
-  selector: 'language-card',
+  selector: 'location-card',
   imports: [MaterialCardModule],
-  templateUrl: './language-card.component.html',
+  templateUrl: './location-card.component.html',
 })
-export class LanguageCardComponent {  
-  languages = input.required<LanguageResponse[]>();
+export class LocationCardComponent {
+  location = input.required<AddressResponse>();
   isEdition = input<boolean>(false);
   editEnabled = input<boolean>(false);
   deleteEnabled = input<boolean>(false);
 
-  languageComputed(language: LanguageResponse): string {
-    return `• ${language.name} (${language.level})`;
-  };
-
   router = inject(Router);
-  
+
   goToEditMode(): void {
     console.log('Edit mode activated');
-    this.router.navigate([ConstantsRoutes.LANGUAGES.pathLink]);
+    this.router.navigate([ConstantsRoutes.LOCATION.pathLink]);
   }
 }

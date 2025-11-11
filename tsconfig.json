@@ -11,7 +11,10 @@
       "@utils/*": ["src/app/utils/*"],
       "@noauth/*": ["src/app/no-auth/*"],
       "@home/*": ["src/app/home/*"],
-      "@interface/*": ["src/app/interface/*"]
+      "@interfaces/*": ["src/app/interfaces/*"],
+      "@services/*": ["src/app/services/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@pipes/*": ["src/app/pipes/*"],
     },  
     "strict": true,
     "noImplicitOverride": true,

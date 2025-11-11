@@ -1,16 +1,44 @@
-<mat-card class="detail-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Resumen profesional</mat-card-title>
-    <mat-card-subtitle>{{ detail().position }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p class="content-card">
-      {{ detail().summary }}
-    </p>
-  </mat-card-content>
-  @if (showActions()) {
-    <mat-card-actions align="end">
-      <button matButton><mat-icon>edit</mat-icon></button>
+@if(isEdition()) {
+  <mat-card class="detail-card" appearance="outlined">
+    <mat-card-content >
+      <table class="table-content-card">
+        <tr>
+          <td class="first-cell-content-card">
+            <p class="content-card">
+              <strong> {{ detail().position }} </strong><br />
+              <span [innerHTML]="detail().summary | replaceLine"></span>
+            </p>
+          </td>
+          <td class="last-cell-content-card">
+            @if (editEnabled()) {
+              <button matButton><mat-icon>edit</mat-icon></button>
+            }
+            @if (deleteEnabled()) {
+              <button matButton><mat-icon>delete</mat-icon></button>
+            }
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <mat-card class="detail-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title><strong>Resumen profesional</strong></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="content-card" >
+        <strong> {{ detail().position }} </strong><br />
+        <span [innerHTML]="detail().summary | replaceLine"></span>
+      </p>
+    </mat-card-content>   
+    <mat-card-actions class="dashboard-mat-card-actions">
+      @if (editEnabled()) {
+        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon></button>
+      }
+      @if (deleteEnabled()) {
+        <button matButton><mat-icon>delete</mat-icon></button>
+      }
     </mat-card-actions>
-  }
-</mat-card>
+  </mat-card>
+}

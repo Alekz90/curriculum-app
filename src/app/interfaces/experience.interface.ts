@@ -1,4 +1,4 @@
-import { AddressResponse } from "@interface/address.interface";
+import { AddressResponse } from "@interfaces/address.interface";
 
 export interface ExperienceRequest {
   company:      string;

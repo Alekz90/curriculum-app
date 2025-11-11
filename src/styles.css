@@ -5,7 +5,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
 /* Contenedores de las páginas de inicio e inicio de sesión */
 .container-page {
-  justify-content: center;
   align-items: center;
   min-height: 100vh;
   height: 100%;
@@ -13,10 +12,79 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 }
 
 mat-card.detail-card {
-  max-width: 70%;
+  width: 80%;
+  max-width: 800px;
   margin: 20px auto;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
 }
 
-.content-card {
+section.section-edit-mode {
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+  text-align: right;
+}
+
+p.content-card {
   text-align: justify;
+  line-height: 1.8;
+}
+
+.h1-title-card {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.a-link-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard-mat-card-actions {
+  justify-content: right;
+}
+
+table.table-content-card {
+  width: 100%;
+}
+
+td.first-cell-content-card {
+  width: calc(100% - 130px);
+}
+
+td.last-cell-content-card {
+  width: 130px;
+  text-align: center;
+}
+
+button.add-button {
+  border-radius: 0;
+}
+
+mat-card.profile-card {
+  width: 80%;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  text-align: center;
+}
+
+div.profile-image-card {
+  width: 180px;
+  height: 150px;
+  margin: auto;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+img.profile-image-card {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin: 0 auto 15px auto;
 }

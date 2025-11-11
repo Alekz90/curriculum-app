@@ -6,6 +6,7 @@ export interface AbilityGroupRequest {
 
 export interface AbilityGroupResponse extends AbilityGroupRequest {  
   id: string;
+  abilities: AbilityResponse[];
 }
 
 export interface AbilityRequest {

@@ -1,10 +1,13 @@
-import { Component, input } from '@angular/core';
-import { MaterialModule } from '@app/material.module';
-import { ProfessionalDetailResponse } from '@app/interface/professional-detail.interface';
+import { Component, inject, input } from '@angular/core';
+import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
+import { ReplaceLinePipe } from '@pipes/replace-line-pipe';
+import { MaterialCardModule } from '@modules/material-card.module';
+import { ConstantsRoutes } from '@app/utils/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'summary-card',
-  imports: [MaterialModule],
+  imports: [MaterialCardModule, ReplaceLinePipe],
   templateUrl: './summary-card.component.html',
 })
 export class SummaryCardComponent {
@@ -12,6 +15,14 @@ export class SummaryCardComponent {
   //@Input({ required: true }) detail!: ProfessionalDetailResponse;
 
   detail = input.required<ProfessionalDetailResponse>();
-  showActions = input<boolean>(false);
+  isEdition = input<boolean>(false);
+  editEnabled = input<boolean>(false);
+  deleteEnabled = input<boolean>(false);
   
+  router = inject(Router);
+  
+  goToEditMode(): void {
+    console.log('Edit mode activated');
+    this.router.navigate([ConstantsRoutes.SUMMARIES.pathLink]);
+  }
 }

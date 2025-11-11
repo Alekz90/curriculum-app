@@ -111,4 +111,26 @@ export class ConstantsRoutes {
     pathLink: `${ConstantsRoutes.HOME.pathLink}/templates`,
     title: 'Plantillas'
   };
+
+  static readonly ALL_ROUTES: RouteDef[] = [
+    ConstantsRoutes.HOME,
+    ConstantsRoutes.LOGIN,
+    ConstantsRoutes.REGISTER,
+    ConstantsRoutes.SENDING_RECOVERY,
+    ConstantsRoutes.RESET_PASSWORD,
+    ConstantsRoutes.VERIFICATION,
+    ConstantsRoutes.DASHBOARD,
+    ConstantsRoutes.PROFILE,
+    ConstantsRoutes.SETTINGS,
+    ConstantsRoutes.HELP,
+    ConstantsRoutes.LOCATION,
+    ConstantsRoutes.SUMMARIES,
+    ConstantsRoutes.EXPERIENCES,
+    ConstantsRoutes.LANGUAGES,
+    ConstantsRoutes.ABILITIES,
+    ConstantsRoutes.EDUCATIONS,
+    ConstantsRoutes.CERTIFICATIONS,
+    ConstantsRoutes.LINKS,
+    ConstantsRoutes.TEMPLATES,
+  ];
 }

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '@modules/material.module';
 import { Router } from '@angular/router';
-import { Constants, ConstantsRoutes } from '../../../utils/constants';
+import { Constants, ConstantsRoutes } from '@utils/constants';
 
 @Component({
   selector: 'sending-recovery-page',
   imports: [MaterialModule],
   templateUrl: './sending-recovery-page.component.html',
-  styleUrl: './sending-recovery-page.component.css',
+  styleUrls: ['./sending-recovery-page.component.css'],
   standalone: true
 })
 export class SendingRecoveryPageComponent {

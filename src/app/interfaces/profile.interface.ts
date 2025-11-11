@@ -6,6 +6,7 @@ export interface ProfileRequest {
   fullName:  string;
 }
 
-export interface ProfileResponse extends ProfileRequest {  
+export interface ProfileResponse extends ProfileRequest {
   id:        string;
+  image:     string;
 }

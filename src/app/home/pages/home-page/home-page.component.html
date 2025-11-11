@@ -9,7 +9,7 @@
       </div>
       <mat-nav-list>
         @for (item of menuItems; track $index) {
-          <a mat-list-item [routerLink]="item.route" (click)="drawer.close(); title = item.label">
+          <a mat-list-item [routerLink]="item.route" (click)="drawer.close(); title.set(item.label)">
               <mat-icon matListIcon>{{ item.icon }}</mat-icon>
               <span matLine class="menu-span-label">{{ item.label }}</span>
           </a>
@@ -19,10 +19,10 @@
     <mat-drawer-content>
 
       <mat-toolbar>
-        <button matIconButton class="example-icon" (click)="drawer.toggle()">
+        <button matIconButton class="example-icon" #menuButton (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>{{ title }}</span>
+        <span>{{ title() }}</span>
         <span class="example-spacer"></span>
         <button matIconButton (click)="goToProfile()">
           <mat-icon>manage_accounts</mat-icon>
