@@ -13,89 +13,70 @@
     </table>
 </div>
 
+<!-- Account information -->
 <mat-card class="profile-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title><strong>Información de la cuenta</strong></mat-card-title>
+  <mat-card-header class="edit-card-header">
+    <mat-card-title-group>
+      <mat-card-title><strong>Información de la cuenta</strong></mat-card-title>
+      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+    </mat-card-title-group>    
   </mat-card-header>
   <mat-card-content>
-    <table class="table-content-card">
-      <tr>
-        <td class="first-cell-content-card">
-          <p class="content-card">
-            <strong>Nombre de usuario:</strong> {{ user().username }}
-            <br />
-            <strong>Correo electrónico:</strong> {{ user().email }}
-          </p>
-        </td>
-        <td class="last-cell-content-card">
-          <button matButton><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </table>
+    <p class="content-card">
+      <strong>Nombre de usuario:</strong> {{ user().username }}
+      <br />
+      <strong>Correo electrónico:</strong> {{ user().email }}
+    </p>
   </mat-card-content>
 </mat-card>
+
+<!-- Update password -->
 <mat-card class="profile-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title><strong>Actualizar contraseña</strong></mat-card-title>
+   <mat-card-header class="edit-card-header">
+    <mat-card-title-group>
+      <mat-card-title><strong>Información de contraseña</strong></mat-card-title>
+      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+    </mat-card-title-group>    
   </mat-card-header>
   <mat-card-content>
-    <table class="table-content-card">
-      <tr>
-        <td class="first-cell-content-card">
-          <p class="content-card">
-            <strong>Contraseña:</strong> **********
-          </p>
-        </td>
-        <td class="last-cell-content-card">
-          <button matButton><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </table>
+    <p class="content-card">
+      <strong>Contraseña:</strong> **********
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<!-- Personal information -->
+<mat-card class="profile-card" appearance="outlined">
+   <mat-card-header class="edit-card-header">
+    <mat-card-title-group>
+      <mat-card-title><strong>Información personal</strong></mat-card-title>
+      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+    </mat-card-title-group>    
+  </mat-card-header>
+  <mat-card-content>
+    <p class="content-card">
+      <strong>Nombre:</strong> {{ profile().fullName || 'No especificada' }}
+      <br />
+      <strong>Fecha de nacimiento:</strong> {{ profile().birthDate | date:'longDate' }}
+      <br />
+      <strong>Teléfono:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
+    </p>
   </mat-card-content>
 </mat-card>
 <mat-card class="profile-card" appearance="outlined">  
-  <mat-card-header>
-    <mat-card-title><strong>Información personal</strong></mat-card-title>
+   <mat-card-header class="edit-card-header">
+    <mat-card-title-group>
+      <mat-card-title><strong>Información de dirección</strong></mat-card-title>
+      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+    </mat-card-title-group>    
   </mat-card-header>
   <mat-card-content>
-    <table class="table-content-card">
-      <tr>
-        <td class="first-cell-content-card">
-          <p class="content-card">
-            <strong>Nombre:</strong> {{ profile().fullName || 'No especificada' }}
-            <br />
-            <strong>Fecha de nacimiento:</strong> {{ profile().birthDate | date:'longDate' }}
-            <br />
-            <strong>Teléfono:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
-          </p>
-        </td>
-        <td class="last-cell-content-card">
-          <button matButton><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </table>
-  </mat-card-content>
-</mat-card>
-<mat-card class="profile-card" appearance="outlined">  
-  <mat-card-header>
-    <mat-card-title><strong>Dirección</strong></mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <table class="table-content-card">
-      <tr>
-        <td class="first-cell-content-card">
-          <p class="content-card">
-            <strong>Ciudad:</strong> {{ profile().fullName || 'No especificada' }}
-            <br />
-            <strong>Estado:</strong> {{ profile().birthDate | date:'longDate' }}
-            <br />
-            <strong>País:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
-          </p>
-        </td>
-        <td class="last-cell-content-card">
-          <button matButton><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </table>
+    <p class="content-card">
+      <strong>Ciudad:</strong> {{ profile().fullName || 'No especificada' }}
+      <br />
+      <strong>Estado:</strong> {{ profile().birthDate | date:'longDate' }}
+      <br />
+      <strong>País:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
+    </p>
   </mat-card-content>
 </mat-card>

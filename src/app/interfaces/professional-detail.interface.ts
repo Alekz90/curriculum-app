@@ -6,7 +6,7 @@ import { ExperienceResponse } from "./experience.interface";
 import { LanguageResponse } from "./language.interface";
 import { LinkResponse } from "./link.interface";
 
-export interface ProfessionalDetailRequest {
+export interface ProfessionalDetail {
   userId:   string;
   position: string;
   summary:  string;
@@ -19,7 +19,13 @@ export interface ProfessionalDetailRequest {
   address:                 AddressResponse;  
 }
 
-export interface ProfessionalDetailResponse extends ProfessionalDetailRequest {  
+export interface ProfessionalDetailResponse extends ProfessionalDetail {  
   id:       string;
+}
+
+export interface ProfessionalDetailRequest {
+  userId:   string;
+  position: string;
+  summary:  string;
 }
 

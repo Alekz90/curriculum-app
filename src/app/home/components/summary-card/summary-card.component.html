@@ -1,44 +1,51 @@
-@if(isEdition()) {
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-content >
-      <table class="table-content-card">
-        <tr>
-          <td class="first-cell-content-card">
-            <p class="content-card">
-              <strong> {{ detail().position }} </strong><br />
-              <span [innerHTML]="detail().summary | replaceLine"></span>
-            </p>
-          </td>
-          <td class="last-cell-content-card">
-            @if (editEnabled()) {
-              <button matButton><mat-icon>edit</mat-icon></button>
-            }
-            @if (deleteEnabled()) {
-              <button matButton><mat-icon>delete</mat-icon></button>
-            }
-          </td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
-} @else {
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title><strong>Resumen profesional</strong></mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p class="content-card" >
-        <strong> {{ detail().position }} </strong><br />
-        <span [innerHTML]="detail().summary | replaceLine"></span>
-      </p>
-    </mat-card-content>   
-    <mat-card-actions class="dashboard-mat-card-actions">
-      @if (editEnabled()) {
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon></button>
-      }
-      @if (deleteEnabled()) {
-        <button matButton><mat-icon>delete</mat-icon></button>
-      }
-    </mat-card-actions>
-  </mat-card>
+@switch (viewType()) {
+  @case (viewTypeEnum.EDITION) {
+    <!-- Edit Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ detail().position }}</mat-card-title>
+            <div>
+              <button mat-icon-button matTooltip="Editar" (click)="goToForm()"><mat-icon>edit</mat-icon></button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <p class="content-card">
+          <span [innerHTML]="detail().summary | replaceLine"></span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  } @case (viewTypeEnum.FORM) {
+    <!-- Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title><strong>Resumen profesional</strong></mat-card-title>
+      </mat-card-header>
+      <mat-card-content  class="mat-card-content">
+        <p class="content-card" >
+          <strong> {{ detail().position }} </strong><br />
+          <span [innerHTML]="detail().summary | replaceLine"></span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  } @default {
+    <!-- Dashboard Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Resumen profesional</strong></mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content  class="mat-card-content">
+        <p class="content-card" >
+          <strong> {{ detail().position }} </strong><br />
+          <span [innerHTML]="detail().summary | replaceLine"></span>
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions class="dashboard-mat-card-actions">
+        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
 }

@@ -1,48 +1,52 @@
 @if (isEdition()) {
+  <!-- Modo Edición -->
   <section class="section-edit-mode">
-    <button matButton="filled" class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
+    <button mat-raised-button class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
   </section>
+
   @for (certification of certifications(); track $index) {
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-content>
-      <table class="table-content-card">
-          <tr>
-            <td class="first-cell-content-card">
-              <p class="content-card">
-                <strong>{{ certification.name }} </strong><br>
-                {{ certification.description }}
-              </p>
-            </td>          
-            <td class="last-cell-content-card">
-              @if (editEnabled()) {
-                <button matButton><mat-icon>edit</mat-icon></button>
-              }
-              @if (deleteEnabled()) {
-                <button matButton><mat-icon>delete</mat-icon></button>
-              }
-            </td>  
-          </tr>
-        </table>
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="edit-card-header">
+        <mat-card-title-group>
+          <mat-card-title>{{ certification.name }}</mat-card-title>
+          <div>
+            @if (editEnabled()) {
+              <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
+            }
+            @if (deleteEnabled()) {
+              <button mat-icon-button matTooltip="Eliminar"><mat-icon>delete</mat-icon></button>
+            }
+          </div>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="content-card">
+          {{ certification.description }}
+        </p>  
       </mat-card-content>
     </mat-card>
   }
 } @else {
+  <!-- Modo Vista -->
   <mat-card class="detail-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title><strong>Cursos y Certificaciones</strong></mat-card-title>
-  </mat-card-header>
-  @for (certification of certifications(); track $index) {
-    <mat-card-content>
-      <p class="content-card">
-        <strong>{{ certification.name }}</strong><br>
-        {{ certification.description }}
-      </p>
-    </mat-card-content>
-  }
-  <mat-card-actions class="dashboard-mat-card-actions">
-    @if (editEnabled()) {
-      <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon></button>
+    <mat-card-header class="view-card-header">
+      <mat-card-title><strong>Cursos y Certificaciones</strong></mat-card-title>
+    </mat-card-header>
+
+    @for (certification of certifications(); track $index) {
+      <mat-card-content>
+        <p class="content-card">
+          <strong>{{ certification.name }}</strong><br>
+          {{ certification.description }}
+        </p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
     }
-  </mat-card-actions>
-</mat-card>
+
+    <mat-card-actions class="dashboard-mat-card-actions">
+      @if (editEnabled()) {
+        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+      }
+    </mat-card-actions>
+  </mat-card>
 }

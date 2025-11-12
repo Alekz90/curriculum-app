@@ -15,9 +15,10 @@ mat-card.detail-card {
   width: 80%;
   max-width: 800px;
   margin: 20px auto;
-  padding: 10px;
+  padding: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  border-radius: 2px;
+  border-radius: 0px;
+  transition: all 0.3s ease;
 }
 
 section.section-edit-mode {
@@ -67,9 +68,9 @@ mat-card.profile-card {
   width: 80%;
   max-width: 700px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  border-radius: 0;
   text-align: center;
 }
 
@@ -87,4 +88,47 @@ img.profile-image-card {
   border-radius: 8px;
   object-fit: cover;
   margin: 0 auto 15px auto;
+}
+
+mat-card-header.edit-card-header, mat-card-header.view-card-header {
+  color: rgb(255, 255, 255);
+  padding: 10px 15px;
+  margin: 0 0;
+  border-radius: 0px 0px 0 0;
+  background: linear-gradient(135deg, #ff1842a6 0%, #ff1842a6 100%);
+}
+
+.detail-card:hover, .profile-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+mat-toolbar.mat-toolbar {
+  background: linear-gradient(135deg, #ff1842a6 0%, #ff1842a6 100%);
+  color: white;
+}
+
+div.content-container {
+  padding: 20px;
+  /*background: #f5f5f5;*/
+}
+
+mat-drawer.menu-mat-drawer {
+  width: 250px;
+  background: linear-gradient(135deg, #ff184252 0%, #ff184252 100%);
+  color: white;
+  border-radius: 0;
+}
+
+span.menu-span-label {
+  padding-left: 5px;
+  color: white;
+}
+
+mat-icon.mat-icon {
+  color: white;
+}
+
+mat-card-content.mat-card-content {
+  padding: 10px 20px 20px 20px;
 }

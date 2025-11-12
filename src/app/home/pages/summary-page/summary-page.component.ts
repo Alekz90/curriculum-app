@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SummaryCardComponent } from '@app/home/components/summary-card/summary-card.component';
+import { ViewTypeEnum } from '@app/utils/enum';
 import { CurriculumService } from '@services/curriculum.service';
-import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
 
 @Component({
   selector: 'summary-page',
@@ -10,5 +10,6 @@ import { ProfessionalDetailResponse } from '@interfaces/professional-detail.inte
 })
 export class SummaryPageComponent {
   service = inject(CurriculumService);
-  detail = this.service.detail;  
+  detail = this.service.detail;
+  viewType = ViewTypeEnum.EDITION;
 }

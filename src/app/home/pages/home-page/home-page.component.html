@@ -9,8 +9,8 @@
       </div>
       <mat-nav-list>
         @for (item of menuItems; track $index) {
-          <a mat-list-item [routerLink]="item.route" (click)="drawer.close(); title.set(item.label)">
-              <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+          <a class="menu-a-list" mat-list-item [routerLink]="item.route" (click)="drawer.close(); title.set(item.label)">
+              <mat-icon class="mat-icon" matListIcon>{{ item.icon }}</mat-icon>
               <span matLine class="menu-span-label">{{ item.label }}</span>
           </a>
         }
@@ -18,7 +18,7 @@
     </mat-drawer>
     <mat-drawer-content>
 
-      <mat-toolbar>
+      <mat-toolbar class="mat-toolbar">
         <button matIconButton class="example-icon" #menuButton (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
