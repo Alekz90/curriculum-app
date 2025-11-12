@@ -19,9 +19,3 @@ export enum RoleEnum {
   ADMIN,
   USER
 }
-
-export enum ViewTypeEnum {
-  DASHBOARD,
-  EDITION,
-  FORM
-}

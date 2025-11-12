@@ -43,7 +43,7 @@ p.content-card {
   color: inherit;
 }
 
-.dashboard-mat-card-actions {
+.button-mat-card-actions {
   justify-content: right;
 }
 
@@ -90,12 +90,12 @@ img.profile-image-card {
   margin: 0 auto 15px auto;
 }
 
-mat-card-header.edit-card-header, mat-card-header.view-card-header {
+mat-card-header.edit-card-header, mat-card-header.view-card-header, mat-card-header.form-card-header {
   color: rgb(255, 255, 255);
   padding: 10px 15px;
   margin: 0 0;
   border-radius: 0px 0px 0 0;
-  background: linear-gradient(135deg, #ff1842a6 0%, #ff1842a6 100%);
+  background: #ba005dd7;
 }
 
 .detail-card:hover, .profile-card:hover {
@@ -104,7 +104,7 @@ mat-card-header.edit-card-header, mat-card-header.view-card-header {
 }
 
 mat-toolbar.mat-toolbar {
-  background: linear-gradient(135deg, #ff1842a6 0%, #ff1842a6 100%);
+  background: #ba005dd7;
   color: white;
 }
 
@@ -115,7 +115,7 @@ div.content-container {
 
 mat-drawer.menu-mat-drawer {
   width: 250px;
-  background: linear-gradient(135deg, #ff184252 0%, #ff184252 100%);
+  background: #ba005d55;
   color: white;
   border-radius: 0;
 }
@@ -125,10 +125,31 @@ span.menu-span-label {
   color: white;
 }
 
-mat-icon.mat-icon {
+.menu-mat-icon, .edit-mat-icon, .delete-mat-icon {
   color: white;
 }
 
 mat-card-content.mat-card-content {
   padding: 10px 20px 20px 20px;
+}
+
+form.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+mat-card.modal-card {
+  background-color: white;
+}
+
+mat-card-header.modal-card-header {
+  background: #ba005dd7;
+  color: white;
+  padding: 15px 20px;
+}
+
+button.button-modal {
+  margin: 0 5px;
 }

@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { ConstantsRoutes } from "@utils/constants";
+import { ConstantsRoutes } from "@utils/route-constants";
 import { InitPageComponent } from "@noauth/pages/init-page/init-page.component";
 import { LoginPageComponent } from "@noauth/pages/login-page/login-page.component";
 import { RegisterPageComponent } from "@noauth/pages/register-page/register-page.component";
@@ -12,32 +12,32 @@ export const PublicRoutes: Routes = [
     path: '', component: InitPageComponent,
     children: [
       { 
-        path: ConstantsRoutes.LOGIN.path,
-        title: ConstantsRoutes.LOGIN.title,
+        path: ConstantsRoutes.login.path,
+        title: ConstantsRoutes.login.title,
         component: LoginPageComponent
       },
       {
-        path: ConstantsRoutes.REGISTER.path,
-        title: ConstantsRoutes.REGISTER.title,
+        path: ConstantsRoutes.register  .path,
+        title: ConstantsRoutes.register.title,
         component: RegisterPageComponent
       },
       {
-        path: ConstantsRoutes.RESET_PASSWORD.path,
-        title: ConstantsRoutes.RESET_PASSWORD.title,
+        path: ConstantsRoutes.resetPassword.path,
+        title: ConstantsRoutes.resetPassword.title,
         component: ResetPasswordPageComponent
       },
       {
-        path: ConstantsRoutes.SENDING_RECOVERY.path,
-        title: ConstantsRoutes.SENDING_RECOVERY.title,
+        path: ConstantsRoutes.sendingRecovery.path,
+        title: ConstantsRoutes.sendingRecovery.title,
         component: SendingRecoveryPageComponent
       },
       { 
-        path: ConstantsRoutes.HOME.path, 
+        path: ConstantsRoutes.home.path, 
         loadChildren: () => import('../home/home.routes').then(m => m.HomeRoutes),
       },
       {
         path: '**',
-        redirectTo: ConstantsRoutes.LOGIN.path
+        redirectTo: ConstantsRoutes.login.path
       }
     ]
   }

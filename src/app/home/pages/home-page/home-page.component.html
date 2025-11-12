@@ -10,7 +10,7 @@
       <mat-nav-list>
         @for (item of menuItems; track $index) {
           <a class="menu-a-list" mat-list-item [routerLink]="item.route" (click)="drawer.close(); title.set(item.label)">
-              <mat-icon class="mat-icon" matListIcon>{{ item.icon }}</mat-icon>
+              <mat-icon class="menu-mat-icon" matListIcon>{{ item.icon }}</mat-icon>
               <span matLine class="menu-span-label">{{ item.label }}</span>
           </a>
         }
@@ -20,15 +20,15 @@
 
       <mat-toolbar class="mat-toolbar">
         <button matIconButton class="example-icon" #menuButton (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
+          <mat-icon class="menu-mat-icon">menu</mat-icon>
         </button>
         <span>{{ title() }}</span>
         <span class="example-spacer"></span>
         <button matIconButton (click)="goToProfile()">
-          <mat-icon>manage_accounts</mat-icon>
+          <mat-icon class="menu-mat-icon">manage_accounts</mat-icon>
         </button>
         <button matIconButton (click)="goToLogout()">
-          <mat-icon>exit_to_app</mat-icon>
+          <mat-icon class="menu-mat-icon">exit_to_app</mat-icon>
         </button>
       </mat-toolbar>
       <div class="content-container">

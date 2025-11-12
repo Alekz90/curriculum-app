@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { ConstantsRoutes } from "@utils/constants";
+import { ConstantsRoutes } from "@utils/route-constants";
 import { VerificationPageComponent } from "@home/pages/verification-page/verification-page.component";
 import { DashboardPageComponent } from "@home/pages/dashboard-page/dashboard-page.component";
 import { ProfilePageComponent } from "@home/pages/profile-page/profile-page.component";
@@ -19,68 +19,103 @@ export const HomeRoutes: Routes = [
     path: '', component: HomePageComponent,
     children: [
       {
-        path: ConstantsRoutes.VERIFICATION.path,
-        title: ConstantsRoutes.VERIFICATION.title,
+        path: ConstantsRoutes.verification.path,
+        title: ConstantsRoutes.verification.title,
         component: VerificationPageComponent
       },
       {
-        path: ConstantsRoutes.DASHBOARD.path,
-        title: ConstantsRoutes.DASHBOARD.title,
+        path: ConstantsRoutes.dashboard.path,
+        title: ConstantsRoutes.dashboard.title,
         component: DashboardPageComponent
       },
       {
-        path: ConstantsRoutes.PROFILE.path,
-        title: ConstantsRoutes.PROFILE.title,
+        path: ConstantsRoutes.profile.path,
+        title: ConstantsRoutes.profile.title,
         component: ProfilePageComponent
       },
-      {
-        path: ConstantsRoutes.LOCATION.path,
-        title: ConstantsRoutes.LOCATION.title,
+      /*{
+        path: ConstantsRoutes.location.path,
+        title: ConstantsRoutes.location.title,
         component: LocationPageComponent
-      },
+      },*/
       {
-        path: ConstantsRoutes.SUMMARIES.path,
-        title: ConstantsRoutes.SUMMARIES.title,
+        path: ConstantsRoutes.summaries.path,
+        title: ConstantsRoutes.summaries.title,
         component: SummaryPageComponent
       },
       {
-        path: ConstantsRoutes.EXPERIENCES.path,
-        title: ConstantsRoutes.EXPERIENCES.title,
+        path: ConstantsRoutes.summaryForm.path,
+        title: ConstantsRoutes.summaryForm.title,
+        component: SummaryPageComponent
+      },
+      {
+        path: ConstantsRoutes.experiences.path,
+        title: ConstantsRoutes.experiences.title,
         component: ExperiencePageComponent
       },
       {
-        path: ConstantsRoutes.LANGUAGES.path,
-        title: ConstantsRoutes.LANGUAGES.title,
+        path: ConstantsRoutes.experienceForm.path,
+        title: ConstantsRoutes.experienceForm.title,
+        component: ExperiencePageComponent
+      },
+      {
+        path: ConstantsRoutes.languages.path,
+        title: ConstantsRoutes.languages.title,
         component: LanguagePageComponent
       },
       {
-        path: ConstantsRoutes.ABILITIES.path,
-        title: ConstantsRoutes.ABILITIES.title,
+        path: ConstantsRoutes.languageForm.path,
+        title: ConstantsRoutes.languageForm.title,
+        component: LanguagePageComponent
+      },
+      {
+        path: ConstantsRoutes.abilities.path,
+        title: ConstantsRoutes.abilities.title,
         component: AbilityPageComponent
       },
       {
-        path: ConstantsRoutes.EDUCATIONS.path,
-        title: ConstantsRoutes.EDUCATIONS.title,
+        path: ConstantsRoutes.abilityForm.path,
+        title: ConstantsRoutes.abilityForm.title,
+        component: AbilityPageComponent
+      },
+      {
+        path: ConstantsRoutes.educations.path,
+        title: ConstantsRoutes.educations.title,
         component: EducationPageComponent
       },
       {
-        path: ConstantsRoutes.CERTIFICATIONS.path,
-        title: ConstantsRoutes.CERTIFICATIONS.title,
+        path: ConstantsRoutes.educationForm.path,
+        title: ConstantsRoutes.educationForm.title,
+        component: EducationPageComponent
+      },
+      {
+        path: ConstantsRoutes.certifications.path,
+        title: ConstantsRoutes.certifications.title,
         component: CertificationPageComponent
       },
       {
-        path: ConstantsRoutes.LINKS.path,
-        title: ConstantsRoutes.LINKS.title,
+        path: ConstantsRoutes.certificationForm.path,
+        title: ConstantsRoutes.certificationForm.title,
+        component: CertificationPageComponent
+      },
+      {
+        path: ConstantsRoutes.links.path,
+        title: ConstantsRoutes.links.title,
         component: LinkPageComponent
       },
       {
-        path: ConstantsRoutes.TEMPLATES.path,
-        title: ConstantsRoutes.TEMPLATES.title,
+        path: ConstantsRoutes.linkForm.path,
+        title: ConstantsRoutes.linkForm.title,
+        component: LinkPageComponent
+      },
+      {
+        path: ConstantsRoutes.templates.path,
+        title: ConstantsRoutes.templates.title,
         component: TemplatePageComponent
       },   
       {
         path: '**',
-        redirectTo: ConstantsRoutes.DASHBOARD.path
+        redirectTo: ConstantsRoutes.dashboard.path
       },
     ]
   }

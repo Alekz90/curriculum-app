@@ -8,6 +8,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -23,6 +25,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatTooltipModule,
     MatDialogModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDialogModule,
   ],
   exports: [
     MatButtonModule,
@@ -33,6 +38,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatChipsModule,
     MatDividerModule,
     MatTooltipModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatInputModule,
     MatDialogModule,
   ],
 })

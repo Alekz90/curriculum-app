@@ -17,6 +17,10 @@ export class Constants {
   static readonly PASSWORD_SPECIAL_PATTERN = "@$¡!%*¿?&\\-+=.#";
   static readonly PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[" + Constants.PASSWORD_SPECIAL_PATTERN 
                                    + "])[A-Za-z\\d" + Constants.PASSWORD_SPECIAL_PATTERN + " ]{10,100}$";
+
+  static readonly DASHBOARD = 'DASHBOARD';
+  static readonly EDITION = 'EDITION';
+  static readonly FORM = 'FORM';
 }
 
 export interface RouteDef {
@@ -111,26 +115,19 @@ export class ConstantsRoutes {
     pathLink: `${ConstantsRoutes.HOME.pathLink}/templates`,
     title: 'Plantillas'
   };
-
-  static readonly ALL_ROUTES: RouteDef[] = [
-    ConstantsRoutes.HOME,
-    ConstantsRoutes.LOGIN,
-    ConstantsRoutes.REGISTER,
-    ConstantsRoutes.SENDING_RECOVERY,
-    ConstantsRoutes.RESET_PASSWORD,
-    ConstantsRoutes.VERIFICATION,
-    ConstantsRoutes.DASHBOARD,
-    ConstantsRoutes.PROFILE,
-    ConstantsRoutes.SETTINGS,
-    ConstantsRoutes.HELP,
-    ConstantsRoutes.LOCATION,
-    ConstantsRoutes.SUMMARIES,
-    ConstantsRoutes.EXPERIENCES,
-    ConstantsRoutes.LANGUAGES,
-    ConstantsRoutes.ABILITIES,
-    ConstantsRoutes.EDUCATIONS,
-    ConstantsRoutes.CERTIFICATIONS,
-    ConstantsRoutes.LINKS,
-    ConstantsRoutes.TEMPLATES,
-  ];
+  static readonly SUMMARY_FORM: RouteDef = {
+    path: 'edit-summary',
+    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-summary`,
+    title: 'Actualizar Resumen'
+  };
+  static readonly EXPERIENCE_FORM: RouteDef = {
+    path: 'edit-experience',
+    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-experience`,
+    title: 'Actualizar Experiencia'
+  };
+  static readonly LANGUAGE_FORM: RouteDef = {
+    path: 'edit-language',
+    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-language`,
+    title: 'Actualizar Idioma'
+  };
 }

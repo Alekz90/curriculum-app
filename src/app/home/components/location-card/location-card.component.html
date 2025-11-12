@@ -31,7 +31,7 @@
           {{ location().city }}, {{ location().state }}, {{ location().country }}
       </p>
     </mat-card-content>
-    <mat-card-actions class="dashboard-mat-card-actions">
+    <mat-card-actions class="button-mat-card-actions">
       @if (editEnabled()) {
         <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
       }
