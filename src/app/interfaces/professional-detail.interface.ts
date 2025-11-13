@@ -7,16 +7,16 @@ import { LanguageResponse } from "./language.interface";
 import { LinkResponse } from "./link.interface";
 
 export interface ProfessionalDetail {
-  userId:   string;
-  position: string;
-  summary:  string;
-  experiences: ExperienceResponse[];
-  languages:               LanguageResponse[];
-  abilityGroups:           AbilityGroupResponse[];
-  educations:              EducationResponse[]; 
-  certifications:          CertificationResponse[];
-  links:                   LinkResponse[];
-  address:                 AddressResponse;  
+  userId:           string;
+  position:        string;
+  summary:         string;
+  experiences:     ExperienceResponse[];
+  languages:       LanguageResponse[];
+  abilityGroups:   AbilityGroupResponse[];
+  educations:      EducationResponse[]; 
+  certifications:  CertificationResponse[];
+  links:           LinkResponse[];
+  address:         AddressResponse;  
 }
 
 export interface ProfessionalDetailResponse extends ProfessionalDetail {  

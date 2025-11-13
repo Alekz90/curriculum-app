@@ -11,9 +11,7 @@ import { CurriculumService } from '@services/curriculum.service';
   templateUrl: './summary-page.component.html',
 })
 export class SummaryPageComponent implements OnInit {
-
   viewType = signal<string>(Constants.EDITION);
-
   service = inject(CurriculumService);
   detail = this.service.detail;
 
@@ -23,6 +21,5 @@ export class SummaryPageComponent implements OnInit {
     this.router.url.includes(ConstantsRoutes.summaryForm.pathLink)
       ? this.viewType.set(Constants.FORM)
       : this.viewType.set(Constants.EDITION);
-
   }
 }

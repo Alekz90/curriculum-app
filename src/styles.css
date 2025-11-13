@@ -153,3 +153,23 @@ mat-card-header.modal-card-header {
 button.button-modal {
   margin: 0 5px;
 }
+
+mat-card-content.modal-card-content {
+  padding: 10px;
+}
+
+div.div-button-title-group {
+  width: 85px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.column-3-width {
+  width: 33.33%;
+}
+
+.column-2-width {
+  width: 50%;
+}

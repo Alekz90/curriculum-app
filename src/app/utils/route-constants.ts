@@ -109,37 +109,37 @@ export const ConstantsRoutes = {
   },
   //Forms
   summaryForm: {
-    path: 'edit-summary',
+    path: 'edit-summary/:id',
     pathLink: '/home/edit-summary',
     title: 'Actualizar Resumen'
   },
   experienceForm: {
-    path: 'edit-experience',
-    pathLink: '/home/edit-experience',
+    path: 'edit-experience/:id',
+    pathLink: '/home/edit-experience/',
     title: 'Actualizar Experiencia'
   },
   languageForm: {
-    path: 'edit-language',
+    path: 'edit-language/:id',
     pathLink: '/home/edit-language',
     title: 'Actualizar Idioma'
   },
   abilityForm: {
-    path: 'edit-ability',
+    path: 'edit-ability/:id',
     pathLink: '/home/edit-ability',
     title: 'Actualizar Habilidad'
   },
   educationForm: {
-    path: 'edit-education',
+    path: 'edit-education/:id',
     pathLink: '/home/edit-education',
     title: 'Actualizar Educación'
   },
   certificationForm: {
-    path: 'edit-certification',
+    path: 'edit-certification/:id',
     pathLink: '/home/edit-certification',
     title: 'Actualizar Certificación'
   },
   linkForm: {
-    path: 'edit-link',
+    path: 'edit-link/:id',
     pathLink: '/home/edit-link',
     title: 'Actualizar Enlace'
   },

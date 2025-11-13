@@ -1,3 +1,6 @@
+import { ConfirmDialogData } from "@app/interfaces/confirm-dialog-data";
+
+
 export class Constants {
   static readonly APP_NAME = 'Curriculum App';
   static readonly SUPPORT_EMAIL = 'support@curriculumapp.com';
@@ -20,7 +23,17 @@ export class Constants {
 
   static readonly DASHBOARD = 'DASHBOARD';
   static readonly EDITION = 'EDITION';
-  static readonly FORM = 'FORM';
+  static readonly FORM = 'FORM';  
+
+  static readonly CANCEL_DIALOG_DATA: ConfirmDialogData = {
+    title: '¿Continuar con esta acción?',
+    message: 'Si continua perderá los cambios realizados. ¿Deseas continuar?',
+    confirmText: 'Sí, continuar',
+    cancelText: 'No, cancelar',
+    iconCancel: 'cancel',
+    iconConfirm: 'warning',
+    type: 'warning'
+  };
 }
 
 export interface RouteDef {

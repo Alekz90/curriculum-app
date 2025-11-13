@@ -19,8 +19,8 @@ export class CurriculumService {
   httpClient = inject(HttpClient);
 
   profile: ProfileResponse = {
-    id: 'id',
-    userId: 'userId',
+    id: 'idProfile',
+    userId: 'userIdProfile',
     birthDate: new Date('1995-06-15'),
     codePhone: '+52',
     cellphone: '8112345678',
@@ -35,7 +35,7 @@ export class CurriculumService {
   };
 
   address1: AddressResponse = {
-    id: 'id',
+    id: 'idAddress1',
     city: 'San Pedro Garza García',
     state: 'Nuevo León',
     country: 'México',
@@ -43,7 +43,7 @@ export class CurriculumService {
   };
 
   address2: AddressResponse = {
-    id: 'id',
+    id: 'idAddress2',
     city: 'Monterrey',
     state: 'Nuevo León',
     country: 'México',
@@ -51,7 +51,7 @@ export class CurriculumService {
   };
 
   experiences: ExperienceResponse[] = [{
-    id: 'id',
+    id: 'idExperience1',
     company: 'Tech Solutions S.A.',
     position: 'Programador Full-Stack',
     startDate: new Date('2021-08-01'),
@@ -65,7 +65,7 @@ export class CurriculumService {
       '•	Implementé un microservicio para migración de usuarios desde Excel a Core Bancario con validaciones.',
     location: this.address1
     }, {
-      id: 'id',
+      id: 'idExperience2',
       company: 'Innovatech Solutions',
       position: 'Desarrollador Backend',
       startDate: new Date('2018-05-01'),
@@ -80,76 +80,76 @@ export class CurriculumService {
     }];
 
   languages: LanguageResponse[] = [{
-    id: 'id',
+    id: 'idLanguage1',
     name: 'Español',
     level: LanguageLevelEnum.NATIVE,
   },
   {
-    id: 'id',
+    id: 'idLanguage2',
     name: 'Inglés',
     level: LanguageLevelEnum.INTERMEDIATE,
   }];
 
   ability1: AbilityResponse[] = [
-    { id: 'id', name: 'Angular', percent: 40 },
-    { id: 'id', name: 'React', percent: 30 },
-    { id: 'id', name: 'Vue.js', percent: 20 },
-    { id: 'id', name: 'HTML5', percent: 50 },
-    { id: 'id', name: 'CSS3', percent: 40 },
-    { id: 'id', name: 'TypeScript', percent: 40 }
+    { id: 'idAbility1', name: 'Angular', percent: 40 },
+    { id: 'idAbility2', name: 'React', percent: 30 },
+    { id: 'idAbility3', name: 'Vue.js', percent: 20 },
+    { id: 'idAbility4', name: 'HTML5', percent: 50 },
+    { id: 'idAbility5', name: 'CSS3', percent: 40 },
+    { id: 'idAbility6', name: 'TypeScript', percent: 40 }
   ];
 
   ability2: AbilityResponse[] = [
-    { id: 'id', name: 'Java', percent: 50 },
-    { id: 'id', name: 'Spring Boot', percent: 40 },
-    { id: 'id', name: 'Node.js', percent: 30 },
-    { id: 'id', name: 'Express', percent: 20 },
-    { id: 'id', name: 'Python', percent: 30 },
-    { id: 'id', name: 'Django', percent: 20 }
+    { id: 'idAbility7', name: 'Java', percent: 50 },
+    { id: 'idAbility8', name: 'Spring Boot', percent: 40 },
+    { id: 'idAbility9', name: 'Node.js', percent: 30 },
+    { id: 'idAbility10', name: 'Express', percent: 20 },
+    { id: 'idAbility11', name: 'Python', percent: 30 },
+    { id: 'idAbility12', name: 'Django', percent: 20 }
   ];
 
   ability3: AbilityResponse[] = [
-    { id: 'id', name: 'MySQL', percent: 40 },
-    { id: 'id', name: 'PostgreSQL', percent: 30 },
-    { id: 'id', name: 'MongoDB', percent: 20 },
-    { id: 'id', name: 'Redis', percent: 20 },
-    { id: 'id', name: 'Oracle', percent: 10 }
+    { id: 'idAbility13', name: 'MySQL', percent: 40 },
+    { id: 'idAbility14', name: 'PostgreSQL', percent: 30 },
+    { id: 'idAbility15', name: 'MongoDB', percent: 20 },
+    { id: 'idAbility16', name: 'Redis', percent: 20 },
+    { id: 'idAbility17', name: 'Oracle', percent: 10 }
   ];
 
   ability4: AbilityResponse[] = [
-    { id: 'id', name: 'Docker', percent: 30 },
-    { id: 'id', name: 'Kubernetes', percent: 20 },
-    { id: 'id', name: 'Jenkins', percent: 20 },
-    { id: 'id', name: 'GitLab CI/CD', percent: 20 },
-    { id: 'id', name: 'AWS', percent: 10 },
-    { id: 'id', name: 'Azure', percent: 10 }
+    { id: 'idAbility18', name: 'Docker', percent: 30 },
+    { id: 'idAbility19', name: 'Kubernetes', percent: 20 },
+    { id: 'idAbility20', name: 'Jenkins', percent: 20 },
+    { id: 'idAbility21', name: 'GitLab CI/CD', percent: 20 },
+    { id: 'idAbility22', name: 'AWS', percent: 10 },
+    { id: 'idAbility23', name: 'Azure', percent: 10 }
   ];
 
   abilityGroups: AbilityGroupResponse[] = [
     {
-      id: 'id',
+      id: 'idAbilityGroup1',
       name: 'Frontend',
       abilities: this.ability1,
     },
     {
-      id: 'id',
+      id: 'idAbilityGroup2',
       name: 'Backend',
       abilities: this.ability2,
     },
     {
-      id: 'id',
+      id: 'idAbilityGroup3',
       name: 'Bases de Datos',
       abilities: this.ability3,
     },
     {
-      id: 'id',
+      id: 'idAbilityGroup4',
       name: 'DevOps',
       abilities: this.ability4,
     }
   ];
 
   educations: EducationResponse[] = [{
-    id: 'id',
+    id: 'idEducation1',
     level: EducationLevelEnum.UNIVERSITY_DEGREE,
     institute: 'Instituto Tecnológico y de Estudios Superiores de Monterrey',
     degree: 'Ingeniería en Sistemas Computacionales',
@@ -157,7 +157,7 @@ export class CurriculumService {
     endYear: 2017,
     stillStudying: false,
   }, {
-    id: 'id',
+    id: 'idEducation2',
     level: EducationLevelEnum.MASTER_DEGREE,
     institute: 'Universidad Nacional Autónoma de México',
     degree: 'Maestría en Ciencias de la Computación',
@@ -167,44 +167,44 @@ export class CurriculumService {
   }];
 
   certifications: CertificationResponse[] = [{
-    id: 'id',
+    id: 'idCertification1',
     name: 'Certified Java Developer',
     description: 'Certificación que valida las habilidades avanzadas en desarrollo con Java y tecnologías relacionadas.'
   }, {
-    id: 'id',
+    id: 'idCertification2',
     name: 'AWS Solutions Architect',
     description: 'Certificación que demuestra la capacidad para diseñar y desplegar aplicaciones en la plataforma AWS.'
   }, {
-    id: 'id',
+    id: 'idCertification3',
     name: 'Scrum Master Certified (SMC)',
     description: 'Certificación que acredita el conocimiento y la experiencia en la metodología ágil Scrum.'
   }, {
-    id: 'id',
+    id: 'idCertification4',
     name: 'Certified Kubernetes Administrator (CKA)',
     description: 'Certificación que valida las habilidades en la administración y operación de clústeres Kubernetes.'
   }];
 
   links: LinkResponse[] = [
     {
-      id: 'id',
+      id: 'idLink1',
       name: 'Linkedin',
       url: 'https://www.linkedin.com/in/alejandro-del-angel/'
     },
     {
-      id: 'id',
+      id: 'idLink2',
       name: 'GitHub',
       url: 'https://github.com/alejandro-del-angel'
     },
     {
-      id: 'id',
+      id: 'idLink3',
       name: 'Portfolio',
       url: 'https://alejandro-del-angel.dev'
     }
   ];
   
   detail: ProfessionalDetailResponse = {
-    id: 'id',
-    userId: 'userId',
+    id: 'idDetail1',
+    userId: 'userIdDetail1',
     position: 'Programador Full Stack Java | Angular',
     summary: 'Programador Full Stack con 7 años experiencia en desarrollo de plataformas basadas en ' +
       'microservicios (RESTful) y monolíticas, implementando tecnologías como Spring Boot, ' +

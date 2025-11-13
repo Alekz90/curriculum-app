@@ -10,6 +10,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 
@@ -28,6 +30,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
   ],
   exports: [
     MatButtonModule,
@@ -42,6 +46,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
   ],
 })
 export class MaterialCardModule { }

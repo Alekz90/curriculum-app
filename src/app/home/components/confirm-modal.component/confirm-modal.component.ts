@@ -1,16 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogData } from '@app/interfaces/confirm-dialog-data';
 import { MaterialCardModule } from '@modules/material-card.module';
-
-export interface ConfirmDialogData {
-  title?: string;
-  message?: string;
-  confirmText?: string;
-  cancelText?: string;
-  iconCancel?: string;
-  iconConfirm?: string;
-  type?: 'danger' | 'warning' | 'info';
-}
 
 @Component({
   selector: 'confirm-modal',

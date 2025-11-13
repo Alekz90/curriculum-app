@@ -3,7 +3,8 @@
 
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmModalComponent, ConfirmDialogData } from './confirm-modal.component';
+import { ConfirmModalComponent } from './confirm-modal.component';
+import { ConfirmDialogData } from '@app/interfaces/confirm-dialog-data';
 
 export class MiComponente {
   

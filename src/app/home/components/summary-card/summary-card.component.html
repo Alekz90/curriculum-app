@@ -3,18 +3,18 @@
     <!-- Edit Mode -->
     <mat-card class="detail-card" appearance="outlined">
       <mat-card-header class="edit-card-header">
-          <mat-card-title-group>
-            <mat-card-title>{{ detail().position }}</mat-card-title>
-            <div>
-              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode()">
-                <mat-icon class="menu-mat-icon">edit</mat-icon>
-              </button>
-            </div>
-          </mat-card-title-group>
-        </mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>{{ detail().position }}</mat-card-title>
+          <div>
+            <button mat-icon-button matTooltip="Editar" (click)="goToFormMode()">
+              <mat-icon class="menu-mat-icon">edit</mat-icon>
+            </button>
+          </div>
+        </mat-card-title-group>
+      </mat-card-header>
       <mat-card-content class="mat-card-content">
         <p class="content-card">
-          <span [innerHTML]="detail().summary | replaceLine"></span>
+          <span [innerHTML]="detail().summary! | replaceLine"></span>
         </p>
       </mat-card-content>
     </mat-card>
@@ -37,7 +37,7 @@
             <mat-icon matPrefix>assignment_ind</mat-icon>
             @if (editForm.get('position')?.invalid && editForm.get('position')?.touched) {
               <mat-error>
-                {{ getPositionError() }}
+                {{ getFieldError('position', 'puesto') }}
               </mat-error>
             }
           </mat-form-field>
@@ -53,7 +53,7 @@
             <mat-icon matPrefix>format_align_justify</mat-icon>
             @if (editForm.get('summary')?.invalid && editForm.get('summary')?.touched) {
               <mat-error>
-                {{ getSummaryError() }}
+                {{ getFieldError('summary', 'resumen profesional') }}
               </mat-error>
             }
           </mat-form-field>
@@ -76,7 +76,7 @@
       <mat-card-content  class="mat-card-content">
         <p class="content-card" >
           <strong> {{ detail().position }} </strong><br />
-          <span [innerHTML]="detail().summary | replaceLine"></span>
+          <span [innerHTML]="detail().summary! | replaceLine"></span>
         </p>
       </mat-card-content>
 
