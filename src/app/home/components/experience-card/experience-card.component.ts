@@ -8,13 +8,12 @@ import { ConstantsRoutes } from '@app/utils/route-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
-import { MatCheckbox } from "@angular/material/checkbox";
 import {provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'experience-card',
   providers: [provideNativeDateAdapter()],
-  imports: [MaterialCardModule, ReplaceLinePipe, MatCheckbox],
+  imports: [MaterialCardModule, ReplaceLinePipe],
   templateUrl: './experience-card.component.html',
 })
 export class ExperienceCardComponent {
@@ -28,7 +27,7 @@ export class ExperienceCardComponent {
   private formBuilder = inject(FormBuilder);
   private dialog = inject(MatDialog);
 
-  experiences = input.required<ExperienceResponse[]>();  
+  experiences = input.required<ExperienceResponse[]>();
   viewType = input<string>(Constants.DASHBOARD);
 
   editForm: FormGroup = this.formBuilder.group({
@@ -39,7 +38,7 @@ export class ExperienceCardComponent {
     country: ['', [Validators.required, Validators.maxLength(100)]],
     startDate: ['', [Validators.required, Validators.maxLength(100)]],
     endDate: ['', [Validators.required, Validators.maxLength(100)]],
-    stillWorking: ['', [Validators.required, Validators.maxLength(100)]],
+    stillWorking: [false, [Validators.required, Validators.maxLength(100)]],
     activities: ['', [Validators.required, Validators.maxLength(2000)]],
   });
   
@@ -62,6 +61,10 @@ export class ExperienceCardComponent {
     }
   }
 
+  deleteItem() {
+    throw new Error('Method not implemented.');
+  }
+
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
@@ -78,7 +81,7 @@ export class ExperienceCardComponent {
     }
 
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
-      width: '450px',
+      width: Constants.CONFIRM_DIALOG_WIDTH,
       data: Constants.CANCEL_DIALOG_DATA
     });
 
@@ -88,7 +91,6 @@ export class ExperienceCardComponent {
       }
     });
   }
-
   
   generateCompanyPositionLabel(experience: ExperienceResponse): string {
     return `${experience.position} – ${experience.location.city},
@@ -109,17 +111,11 @@ export class ExperienceCardComponent {
     this.router.navigate([ConstantsRoutes.experiences.pathLink]);
   }
 
-  deleteItem() {
-    throw new Error('Method not implemented.');
-  }
-
   goToFormMode(id: string): void {
-    console.log('Navigating to form mode with id:', id);
-
     this.router.navigate([ConstantsRoutes.experienceForm.pathLink, id]);
   }
 
-  getFieldError(fieldName: string, label: string): string {
+  getFieldError(fieldName: string): string {
     const control = this.editForm.get(fieldName);
     if (control?.hasError('required')) return `Esta informacion es obligatoria`;
     if (control?.hasError('maxlength')) {

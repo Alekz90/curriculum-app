@@ -1,4 +1,5 @@
 import { ConfirmDialogData } from "@app/interfaces/confirm-dialog-data";
+import { EducationLevelEnum, LanguageLevelEnum } from "./enum";
 
 
 export class Constants {
@@ -7,6 +8,7 @@ export class Constants {
   static readonly TERMS_OF_SERVICE_URL = 'https://www.curriculumapp.com/terms';
   static readonly PRIVACY_POLICY_URL = 'https://www.curriculumapp.com/privacy';
 
+  static readonly CONFIRM_DIALOG_WIDTH = '450px';
   static readonly PASSWORD_MIN_LENGTH = 8;
   static readonly USERNAME_MIN_LENGTH = 2;
   static readonly USERNAME_PATTERN = "^[a-zA-Z@$!%*¿?&.\\-_\\d ]{1,100}$";
@@ -23,7 +25,10 @@ export class Constants {
 
   static readonly DASHBOARD = 'DASHBOARD';
   static readonly EDITION = 'EDITION';
-  static readonly FORM = 'FORM';  
+  static readonly FORM = 'FORM';
+
+  static readonly LANGUAGE_LEVEL_ENUM = Object.entries(LanguageLevelEnum).map(([key, value]) => ({key: key, value: value}));
+  static readonly EDUCATION_LEVEL_ENUM = Object.entries(EducationLevelEnum).map(([key, value]) => ({key: key, value: value}));
 
   static readonly CANCEL_DIALOG_DATA: ConfirmDialogData = {
     title: '¿Continuar con esta acción?',

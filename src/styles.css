@@ -3,6 +3,53 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
+mat-card-header.modal-card-header {
+  background: #ba005dd7;
+  color: white;
+  padding: 15px 20px;
+}
+
+div.drawer-header {
+  padding: 7px;
+  text-align: center;
+  color: white;
+
+}
+
+mat-card-header.edit-card-header, mat-card-header.view-card-header, mat-card-header.form-card-header {
+  color: white;
+  padding: 10px 15px;
+  margin: 0 0;
+  border-radius: 0px 0px 0 0;
+  background: #ba005dd7;
+}
+
+mat-toolbar.mat-toolbar {
+  background: #ba005dd7;
+  color: white;
+}
+
+mat-drawer.menu-mat-drawer {
+  width: 250px;
+  background: #ba005dd7;
+  color: white;
+  border-radius: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+span.menu-span-label {
+  padding-left: 5px;
+  color: white;
+}
+
+.edit-mat-icon, .delete-mat-icon {
+  color: white;
+}
+
+.menu-mat-icon {
+  color: white;
+}
+
 /* Contenedores de las páginas de inicio e inicio de sesión */
 .container-page {
   align-items: center;
@@ -12,8 +59,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 }
 
 mat-card.detail-card {
-  width: 80%;
   max-width: 800px;
+  min-width: 500px;
   margin: 20px auto;
   padding: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -21,9 +68,21 @@ mat-card.detail-card {
   transition: all 0.3s ease;
 }
 
-section.section-edit-mode {
+mat-card.profile-card {
   width: 80%;
   max-width: 800px;
+  min-width: 500px;
+  margin: 20px auto;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  text-align: center;
+}
+
+section.section-edit-mode {
+  width: calc(80%+40px);
+  max-width: 800px;
+  min-width: 500px;
   margin: auto;
   text-align: right;
 }
@@ -62,16 +121,11 @@ td.last-cell-content-card {
 
 button.add-button {
   border-radius: 0;
+  margin-left: 10px;
 }
 
-mat-card.profile-card {
-  width: 80%;
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 0;
-  text-align: center;
+button span.mat-button-span {
+  color: black;
 }
 
 div.profile-image-card {
@@ -90,43 +144,14 @@ img.profile-image-card {
   margin: 0 auto 15px auto;
 }
 
-mat-card-header.edit-card-header, mat-card-header.view-card-header, mat-card-header.form-card-header {
-  color: rgb(255, 255, 255);
-  padding: 10px 15px;
-  margin: 0 0;
-  border-radius: 0px 0px 0 0;
-  background: #ba005dd7;
-}
-
 .detail-card:hover, .profile-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
-mat-toolbar.mat-toolbar {
-  background: #ba005dd7;
-  color: white;
-}
-
 div.content-container {
   padding: 20px;
   /*background: #f5f5f5;*/
-}
-
-mat-drawer.menu-mat-drawer {
-  width: 250px;
-  background: #ba005d55;
-  color: white;
-  border-radius: 0;
-}
-
-span.menu-span-label {
-  padding-left: 5px;
-  color: white;
-}
-
-.menu-mat-icon, .edit-mat-icon, .delete-mat-icon {
-  color: white;
 }
 
 mat-card-content.mat-card-content {
@@ -142,12 +167,6 @@ form.edit-form {
 
 mat-card.modal-card {
   background-color: white;
-}
-
-mat-card-header.modal-card-header {
-  background: #ba005dd7;
-  color: white;
-  padding: 15px 20px;
 }
 
 button.button-modal {

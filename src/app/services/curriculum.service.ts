@@ -91,38 +91,38 @@ export class CurriculumService {
   }];
 
   ability1: AbilityResponse[] = [
-    { id: 'idAbility1', name: 'Angular', percent: 40 },
-    { id: 'idAbility2', name: 'React', percent: 30 },
-    { id: 'idAbility3', name: 'Vue.js', percent: 20 },
-    { id: 'idAbility4', name: 'HTML5', percent: 50 },
-    { id: 'idAbility5', name: 'CSS3', percent: 40 },
-    { id: 'idAbility6', name: 'TypeScript', percent: 40 }
+    { id: 'idAbility1', name: 'Angular', percentage: 40 },
+    { id: 'idAbility2', name: 'React', percentage: 30 },
+    { id: 'idAbility3', name: 'Vue.js', percentage: 20 },
+    { id: 'idAbility4', name: 'HTML5', percentage: 50 },
+    { id: 'idAbility5', name: 'CSS3', percentage: 40 },
+    { id: 'idAbility6', name: 'TypeScript', percentage: 40 }
   ];
 
   ability2: AbilityResponse[] = [
-    { id: 'idAbility7', name: 'Java', percent: 50 },
-    { id: 'idAbility8', name: 'Spring Boot', percent: 40 },
-    { id: 'idAbility9', name: 'Node.js', percent: 30 },
-    { id: 'idAbility10', name: 'Express', percent: 20 },
-    { id: 'idAbility11', name: 'Python', percent: 30 },
-    { id: 'idAbility12', name: 'Django', percent: 20 }
+    { id: 'idAbility7', name: 'Java', percentage: 50 },
+    { id: 'idAbility8', name: 'Spring Boot', percentage: 40 },
+    { id: 'idAbility9', name: 'Node.js', percentage: 30 },
+    { id: 'idAbility10', name: 'Express', percentage: 20 },
+    { id: 'idAbility11', name: 'Python', percentage: 30 },
+    { id: 'idAbility12', name: 'Django', percentage: 20 }
   ];
 
   ability3: AbilityResponse[] = [
-    { id: 'idAbility13', name: 'MySQL', percent: 40 },
-    { id: 'idAbility14', name: 'PostgreSQL', percent: 30 },
-    { id: 'idAbility15', name: 'MongoDB', percent: 20 },
-    { id: 'idAbility16', name: 'Redis', percent: 20 },
-    { id: 'idAbility17', name: 'Oracle', percent: 10 }
+    { id: 'idAbility13', name: 'MySQL', percentage: 40 },
+    { id: 'idAbility14', name: 'PostgreSQL', percentage: 30 },
+    { id: 'idAbility15', name: 'MongoDB', percentage: 20 },
+    { id: 'idAbility16', name: 'Redis', percentage: 20 },
+    { id: 'idAbility17', name: 'Oracle', percentage: 10 }
   ];
 
   ability4: AbilityResponse[] = [
-    { id: 'idAbility18', name: 'Docker', percent: 30 },
-    { id: 'idAbility19', name: 'Kubernetes', percent: 20 },
-    { id: 'idAbility20', name: 'Jenkins', percent: 20 },
-    { id: 'idAbility21', name: 'GitLab CI/CD', percent: 20 },
-    { id: 'idAbility22', name: 'AWS', percent: 10 },
-    { id: 'idAbility23', name: 'Azure', percent: 10 }
+    { id: 'idAbility18', name: 'Docker', percentage: 30 },
+    { id: 'idAbility19', name: 'Kubernetes', percentage: 20 },
+    { id: 'idAbility20', name: 'Jenkins', percentage: 20 },
+    { id: 'idAbility21', name: 'GitLab CI/CD', percentage: 20 },
+    { id: 'idAbility22', name: 'AWS', percentage: 10 },
+    { id: 'idAbility23', name: 'Azure', percentage: 10 }
   ];
 
   abilityGroups: AbilityGroupResponse[] = [

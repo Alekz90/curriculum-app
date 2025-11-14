@@ -11,14 +11,14 @@ import { CurriculumService } from '@services/curriculum.service';
   templateUrl: './experience-page.component.html',
 })
 export class ExperiencePageComponent implements OnInit {
-  viewType = signal<string>(Constants.EDITION);
   service = inject(CurriculumService);
-  detail = this.service.detail;
+  experiences = this.service.detail.experiences;
+  viewType = signal<string>(Constants.EDITION);
   router = inject(Router);
 
   ngOnInit(): void {
-      this.router.url.includes(ConstantsRoutes.experienceForm.pathLink)
-        ? this.viewType.set(Constants.FORM)
-        : this.viewType.set(Constants.EDITION);
-    }
+    this.router.url.includes(ConstantsRoutes.experienceForm.pathLink)
+      ? this.viewType.set(Constants.FORM)
+      : this.viewType.set(Constants.EDITION);
+  }
 }

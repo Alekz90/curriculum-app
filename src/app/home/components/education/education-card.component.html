@@ -1,50 +1,163 @@
-@if (isEdition()) {
-  <section class="section-edit-mode">
-    <button matButton="filled" class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
-  </section>
-  @for (education of educations(); track education.id) {
-    <mat-card class="detail-card" appearance="outlined">
-      <mat-card-content>
-        <table class="table-content-card">
-          <tr>
-            <td class="first-cell-content-card">
-              <p class="content-card">
-                <strong> {{ education.degree }} </strong><br>
-                {{ education.institute }} <br>
-                {{ getEducationPeriod(education) }}
-              </p>
-            </td>
-            <td class="last-cell-content-card">
-              @if (editEnabled()) {
-                <button matButton><mat-icon>edit_box</mat-icon></button>
-              }
-              @if (deleteEnabled()) {
-                <button matButton><mat-icon>delete_box</mat-icon></button>
-              }
-            </td>
-          </tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
-  }
-} @else {
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title><strong>Educación</strong></mat-card-title>
-    </mat-card-header>
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edit Mode -->
+    <section class="section-edit-mode">
+      <button matButton="filled" class="add-button" (click)="goToFormMode('')">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+    </section>
     @for (education of educations(); track education.id) {
-        <mat-card-content>
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ education.degree }}</mat-card-title>
+            <div class="div-button-title-group">
+              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(education.id)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+                <mat-icon class="menu-mat-icon">delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
           <p class="content-card">
-            <strong> {{ education.degree }} </strong><br>
             {{ education.institute }} <br>
             {{ getEducationPeriod(education) }}
           </p>
+          <mat-divider></mat-divider>
         </mat-card-content>
-      }    
+      </mat-card>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
+     <!-- Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información académica</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+
+          <!-- Degree -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Título</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="degree" 
+              placeholder="Título">
+            <mat-icon matPrefix>school</mat-icon>
+            @if (editForm.get('degree')?.invalid && editForm.get('degree')?.touched) {
+              <mat-error>
+                {{ getFieldError('degree') }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Institute -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Instituto</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="institute" 
+              placeholder="Instituto">
+            <mat-icon matPrefix>domain</mat-icon>
+            @if (editForm.get('institute')?.invalid && editForm.get('institute')?.touched) {
+              <mat-error>
+                {{ getFieldError('institute') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          
+          <!-- Education Level Select -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nivel de educación</mat-label>
+            <mat-select formControlName="level" placeholder="Nivel">
+              <!-- Options generated from enum -->
+              @for (level of EDUCATION_LEVEL_ENUM; track level) {
+                <mat-option [value]="level.value">{{ level.value }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix>dictionary</mat-icon>
+            @if (editForm.get('level')?.invalid && editForm.get('level')?.touched) {
+              <mat-error>
+                {{ getFieldError('level') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          
+          <!-- Duration -->
+          <div>
+            <!-- First Year -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Año inicio</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                formControlName="startYear"
+                placeholder="Año inicio">
+              <mat-icon matPrefix>assignment_ind</mat-icon>
+              @if (editForm.get('startYear')?.invalid && editForm.get('startYear')?.touched) {
+                <mat-error>
+                  {{ getFieldError('startYear') }}
+                </mat-error>
+              }
+            </mat-form-field>
+            
+            <!-- End Year -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Año fin</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                formControlName="endYear" 
+                placeholder="Año fin">
+              <mat-icon matPrefix>assignment_ind</mat-icon>
+              @if (editForm.get('endYear')?.invalid && editForm.get('endYear')?.touched) {
+                <mat-error>
+                  {{ getFieldError('endYear') }}
+                </mat-error>
+              }
+            </mat-form-field>
+            
+            <!-- Still Working -->
+            <mat-checkbox formControlName="stillStudying" class="column-3-width" [checked]="checkStillStudying()">
+              Sigó estudiando
+            </mat-checkbox>
+          </div>
+          <mat-divider></mat-divider>
+        </form>
+      </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
-        @if (editEnabled()) {
-          <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
-        }
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
       </mat-card-actions>
-  </mat-card>
+    </mat-card>
+  } @default {
+    <!-- View Mode -->     
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Educación</strong></mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
+        @for (education of educations(); track education.id) {
+          <p class="content-card">
+            <strong> {{ education.degree }} </strong><br>
+            {{ education.institute }}<br>
+            {{ getEducationPeriod(education) }}
+          </p>
+          <mat-divider></mat-divider>
+        }
+      </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
 }

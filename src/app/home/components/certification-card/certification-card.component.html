@@ -1,52 +1,113 @@
-@if (isEdition()) {
-  <!-- Modo Edición -->
-  <section class="section-edit-mode">
-    <button mat-raised-button class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
-  </section>
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edition Mode -->
+    <section class="section-edit-mode">
+      <button matButton="filled" class="add-button" (click)="goToFormMode('')">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+    </section>
 
-  @for (certification of certifications(); track $index) {
+    @for (certification of certifications(); track certification.id) {
+      <mat-card class="detail-card" appearance="outlined">
+        <!-- Card Header -->
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ certification.name }}</mat-card-title>
+            <!-- Action Buttons -->
+            <div class="div-button-title-group">
+              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(certification.id)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+                <mat-icon class="menu-mat-icon">delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+
+        <!-- Card Content -->
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
+          <p class="content-card">
+            {{ certification.description }}
+          </p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
     <mat-card class="detail-card" appearance="outlined">
-      <mat-card-header class="edit-card-header">
-        <mat-card-title-group>
-          <mat-card-title>{{ certification.name }}</mat-card-title>
-          <div>
-            @if (editEnabled()) {
-              <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-            }
-            @if (deleteEnabled()) {
-              <button mat-icon-button matTooltip="Eliminar"><mat-icon>delete</mat-icon></button>
-            }
-          </div>
-        </mat-card-title-group>
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información de certificado</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        <p class="content-card">
-          {{ certification.description }}
-        </p>  
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+          
+          <!-- Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="name" 
+              placeholder="Nombre">
+            <mat-icon matPrefix>assignment_ind</mat-icon>
+            @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+              <mat-error>
+                {{ getFieldError('name') }}
+              </mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Description -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Descripción">
+            </textarea>
+            <mat-icon matPrefix>format_align_justify</mat-icon>
+            @if (editForm.get('description')?.invalid && editForm.get('description')?.touched) {
+              <mat-error>
+                {{ getFieldError('description') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-divider></mat-divider>
+        </form>
       </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  } @default {
+    <!-- Modo Vista -->
+    <mat-card class="detail-card" appearance="outlined">
+      <!-- Card Header -->
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Cursos y Certificaciones</strong></mat-card-title>
+      </mat-card-header>
+
+      <!-- Card Content -->
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
+        @for (certification of certifications(); track $index) {
+          <p class="content-card">
+            <strong>{{ certification.name }}</strong><br>
+            {{ certification.description }}
+          </p>
+          <mat-divider></mat-divider>
+        }
+      </mat-card-content>
+
+      <!-- Card Actions -->
+      <mat-card-actions class="button-mat-card-actions">
+        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
     </mat-card>
   }
-} @else {
-  <!-- Modo Vista -->
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-header class="view-card-header">
-      <mat-card-title><strong>Cursos y Certificaciones</strong></mat-card-title>
-    </mat-card-header>
-
-    @for (certification of certifications(); track $index) {
-      <mat-card-content>
-        <p class="content-card">
-          <strong>{{ certification.name }}</strong><br>
-          {{ certification.description }}
-        </p>
-        <mat-divider></mat-divider>
-      </mat-card-content>
-    }
-
-    <mat-card-actions class="button-mat-card-actions">
-      @if (editEnabled()) {
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
-      }
-    </mat-card-actions>
-  </mat-card>
 }

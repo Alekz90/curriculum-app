@@ -11,7 +11,7 @@ export interface AbilityGroupResponse extends AbilityGroupRequest {
 
 export interface AbilityRequest {
   name:    string;
-  percent: number;
+  percentage: number;
 }
 
 export interface AbilityResponse extends AbilityRequest {  

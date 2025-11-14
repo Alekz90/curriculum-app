@@ -13,9 +13,11 @@
         </mat-card-title-group>
       </mat-card-header>
       <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
         <p class="content-card">
           <span [innerHTML]="detail().summary! | replaceLine"></span>
         </p>
+        <mat-divider></mat-divider>
       </mat-card-content>
     </mat-card>
   } @case (FORM) {
@@ -26,6 +28,7 @@
       </mat-card-header>
       <mat-card-content class="mat-card-content">
         <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
           <!-- Position -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Puesto</mat-label>
@@ -57,6 +60,7 @@
               </mat-error>
             }
           </mat-form-field>
+          <mat-divider></mat-divider>
         </form>
       </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
@@ -74,10 +78,12 @@
       </mat-card-header>
 
       <mat-card-content  class="mat-card-content">
+        <mat-divider></mat-divider>
         <p class="content-card" >
           <strong> {{ detail().position }} </strong><br />
           <span [innerHTML]="detail().summary! | replaceLine"></span>
         </p>
+        <mat-divider></mat-divider>
       </mat-card-content>
 
       <mat-card-actions class="button-mat-card-actions">

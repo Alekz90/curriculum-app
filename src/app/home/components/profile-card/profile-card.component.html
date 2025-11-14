@@ -1,3 +1,4 @@
+<!-- Profile image -->
 <div class="profile-image-card" appearance="outlined">
   <table class="table-content-card">
       <tr>
@@ -15,45 +16,74 @@
 
 <!-- Account information -->
 <mat-card class="profile-card" appearance="outlined">
+  <!-- Card Header -->
   <mat-card-header class="edit-card-header">
     <mat-card-title-group>
       <mat-card-title><strong>Información de la cuenta</strong></mat-card-title>
-      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-    </mat-card-title-group>    
+      <!-- Action Buttons -->
+      <div class="div-button-title-group">
+        <button mat-icon-button matTooltip="Editar">
+          <mat-icon class="menu-mat-icon">edit</mat-icon>
+        </button>
+      </div>
+    </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content>
+
+  <!-- Card Content -->
+  <mat-card-content class="mat-card-content">
+    <mat-divider></mat-divider>
     <p class="content-card">
       <strong>Nombre de usuario:</strong> {{ user().username }}
       <br />
       <strong>Correo electrónico:</strong> {{ user().email }}
     </p>
+    <mat-divider></mat-divider>
   </mat-card-content>
 </mat-card>
 
 <!-- Update password -->
 <mat-card class="profile-card" appearance="outlined">
-   <mat-card-header class="edit-card-header">
+  <!-- Card Header -->
+  <mat-card-header class="edit-card-header">
     <mat-card-title-group>
       <mat-card-title><strong>Información de contraseña</strong></mat-card-title>
-      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-    </mat-card-title-group>    
+      <!-- Action Buttons -->
+      <div class="div-button-title-group">
+        <button mat-icon-button matTooltip="Editar">
+          <mat-icon class="menu-mat-icon">edit</mat-icon>
+        </button>
+      </div>
+    </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content>
+
+  <!-- Card Content -->
+  <mat-card-content class="mat-card-content">
+    <mat-divider></mat-divider>
     <p class="content-card">
       <strong>Contraseña:</strong> **********
     </p>
+    <mat-divider></mat-divider>
   </mat-card-content>
 </mat-card>
 
 <!-- Personal information -->
 <mat-card class="profile-card" appearance="outlined">
-   <mat-card-header class="edit-card-header">
+  <!-- Card Header -->
+  <mat-card-header class="edit-card-header">
     <mat-card-title-group>
       <mat-card-title><strong>Información personal</strong></mat-card-title>
-      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-    </mat-card-title-group>    
+      <!-- Action Buttons -->
+      <div class="div-button-title-group">
+        <button mat-icon-button matTooltip="Editar">
+          <mat-icon class="menu-mat-icon">edit</mat-icon>
+        </button>
+      </div>
+    </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content>
+
+  <!-- Card Content -->
+  <mat-card-content class="mat-card-content">
+    <mat-divider></mat-divider>
     <p class="content-card">
       <strong>Nombre:</strong> {{ profile().fullName || 'No especificada' }}
       <br />
@@ -61,16 +91,26 @@
       <br />
       <strong>Teléfono:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
     </p>
+    <mat-divider></mat-divider>
   </mat-card-content>
 </mat-card>
+
+<!-- Address information -->
 <mat-card class="profile-card" appearance="outlined">  
-   <mat-card-header class="edit-card-header">
+  <!-- Card Header -->
+  <mat-card-header class="edit-card-header">
     <mat-card-title-group>
       <mat-card-title><strong>Información de dirección</strong></mat-card-title>
-      <button mat-icon-button matTooltip="Editar"><mat-icon>edit</mat-icon></button>
-    </mat-card-title-group>    
+      <!-- Action Buttons -->
+      <div class="div-button-title-group">
+        <button mat-icon-button matTooltip="Editar">
+          <mat-icon class="menu-mat-icon">edit</mat-icon>
+        </button>
+      </div>
+    </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="mat-card-content">
+    <mat-divider></mat-divider>
     <p class="content-card">
       <strong>Ciudad:</strong> {{ profile().fullName || 'No especificada' }}
       <br />
@@ -78,5 +118,6 @@
       <br />
       <strong>País:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
     </p>
+    <mat-divider></mat-divider>
   </mat-card-content>
 </mat-card>

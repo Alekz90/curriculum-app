@@ -124,9 +124,9 @@ export const ConstantsRoutes = {
     title: 'Actualizar Idioma'
   },
   abilityForm: {
-    path: 'edit-ability/:id',
-    pathLink: '/home/edit-ability',
-    title: 'Actualizar Habilidad'
+    path: 'edit-group-ability/:id',
+    pathLink: '/home/edit-group-ability',
+    title: 'Actualizar hablilidades'
   },
   educationForm: {
     path: 'edit-education/:id',

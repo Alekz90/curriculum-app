@@ -7,23 +7,25 @@
     @for (experience of experiences(); track experience.id) {
       <mat-card class="detail-card" appearance="outlined">
         <mat-card-header class="edit-card-header">
-        <mat-card-title-group>
-          <mat-card-title>{{ generateCompanyPositionLabel(experience) }}</mat-card-title>
-          <div class="div-button-title-group">
-            <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(experience.id)">
-              <mat-icon class="menu-mat-icon">edit</mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
-              <mat-icon class="menu-mat-icon">delete</mat-icon>
-            </button>
-          </div>
-        </mat-card-title-group>
-      </mat-card-header>
-        <mat-card-content>
+          <mat-card-title-group>
+            <mat-card-title>{{ generateCompanyPositionLabel(experience) }}</mat-card-title>
+            <div class="div-button-title-group">
+              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(experience.id)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+                <mat-icon class="menu-mat-icon">delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
           <p class="content-card">
             <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
             <span [innerHTML]="experience.activities | replaceLine"></span>        
           </p>
+          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
     }
@@ -31,10 +33,11 @@
     <!-- Form Mode -->
     <mat-card class="detail-card" appearance="outlined">
       <mat-card-header class="form-card-header">
-        <mat-card-title>Información de resumen profesional</mat-card-title>
+        <mat-card-title>Información de experiencia profesional</mat-card-title>
       </mat-card-header>
       <mat-card-content class="mat-card-content">
         <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
 
           <!-- Position -->
           <mat-form-field appearance="outline" class="full-width">
@@ -47,7 +50,7 @@
             <mat-icon matPrefix>assignment_ind</mat-icon>
             @if (editForm.get('position')?.invalid && editForm.get('position')?.touched) {
               <mat-error>
-                {{ getFieldError('position', 'puesto') }}
+                {{ getFieldError('position') }}
               </mat-error>
             }
           </mat-form-field>
@@ -60,10 +63,10 @@
               type="text" 
               formControlName="company" 
               placeholder="Empresa">
-            <mat-icon matPrefix>assignment_ind</mat-icon>
+            <mat-icon matPrefix>home_work</mat-icon>
             @if (editForm.get('company')?.invalid && editForm.get('company')?.touched) {
               <mat-error>
-                {{ getFieldError('company', 'empresa') }}
+                {{ getFieldError('company') }}
               </mat-error>
             }
           </mat-form-field>
@@ -78,10 +81,10 @@
                 type="text" 
                 formControlName="city" 
                 placeholder="Ciudad">
-              <mat-icon matPrefix>assignment_ind</mat-icon>
+              <mat-icon matPrefix>location_city</mat-icon>
               @if (editForm.get('city')?.invalid && editForm.get('city')?.touched) {
                 <mat-error>
-                  {{ getFieldError('city', 'ciudad') }}
+                  {{ getFieldError('city') }}
                 </mat-error>
               }
             </mat-form-field>
@@ -94,10 +97,10 @@
                 type="text" 
                 formControlName="state" 
                 placeholder="Estado">
-              <mat-icon matPrefix>assignment_ind</mat-icon>
+              <mat-icon matPrefix>local_library</mat-icon>
               @if (editForm.get('state')?.invalid && editForm.get('state')?.touched) {
                 <mat-error>
-                  {{ getFieldError('state', 'estado') }}
+                  {{ getFieldError('state') }}
                 </mat-error>
               }
             </mat-form-field>
@@ -110,10 +113,10 @@
                 type="text" 
                 formControlName="country" 
                 placeholder="País">
-              <mat-icon matPrefix>assignment_ind</mat-icon>
+              <mat-icon matPrefix>south_america</mat-icon>
               @if (editForm.get('country')?.invalid && editForm.get('country')?.touched) {
                 <mat-error>
-                  {{ getFieldError('country', 'país') }}
+                  {{ getFieldError('country') }}
                 </mat-error>
               }
             </mat-form-field>
@@ -161,10 +164,11 @@
             <mat-icon matPrefix>format_align_justify</mat-icon>
             @if (editForm.get('activities')?.invalid && editForm.get('activities')?.touched) {
               <mat-error>
-                {{ getFieldError('activities', 'descripción') }}
+                {{ getFieldError('activities') }}
               </mat-error>
             }
           </mat-form-field>
+          <mat-divider></mat-divider>
         </form>
       </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
@@ -179,13 +183,15 @@
       <mat-card-header class="view-card-header">
         <mat-card-title><strong>Experiencia profesional</strong></mat-card-title>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
         @for (experience of experiences(); track experience.id) {
           <p class="content-card">
             <strong>{{ generateCompanyPositionLabel(experience) }}</strong><br>
             <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
             <span [innerHTML]="experience.activities | replaceLine"></span>        
           </p>
+          <mat-divider></mat-divider>
         }
       </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">

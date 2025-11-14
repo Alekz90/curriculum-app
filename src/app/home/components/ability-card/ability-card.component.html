@@ -1,48 +1,128 @@
-@if (isEdition()) {
-  <section class="section-edit-mode">
-    <button matButton="filled" class="add-button" >Agregar nuevo<mat-icon>add_box</mat-icon></button>
-  </section>
-  @for (group of abilityGroups(); track $index) {
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edit Mode -->
+    <section class="section-edit-mode">
+      <button mat-raised-button class="add-button" (click)="goToFormMode('')"><span>Agregar nuevo</span><mat-icon>add_box</mat-icon></button>
+    </section>
+    @for (group of abilityGroups(); track $index) {
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+            <mat-card-title-group>
+              <mat-card-title>{{ group.name }}</mat-card-title>
+              <div class="div-button-title-group">
+                <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(group.id)">
+                  <mat-icon class="menu-mat-icon">edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+                  <mat-icon class="menu-mat-icon">delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-title-group>
+          </mat-card-header>
+        <mat-card-content >
+          <p class="content-card">
+            {{ getAbilitiesJoinText(group.abilities) }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
     <mat-card class="detail-card" appearance="outlined">
-      <mat-card-content >
-        <table class="table-content-card">
-          <tr>
-            <td class="first-cell-content-card">
-              <p class="content-card">
-                <strong> {{ group.name }}</strong><br>
-                {{ getAbilitiesJoinText(group.abilities) }}
-              </p>
-            </td>
-            <td class="last-cell-content-card">
-              @if (editEnabled()) {
-                <button matButton><mat-icon>edit</mat-icon></button>
-              }
-              @if (deleteEnabled()) {
-                <button matButton><mat-icon>delete</mat-icon></button>
-              }
-            </td>
-          </tr>
-        </table>
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información de habilidades</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+
+          <!-- Ability Group Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Grupo de Habilidades</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="groupName" 
+              placeholder="Grupo de Habilidades">
+            <mat-icon matPrefix>verified</mat-icon>
+            @if (editForm.get('groupName')?.invalid && editForm.get('groupName')?.touched) {
+              <mat-error>
+                {{ getFieldError('groupName') }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Habilidades</mat-card-title>
+              <button matButton (click)="addAbility()"><mat-icon>add_box</mat-icon>Agregar habilidad</button>
+            </mat-card-title-group>
+          </mat-card-header>
+          <!-- FormArray de Habilidades -->
+          <div formArrayName="abilities">            
+            @for (ability of abilities.controls; track i; let i = $index) {
+              <div [formGroupName]="i">
+                
+                <!-- Nombre de Habilidad -->
+                <mat-form-field appearance="outline" style="width: 45%;">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="name" placeholder="Ej: Angular">
+                  @if (ability.get('name')?.invalid && ability.get('name')?.touched) {
+                    <mat-error>
+                      {{ getFieldArrayError(i, 'name') }}
+                    </mat-error>
+                  }
+                </mat-form-field>
+
+                <!-- Porcentaje -->
+                <mat-form-field appearance="outline" style="width: 45%;">
+                  <mat-label>Nivel (%)</mat-label>
+                  <input matInput type="number" formControlName="percentage" min="0" max="100">
+                  <span matSuffix>%</span>
+                  @if (ability.get('percentage')?.invalid && ability.get('percentage')?.touched) {
+                    <mat-error>
+                      {{ getFieldArrayError(i, 'percentage') }}
+                    </mat-error>
+                  }
+                </mat-form-field>
+                <!-- Botón eliminar -->
+                <button mat-icon-button 
+                  (click)="removeAbility(i)" 
+                  [disabled]="abilities.length === 1" style="width: 10%;">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+          <mat-divider></mat-divider>
+        </form>
       </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
     </mat-card>
-  }
-} @else {
-  <mat-card class="detail-card" appearance="outlined">
-    <mat-card-header>
+  } @default {
+    <!-- View Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+    <mat-card-header class="view-card-header">
       <mat-card-title><strong>Habilidades</strong></mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <p class="content-card">
-          @for (group of abilityGroups(); track $index) {
+    <mat-card-content class="mat-card-content">
+      <mat-divider></mat-divider>
+      @for (group of abilityGroups(); track $index) {
+        <p class="content-card">
           <strong>{{ group.name }}</strong><br>
           {{ getAbilitiesJoinText(group.abilities) }}<br>
-        }
-      </p>
+        </p>
+        <mat-divider></mat-divider>
+      }
     </mat-card-content>
     <mat-card-actions class="button-mat-card-actions">
-      @if (editEnabled()) {
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon></button>
-      }
+      <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
     </mat-card-actions>
   </mat-card>
+  }
 }

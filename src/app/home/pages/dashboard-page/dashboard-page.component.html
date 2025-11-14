@@ -3,11 +3,6 @@
    @if (detail) {
     <summary-card [detail]="detail"/>
    }
-
-   @if (detail.address) {
-    <!-- Ubicación Card -->
-    <location-card [location]="detail.address" [editEnabled]="true"></location-card>
-   }
   
   <!-- Experiencia Profesional Card -->
   @if (detail.experiences.length > 0) {
@@ -16,26 +11,26 @@
 
   <!-- Language Card -->
   @if (detail.languages.length > 0) {
-    <language-card [languages]="detail.languages" [editEnabled]="true"></language-card>
+    <language-card [languages]="detail.languages"></language-card>
   }
 
   <!-- Abilities Card -->   
   @if (detail.abilityGroups.length > 0) {
-    <ability-card [abilityGroups]="detail.abilityGroups" [editEnabled]="true"></ability-card>
+    <ability-card [abilityGroups]="detail.abilityGroups"></ability-card>
   }
 
   <!-- Education Card -->
   @if (detail.educations.length > 0) {
-    <education-card [educations]="detail.educations" [editEnabled]="true"></education-card>
+    <education-card [educations]="detail.educations"></education-card>
   }
 
   <!-- Certifications Card -->
   @if (detail.certifications.length > 0) {
-    <certification-card [certifications]="detail.certifications" [editEnabled]="true"></certification-card>
+    <certification-card [certifications]="detail.certifications"></certification-card>
   }
   
   <!-- Links Card -->
   @if (detail.links.length > 0) {
-    <link-card [links]="detail.links" [editEnabled]="true"></link-card>
+    <link-card [links]="detail.links"></link-card>
   }
 </div>
