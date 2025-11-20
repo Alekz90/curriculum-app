@@ -80,7 +80,7 @@ mat-card.profile-card {
 }
 
 section.section-edit-mode {
-  width: calc(80%+40px);
+  width: calc(80% + 40px);
   max-width: 800px;
   min-width: 500px;
   margin: auto;
@@ -191,4 +191,41 @@ div.div-button-title-group {
 
 .column-2-width {
   width: 50%;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: rgba(0, 0, 0, 0.1);*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  /*backdrop-filter: blur(4px);*/
+}
+
+.loading-text {
+  margin-top: 20px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Animación del overlay */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loading-overlay {
+  animation: fadeIn 0.3s ease-in;
 }

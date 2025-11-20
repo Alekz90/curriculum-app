@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -37,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatOptionModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     MatButtonModule,
@@ -56,6 +58,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatOptionModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MaterialCardModule { }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ProfileResponse } from '@app/interfaces/profile.interface';
+import { User } from '@app/interfaces/user.interface';
 import { AbilityGroupResponse, AbilityResponse } from '@interfaces/ability.interface';
 import { AddressResponse } from '@interfaces/address.interface';
 import { CertificationResponse } from '@interfaces/certification.interface';
@@ -28,8 +29,9 @@ export class CurriculumService {
     fullName: 'Alejandro Del Ángel',
   };
 
-  user = {
+  user: User = {
     id: 'userId',
+    password: 'hashed_password_example',
     email: 'alejandro.delangel@example.com',
     username: 'adelangel'
   };

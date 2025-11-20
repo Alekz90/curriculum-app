@@ -1,37 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
 import { Router, RouterLink } from '@angular/router';
 import { Constants } from '@utils/constants';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConstantsRoutes } from '@app/utils/route-constants';
+import { RegisterRequest } from '@app/interfaces/user.interface';
 
 @Component({
   selector: 'register-page',
   imports: [MaterialModule, RouterLink],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css',
-  standalone: true
 })
 export class RegisterPageComponent {
-
   patternPasswordMessage: string = `Mínimo 10 caracteres, una mayúscula, una minúscula, un número, un carácter especial ${Constants.PASSWORD_SPECIAL_PATTERN}`;
 
-  registerForm: FormGroup;
   hidePassword = true;
   hideConfirmPassword = true;
+  isLoading = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.pattern(Constants.EMAIL_PATTERN)]],
-      userName: ['', [Validators.required, Validators.pattern(Constants.USERNAME_PATTERN)]],
-      password: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
-      confirmPassword: ['', [Validators.required]],
-      acceptTerms: [false, [Validators.requiredTrue]]
-    }, {
-      validators: this.passwordMatchValidator // Validador a nivel de formulario
-    });
+  private _formBuilder  = inject(FormBuilder);
+  private _router       = inject(Router);
+  private _authService  = inject(AuthenticationService);
+  private _snackBar     = inject(MatSnackBar);
+
+  registerForm: FormGroup = this._formBuilder.group({
+    email: ['', [Validators.required, Validators.email, Validators.pattern(Constants.EMAIL_PATTERN)]],
+    username: ['', [Validators.required, Validators.pattern(Constants.USERNAME_PATTERN)]],
+    password: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
+    confirmPassword: ['', [Validators.required]],
+    acceptTerms: [false, [Validators.requiredTrue]]
+  }, {
+    validators: this.passwordMatchValidator // Validador a nivel de formulario
+  });
+
+  register(): void {
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+
+      const { email, username, password, acceptTerms } = this.registerForm.value;     
+
+      this._authService.register( { email, username, password, acceptTerms }).subscribe({
+        next: (response) => {
+          console.log('Register successful:', response);
+          if (response.id !== Constants.ID_SUCCESS) {
+            this.showMessageError(response.message!, 'Cerrar');
+          }
+          this.goToHome();
+        },
+        error: (error) => {
+          this.showMessageError(error.message || 'Error en registro', 'Cerrar');
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   // Validador personalizado para verificar que las contraseñas coincidan
@@ -53,17 +79,6 @@ export class RegisterPageComponent {
     }
     
     return null;
-  }
-
-  onSubmit(): void {
-    if (this.registerForm.valid) {
-      const { confirmPassword, ...userData } = this.registerForm.value;
-      console.log('Registro de usuario:', userData);
-      // Aquí puedes agregar la lógica de registro
-      // Por ejemplo: this.authService.register(userData);
-    } else {
-      this.markFormGroupTouched(this.registerForm);
-    }
   }
 
   // Marcar todos los campos como tocados para mostrar errores
@@ -100,5 +115,13 @@ export class RegisterPageComponent {
     if (control?.hasError('required')) return 'Confirma tu contraseña';
     if (control?.hasError('passwordMismatch')) return 'Las contraseñas no coinciden';
     return '';
+  }
+  
+  goToHome(): void {
+    this._router.navigate([ConstantsRoutes.home.pathLink]);
+  }
+
+  showMessageError(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }

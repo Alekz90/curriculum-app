@@ -1,27 +1,39 @@
+import { RoleEnum } from "@app/utils/enum";
+
+export interface User {
+  id?:        string;
+  username?:  string;
+  email?:     string;
+  password?:  string;
+  role?:      RoleEnum;
+  active?:    boolean;
+  blocked?:   boolean;
+  verified?:  boolean;
+  rememberMe?: boolean;
+}
+
 export interface LoginRequest {
   username: string;
   password: string;
+  rememberMe: boolean;
 }
 
-export interface RegisterRequest extends LoginRequest {
-  email: string;
+export interface RegisterRequest {
+  email:        string;
+  username:     string;
+  password:     string;
+  acceptTerms:  boolean;
 }
 
-export interface RegisterResponse extends RegisterRequest {  
-  id:       string;
-}
-
-export interface AuthenticationResponse {
+export interface Authentication {
   token: string;
+  user:  User;
 }
 
-export interface ChangePasswordRequest {
+export interface ChangePasswordRequest extends RecoveryPasswordRequest {
   oldPassword: string;
-  newPassword: string;
 }
 
-export interface UserResponse {
-  id:       string;
-  username: string;
-  email:    string;
+export interface RecoveryPasswordRequest {
+  newPassword: string;
 }

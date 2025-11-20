@@ -4,7 +4,7 @@ import { ConstantsRoutes } from './utils/constants';
 export const routes: Routes = [
   { 
     path: ConstantsRoutes.INIT.path, 
-    loadChildren: () => import('./no-auth/public.routes').then(m => m.PublicRoutes),
+    loadChildren: () => import('./no-auth/no-auth.routes').then(m => m.NoAuthRoutes),
   },
   { path: '**', redirectTo: ConstantsRoutes.INIT.path }
 ];

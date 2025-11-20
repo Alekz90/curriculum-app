@@ -7,7 +7,7 @@ import { ResetPasswordPageComponent } from "@noauth/pages/reset-password-page/re
 import { SendingRecoveryPageComponent } from "@noauth/pages/sending-recovery-page/sending-recovery-page.component";
 
 
-export const PublicRoutes: Routes = [
+export const NoAuthRoutes: Routes = [
   {
     path: '', component: InitPageComponent,
     children: [
@@ -43,4 +43,4 @@ export const PublicRoutes: Routes = [
   }
 ]
 
-export default PublicRoutes;
+export default NoAuthRoutes;

@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
 import { Router, RouterLink } from '@angular/router';
-import { ConstantsRoutes } from '@utils/constants';
+import { Constants } from '@utils/constants';
+import { FormValidators } from '@app/utils/form-validators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { ConstantsRoutes } from '@app/utils/route-constants';
 
 @Component({
   selector: 'login-page',
@@ -11,48 +15,55 @@ import { ConstantsRoutes } from '@utils/constants';
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
-  loginForm: FormGroup;
+  readonly recoveryPath = ConstantsRoutes.sendingRecovery.pathLink;
+  readonly registerPath = ConstantsRoutes.register.pathLink;
+
   hidePassword = true;
-  readonly recoveryPath = ConstantsRoutes.SENDING_RECOVERY.pathLink;
-  readonly registerPath = ConstantsRoutes.REGISTER.pathLink;
+  isLoading = false;
+  private _formBuilder  = inject(FormBuilder);
+  private _router       = inject(Router);
+  private _authService  = inject(AuthenticationService);
+  private _snackBar     = inject(MatSnackBar);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      rememberMe: [false]
-    });
-  }
+  loginForm: FormGroup = this._formBuilder.group({
+    username: ['', [Validators.required, Validators.pattern(Constants.USERNAME_PATTERN)]],
+    password: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
+    rememberMe: [false]
+  });
 
-  onSubmit(): void {
+  login(): void {
     if (this.loginForm.valid) {
-      console.log('Login data:', this.loginForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.loginForm.value);
+      this.isLoading = true;
+
+      const { username, password, rememberMe } = this.loginForm.value;
+
+      this._authService.login({ username, password, rememberMe }).subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
+          if (response.id !== Constants.ID_SUCCESS) {
+            this.showMessageError(response.message!, 'Cerrar');
+          }
+          this.goToHome();
+        },
+        error: (error) => {
+          this.showMessageError(error.message || 'Error en login', 'Cerrar');
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
     }
   }
 
-  getEmailErrorMessage(): string {
-    const emailControl = this.loginForm.get('email');
-    if (emailControl?.hasError('required')) {
-      return 'El email es requerido';
-    }
-    return emailControl?.hasError('email') ? 'Email no válido' : '';
-  }
-
-  getPasswordErrorMessage(): string {
-    const passwordControl = this.loginForm.get('password');
-    if (passwordControl?.hasError('required')) {
-      return 'La contraseña es requerida';
-    }
-    return passwordControl?.hasError('minlength') ? 'Mínimo 6 caracteres' : '';
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.loginForm.get(fieldName));
   }
 
   goToHome(): void {
-    console.log('Navegando a Home');
-    this.router.navigate([ConstantsRoutes.HOME.pathLink]);
+    this._router.navigate([ConstantsRoutes.home.pathLink]);
+  }
+
+  showMessageError(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }

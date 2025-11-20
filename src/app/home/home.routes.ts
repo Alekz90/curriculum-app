@@ -8,7 +8,6 @@ import { LinkPageComponent } from "@home/pages/link-page/link-page.component";
 import { CertificationPageComponent } from "@home/pages/certification-page/certification-page.component";
 import { EducationPageComponent } from "@home/pages/education-page/education-page.component";
 import { AbilityPageComponent } from "@home/pages/ability-page/ability-page.component";
-import { LocationPageComponent } from "@home/pages/location-page/location-page.component";
 import { HomePageComponent } from "@home/pages/home-page/home-page.component";
 import { SummaryPageComponent } from "@home/pages/summary-page/summary-page.component";
 import { ExperiencePageComponent } from "@home/pages/experience-page/experience-page.component";
@@ -33,11 +32,6 @@ export const HomeRoutes: Routes = [
         title: ConstantsRoutes.profile.title,
         component: ProfilePageComponent
       },
-      /*{
-        path: ConstantsRoutes.location.path,
-        title: ConstantsRoutes.location.title,
-        component: LocationPageComponent
-      },*/
       {
         path: ConstantsRoutes.summaries.path,
         title: ConstantsRoutes.summaries.title,

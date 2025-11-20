@@ -124,13 +124,10 @@ export class AbilityCardComponent {
   }
 
   goToEditMode(): void {
-    console.log('Edit mode activated');
     this.router.navigate([ConstantsRoutes.abilities.pathLink]);
   }
   
   goToFormMode(id: string): void {
-    console.log('Navigating to form mode with id:', id);
-
     this.router.navigate([ConstantsRoutes.abilityForm.pathLink, id]);
   }
 

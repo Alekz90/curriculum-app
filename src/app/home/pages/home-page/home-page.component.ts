@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
+import { AuthenticationService } from '@app/services/authentication.service';
 import { MaterialModule } from '@modules/material.module';
 import { ALL_ROUTES, ConstantsRoutes } from '@utils/route-constants';
 
@@ -18,15 +19,15 @@ interface MenuItem {
 export class HomePageComponent implements AfterViewInit {
   //@ViewChild('drawer') drawer!: MatDrawer;
 
-  router = inject<Router>(Router);
+  private _router = inject<Router>(Router);
+  private _authService = inject(AuthenticationService);
   
   title = signal<string>('Curriculum App');
+  private _user = this._authService.user();
 
   menuItems: MenuItem[] = [
     { icon: 'book', label: ConstantsRoutes.dashboard.title, route: ConstantsRoutes.dashboard.pathLink },
-    // { icon: 'verified_user', label: 'Verificación', route: ConstantsRoutes.verification.pathLink },
     { icon: 'format_align_justify', label: ConstantsRoutes.summaries.title, route: ConstantsRoutes.summaries.pathLink },
-    //{ icon: 'location_on', label: ConstantsRoutes.location.title, route: ConstantsRoutes.location.pathLink },
     { icon: 'work', label: ConstantsRoutes.experiences.title, route: ConstantsRoutes.experiences.pathLink },
     { icon: 'language', label: ConstantsRoutes.languages.title, route: ConstantsRoutes.languages.pathLink },
     { icon: 'verified', label: ConstantsRoutes.abilities.title, route: ConstantsRoutes.abilities.pathLink },
@@ -35,28 +36,28 @@ export class HomePageComponent implements AfterViewInit {
     { icon: 'link', label: ConstantsRoutes.links.title, route: ConstantsRoutes.links.pathLink },
     { icon: 'file_open', label: ConstantsRoutes.templates.title, route: ConstantsRoutes.templates.pathLink },
     //{ icon: 'settings', label: ConstantsRoutes.settings.title, route: ConstantsRoutes.settings.pathLink },
-    { icon: 'help', label: ConstantsRoutes.help.title, route: ConstantsRoutes.help.pathLink }
-    
+    { icon: 'help', label: ConstantsRoutes.help.title, route: ConstantsRoutes.help.pathLink }    
   ];
 
   ngAfterViewInit() {
+    if (this._user?.verified === false) {
+      this._router.navigate([ConstantsRoutes.sendingRecovery.pathLink]);
+    }
     this.title.set(this.getTitleHomePage());
   }
 
   goToLogout() {
-    // Lógica de cierre de sesión
-    console.log('Cierre de sesión');
-    // Redirigir a la página de inicio de sesión
-    this.router.navigate([ConstantsRoutes.login.pathLink]);
+    this._authService.logout();
+    this._router.navigate([ConstantsRoutes.login.pathLink]);
   }
   
   goToProfile() {
     this.title.set(ConstantsRoutes.profile.title);
-    this.router.navigate([ConstantsRoutes.profile.pathLink]);
+    this._router.navigate([ConstantsRoutes.profile.pathLink]);
   }
 
   getTitleHomePage(): string {
-    const currentRoute = this.router.url;
+    const currentRoute = this._router.url;
     const menuItem = ALL_ROUTES.find(item => item.pathLink === currentRoute);
     return menuItem ? menuItem.title : 'Curriculum App';
   }

@@ -7,6 +7,10 @@ export class Constants {
   static readonly SUPPORT_EMAIL = 'support@curriculumapp.com';
   static readonly TERMS_OF_SERVICE_URL = 'https://www.curriculumapp.com/terms';
   static readonly PRIVACY_POLICY_URL = 'https://www.curriculumapp.com/privacy';
+  static readonly V1_PATH = "/v1";
+  static readonly ID_SUCCESS = "0";
+  static readonly ID_ERROR = "1";
+  static readonly TOKEN = "token";
 
   static readonly CONFIRM_DIALOG_WIDTH = '450px';
   static readonly PASSWORD_MIN_LENGTH = 8;

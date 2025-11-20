@@ -19,3 +19,9 @@ export enum RoleEnum {
   ADMIN,
   USER
 }
+
+export enum AuthenticationStatusEnum {
+  CHECKING = "checking",
+  AUTHENTICATED = "authenticated",
+  NOT_AUTHENTICATED = "not_authenticated"
+}

@@ -7,7 +7,6 @@ import { AbilityCardComponent } from "@home/components/ability-card/ability-card
 import { EducationCardComponent } from "@home/components/education/education-card.component";
 import { CertificationCardComponent } from "@home/components/certification-card/certification-card.component";
 import { LinkCardComponent } from "@home/components/link-card/link-card.component";
-import { LocationCardComponent } from '@home/components/location-card/location-card.component';
 import { CurriculumService } from '@services/curriculum.service';
 
 @Component({
@@ -21,7 +20,6 @@ import { CurriculumService } from '@services/curriculum.service';
     EducationCardComponent,
     CertificationCardComponent,
     LinkCardComponent,
-    LocationCardComponent,
   ],
   templateUrl: './dashboard-page.component.html',
 })

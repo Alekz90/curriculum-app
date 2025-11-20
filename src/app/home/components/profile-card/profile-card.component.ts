@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { UserResponse } from '@app/interfaces/user.interface';
+import { User } from '@app/interfaces/user.interface';
 import { ProfileResponse } from '@interfaces/profile.interface';
 import { MaterialCardModule } from '@modules/material-card.module';
 
@@ -11,5 +11,5 @@ import { MaterialCardModule } from '@modules/material-card.module';
 })
 export class ProfileCardComponent {  
   profile = input.required<ProfileResponse>();
-  user = input.required<UserResponse>();
+  user = input.required<User>();
 }
