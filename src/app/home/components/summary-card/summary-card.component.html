@@ -1,25 +1,31 @@
 @switch (viewType()) {
   @case (EDITION) {
-    <!-- Edit Mode -->
-    <mat-card class="detail-card" appearance="outlined">
-      <mat-card-header class="edit-card-header">
-        <mat-card-title-group>
-          <mat-card-title>{{ detail().position }}</mat-card-title>
-          <div>
-            <button mat-icon-button matTooltip="Editar" (click)="goToFormMode()">
-              <mat-icon class="menu-mat-icon">edit</mat-icon>
-            </button>
-          </div>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="mat-card-content">
-        <mat-divider></mat-divider>
-        <p class="content-card">
-          <span [innerHTML]="detail().summary! | replaceLine"></span>
-        </p>
-        <mat-divider></mat-divider>
-      </mat-card-content>
-    </mat-card>
+    <!-- Edition Mode -->
+    @if (detail()) {
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ detail().position }}</mat-card-title>
+            <div>
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormSummary(detail().id!)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
+          <p class="content-card">
+            <span [innerHTML]="detail().summary || '' | replaceLine"></span>
+          </p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <section class="section-edit-mode">
+        <button matButton="filled" class="add-button" (click)="navigation.goToFormSummary(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+      </section>
+    }
   } @case (FORM) {
     <!-- Form Mode -->
     <mat-card class="detail-card" appearance="outlined">
@@ -38,9 +44,9 @@
               formControlName="position" 
               placeholder="Puesto">
             <mat-icon matPrefix>assignment_ind</mat-icon>
-            @if (editForm.get('position')?.invalid && editForm.get('position')?.touched) {
+            @if (getInvalidField('position')) {
               <mat-error>
-                {{ getFieldError('position', 'puesto') }}
+                {{ getFieldError('position') }}
               </mat-error>
             }
           </mat-form-field>
@@ -54,9 +60,9 @@
               placeholder="Resumen profesional">
             </textarea>
             <mat-icon matPrefix>format_align_justify</mat-icon>
-            @if (editForm.get('summary')?.invalid && editForm.get('summary')?.touched) {
+            @if (getInvalidField('summary')) {
               <mat-error>
-                {{ getFieldError('summary', 'resumen profesional') }}
+                {{ getFieldError('summary') }}
               </mat-error>
             }
           </mat-form-field>
@@ -87,7 +93,7 @@
       </mat-card-content>
 
       <mat-card-actions class="button-mat-card-actions">
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+        <button matButton (click)="navigation.goToEditSummary()"><mat-icon>edit</mat-icon>Editar</button>
       </mat-card-actions>
     </mat-card>
   }

@@ -2,7 +2,7 @@
   @case (EDITION) {
     <!-- Edit Mode -->
     <section class="section-edit-mode">
-      <button matButton="filled" class="add-button" (click)="goToFormMode('')">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormExperience(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
     </section>
     @for (experience of experiences(); track experience.id) {
       <mat-card class="detail-card" appearance="outlined">
@@ -10,10 +10,10 @@
           <mat-card-title-group>
             <mat-card-title>{{ generateCompanyPositionLabel(experience) }}</mat-card-title>
             <div class="div-button-title-group">
-              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(experience.id)">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormExperience(experience.id)">
                 <mat-icon class="menu-mat-icon">edit</mat-icon>
               </button>
-              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(experience.id)">
                 <mat-icon class="menu-mat-icon">delete</mat-icon>
               </button>
             </div>
@@ -48,7 +48,7 @@
               formControlName="position" 
               placeholder="Puesto">
             <mat-icon matPrefix>assignment_ind</mat-icon>
-            @if (editForm.get('position')?.invalid && editForm.get('position')?.touched) {
+            @if (getInvalidField('position')) {
               <mat-error>
                 {{ getFieldError('position') }}
               </mat-error>
@@ -64,7 +64,7 @@
               formControlName="company" 
               placeholder="Empresa">
             <mat-icon matPrefix>home_work</mat-icon>
-            @if (editForm.get('company')?.invalid && editForm.get('company')?.touched) {
+            @if (getInvalidField('company')) {
               <mat-error>
                 {{ getFieldError('company') }}
               </mat-error>
@@ -82,7 +82,7 @@
                 formControlName="city" 
                 placeholder="Ciudad">
               <mat-icon matPrefix>location_city</mat-icon>
-              @if (editForm.get('city')?.invalid && editForm.get('city')?.touched) {
+              @if (getInvalidField('city')) {
                 <mat-error>
                   {{ getFieldError('city') }}
                 </mat-error>
@@ -98,7 +98,7 @@
                 formControlName="state" 
                 placeholder="Estado">
               <mat-icon matPrefix>local_library</mat-icon>
-              @if (editForm.get('state')?.invalid && editForm.get('state')?.touched) {
+              @if (getInvalidField('state')) {
                 <mat-error>
                   {{ getFieldError('state') }}
                 </mat-error>
@@ -114,7 +114,7 @@
                 formControlName="country" 
                 placeholder="País">
               <mat-icon matPrefix>south_america</mat-icon>
-              @if (editForm.get('country')?.invalid && editForm.get('country')?.touched) {
+              @if (getInvalidField('country')) {
                 <mat-error>
                   {{ getFieldError('country') }}
                 </mat-error>
@@ -162,7 +162,7 @@
               placeholder="Descripción">
             </textarea>
             <mat-icon matPrefix>format_align_justify</mat-icon>
-            @if (editForm.get('activities')?.invalid && editForm.get('activities')?.touched) {
+            @if (getInvalidField('activities')) {
               <mat-error>
                 {{ getFieldError('activities') }}
               </mat-error>
@@ -195,7 +195,7 @@
         }
       </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+        <button matButton (click)="navigation.goToEditExperience()"><mat-icon>edit</mat-icon>Editar</button>
       </mat-card-actions>
       
     </mat-card>

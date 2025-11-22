@@ -4,8 +4,8 @@
     <mat-drawer #drawer mode="side" class="menu-mat-drawer">
       <div class="drawer-header" fxLayout="column" fxLayoutAlign="center center">
         <img mat-card-image src="assets/images/no-user.svg" alt="User Image" class="drawer-image">
-        <h3>Nombre de usuario</h3>
-        <p>ejemplo@correo.com</p>
+        <h3>{{ user?.username }}</h3>
+        <p>{{ user?.email }} </p>
       </div>
       <mat-nav-list>
         @for (item of menuItems; track $index) {

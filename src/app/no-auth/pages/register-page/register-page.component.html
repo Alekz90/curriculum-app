@@ -20,9 +20,9 @@
             formControlName="email" 
             placeholder="ejemplo@email.com">
           <mat-icon matPrefix>email</mat-icon>
-          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          @if (getInvalidField('email')) {
             <mat-error>
-              {{ getEmailError() }}
+              {{ getFieldError('email') }}
             </mat-error>
           }
         </mat-form-field>
@@ -36,9 +36,9 @@
             formControlName="username" 
             placeholder="Nombre de usuario">
           <mat-icon matPrefix>person</mat-icon>
-          @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+          @if (getInvalidField('username')) {
             <mat-error>
-              {{ getUserNameError() }}
+              {{ getFieldError('username') }}
             </mat-error>
           }
         </mat-form-field>
@@ -61,7 +61,7 @@
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-hint>{{ patternPasswordMessage }}</mat-hint>
-          @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          @if (getInvalidField('password')) {
             <mat-error>
               {{ getPasswordError() }}
             </mat-error>
@@ -98,7 +98,7 @@
             Acepto los 
             <a href="#" class="terms-link">términos y condiciones</a>
           </mat-checkbox>
-          @if (registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched) {
+          @if (getInvalidField('acceptTerms')) {
             <mat-error class="terms-error" >
               Debes aceptar los términos y condiciones
             </mat-error>
@@ -122,7 +122,7 @@
       <mat-divider></mat-divider>
       <p class="login-text">
         ¿Ya tienes una cuenta? 
-        <a mat-button color="primary" routerLink="/login">Inicia sesión aquí</a>
+        <a mat-button color="primary" (click)="navigation.goToLogin()">Inicia sesión aquí</a>
       </p>
     </mat-card-actions>
   </mat-card>

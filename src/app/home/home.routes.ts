@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { ConstantsRoutes } from "@utils/route-constants";
-import { VerificationPageComponent } from "@home/pages/verification-page/verification-page.component";
+import { VerificationPageComponent } from "@app/no-auth/pages/verification-page/verification-page.component";
 import { DashboardPageComponent } from "@home/pages/dashboard-page/dashboard-page.component";
 import { ProfilePageComponent } from "@home/pages/profile-page/profile-page.component";
 import { TemplatePageComponent } from "@home/pages/template-page/template-page.component";
@@ -17,11 +17,6 @@ export const HomeRoutes: Routes = [
   {
     path: '', component: HomePageComponent,
     children: [
-      {
-        path: ConstantsRoutes.verification.path,
-        title: ConstantsRoutes.verification.title,
-        component: VerificationPageComponent
-      },
       {
         path: ConstantsRoutes.dashboard.path,
         title: ConstantsRoutes.dashboard.title,

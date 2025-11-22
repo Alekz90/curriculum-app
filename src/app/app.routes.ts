@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { ConstantsRoutes } from './utils/constants';
+import { ConstantsRoutes } from './utils/route-constants';
 
 export const routes: Routes = [
   { 
-    path: ConstantsRoutes.INIT.path, 
+    path: ConstantsRoutes.init.path, 
     loadChildren: () => import('./no-auth/no-auth.routes').then(m => m.NoAuthRoutes),
   },
-  { path: '**', redirectTo: ConstantsRoutes.INIT.path }
+  { path: '**', redirectTo: ConstantsRoutes.init.path }
 ];

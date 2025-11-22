@@ -1,15 +1,13 @@
 import { RoleEnum } from "@app/utils/enum";
 
 export interface User {
-  id?:        string;
-  username?:  string;
-  email?:     string;
-  password?:  string;
-  role?:      RoleEnum;
-  active?:    boolean;
-  blocked?:   boolean;
-  verified?:  boolean;
-  rememberMe?: boolean;
+  id:        string;
+  username:  string;
+  email:     string;
+  role:      RoleEnum;
+  active:    boolean;
+  blocked:   boolean;
+  verified:  boolean;
 }
 
 export interface LoginRequest {

@@ -8,6 +8,9 @@ import { MaterialCardModule } from '@modules/material-card.module';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
 import { ConstantsRoutes } from '@app/utils/route-constants';
 import { LanguageLevelEnum } from '@app/utils/enum';
+import { NavigationUtils } from '@app/utils/navigation-utils';
+import { CurriculumService } from '@app/services/curriculum.service';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'language-card',
@@ -17,21 +20,20 @@ import { LanguageLevelEnum } from '@app/utils/enum';
 export class LanguageCardComponent {
 
   readonly LANGUAGE_LEVEL_ENUM = Constants.LANGUAGE_LEVEL_ENUM;
-  //readonly LanguageLevelEnum = LanguageLevelEnum;
-  //readonly LANGUAGE_LEVEL_MAP = Constants.LANGUAGE_LEVEL_MAP;
-
-
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
-
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
-  private dialog = inject(MatDialog);
+  readonly DASHBOARD           = Constants.DASHBOARD;
+  readonly EDITION             = Constants.EDITION;
+  readonly FORM                = Constants.FORM;
+  readonly PATH_NEW            = Constants.PATH_NEW
+  
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
 
   languages = input.required<LanguageResponse[]>();
-  viewType = input<string>(Constants.DASHBOARD);
+  detailId  = input<string>('');
+  viewType  = input<string>(Constants.DASHBOARD);
   
   editForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -50,20 +52,24 @@ export class LanguageCardComponent {
       });
     }
   }
-
   
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      console.log('Form data:', this.editForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.editForm.value);
+      this.curriculumService.saveLanguage(this.detailId(), this.languageId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditLanguage();
+            }
+          },
+        });
     }
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditLanguage();
       return;
     }
 
@@ -74,7 +80,7 @@ export class LanguageCardComponent {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+        this.navigation.goToEditLanguage();
       }
     });
   }
@@ -83,26 +89,31 @@ export class LanguageCardComponent {
     return `• ${language.name} (${language.level})`;
   };
   
-  goToEditMode(): void {
-    console.log('Edit mode activated');
-    this.router.navigate([ConstantsRoutes.languages.pathLink]);
-  }deleteItem() {
-      throw new Error('Method not implemented.');
-    }
-  
-    goToFormMode(id: string): void {
-      console.log('Navigating to form mode with id:', id);
-  
-      this.router.navigate([ConstantsRoutes.languageForm.pathLink, id]);
-    }
-  
-    getFieldError(fieldName: string): string {
-      const control = this.editForm.get(fieldName);
-      if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-      if (control?.hasError('maxlength')) {
-        const maxLength = control.getError('maxlength').requiredLength;
-        return `Esta información no puede exceder ${maxLength} caracteres`;
+  deleteItem(id: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: Constants.CONFIRM_DIALOG_WIDTH,
+      data: Constants.DELETE_DIALOG_DATA
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.curriculumService.deleteLanguage(this.detailId(), id)
+          .subscribe(
+            (deleted) => {
+              if (deleted) {
+                this.languages().splice(this.languages().findIndex(lang => lang.id === this.languageId()), 1);
+              }
+            }
+          );
       }
-      return '';
-    }
+    });
+  }
+  
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
+  }
+
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
+  }
 }

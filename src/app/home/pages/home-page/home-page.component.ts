@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
-import { AuthenticationService } from '@app/services/authentication.service';
+import { AuthenticationService } from '@services/authentication.service';
 import { MaterialModule } from '@modules/material.module';
 import { ALL_ROUTES, ConstantsRoutes } from '@utils/route-constants';
 
@@ -23,7 +23,7 @@ export class HomePageComponent implements AfterViewInit {
   private _authService = inject(AuthenticationService);
   
   title = signal<string>('Curriculum App');
-  private _user = this._authService.user();
+  protected user = this._authService.user();
 
   menuItems: MenuItem[] = [
     { icon: 'book', label: ConstantsRoutes.dashboard.title, route: ConstantsRoutes.dashboard.pathLink },
@@ -40,9 +40,6 @@ export class HomePageComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    if (this._user?.verified === false) {
-      this._router.navigate([ConstantsRoutes.sendingRecovery.pathLink]);
-    }
     this.title.set(this.getTitleHomePage());
   }
 

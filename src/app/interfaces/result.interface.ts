@@ -4,3 +4,9 @@ export interface Result<T> {
   date?:    Date;
   result?:  T;
 }
+
+export interface ErrorResult {
+  id:      string;
+  message: string;
+  date?:    Date;
+}

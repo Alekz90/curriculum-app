@@ -1,5 +1,6 @@
 import { ConfirmDialogData } from "@app/interfaces/confirm-dialog-data";
 import { EducationLevelEnum, LanguageLevelEnum } from "./enum";
+import { Summary, SummaryResponse } from "@app/interfaces/summary.interface";
 
 
 export class Constants {
@@ -9,8 +10,11 @@ export class Constants {
   static readonly PRIVACY_POLICY_URL = 'https://www.curriculumapp.com/privacy';
   static readonly V1_PATH = "/v1";
   static readonly ID_SUCCESS = "0";
+  static readonly MESSAGE_SUCCESS = "Success process";
   static readonly ID_ERROR = "1";
+  static readonly PROFESSIONAL_DETAIL_NOT_FOUND_ID = '0017';
   static readonly TOKEN = "token";
+  static readonly PATH_NEW = "new";
 
   static readonly CONFIRM_DIALOG_WIDTH = '450px';
   static readonly PASSWORD_MIN_LENGTH = 8;
@@ -43,113 +47,28 @@ export class Constants {
     iconConfirm: 'warning',
     type: 'warning'
   };
+  
+  static readonly DELETE_DIALOG_DATA: ConfirmDialogData = {
+    title: '¿Continuar con esta acción?',
+    message: 'Al continuar se eliminará el elemento seleccionado. ¿Deseas continuar?',
+    confirmText: 'Sí, continuar',
+    cancelText: 'No, cancelar',
+    iconCancel: 'cancel',
+    iconConfirm: 'warning',
+    type: 'warning'
+  };
+  
+
+
+  static readonly SummaryResponseEmpty: SummaryResponse = {
+    id: '',
+    position: '',
+    summary:  '',
+  };
 }
 
 export interface RouteDef {
   path : string;
   pathLink : string;
   title : string;
-}
-
-export class ConstantsRoutes {
-
-  static readonly INIT: RouteDef = { path: '', pathLink: '', title: '' };
-  static readonly HOME: RouteDef = { path: 'home', pathLink: '/home', title: 'Bienvenido' };
-  static readonly LOGIN: RouteDef = { path: 'login', pathLink: '/login', title: 'Iniciar Sesión' };
-  static readonly REGISTER: RouteDef = { path: 'register', pathLink: '/register', title: 'Registrarse' };
-  static readonly SENDING_RECOVERY: RouteDef = {
-    path: 'sending-recovery',
-    pathLink: '/sending-recovery',
-    title: 'Enviando Recuperación'
-  };
-  static readonly RESET_PASSWORD: RouteDef = {
-    path: 'reset-password',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/reset-password`,
-    title: 'Restablecer Contraseña'
-  };
-  static readonly VERIFICATION: RouteDef = {
-    path: 'verification/:id',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/verification`,
-    title: 'Verificación'
-  };
-  static readonly DASHBOARD: RouteDef = {
-    path: 'dashboard',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/dashboard`,
-    title: 'Curriculum'
-  };
-  static readonly PROFILE: RouteDef = {
-    path: 'profiles',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/profiles`,
-    title: 'Perfil'
-  };
-  static readonly SETTINGS: RouteDef = {
-    path: 'settings',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/settings`,
-    title: 'Configuración'
-  };
-  static readonly HELP: RouteDef = {
-    path: 'help',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/help`,
-    title: 'Ayuda'
-  };
-  static readonly LOCATION: RouteDef = {
-    path: 'locations',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/locations`,
-    title: 'Ubicación'
-  };
-  static readonly SUMMARIES: RouteDef = {
-    path: 'summaries',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/summaries`,
-    title: 'Resumen profesional'
-  };
-  static readonly EXPERIENCES: RouteDef = {
-    path: 'experiences',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/experiences`,
-    title: 'Experiencia profesional'
-  };
-  static readonly LANGUAGES: RouteDef = {
-    path: 'languages',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/languages`,
-    title: 'Idiomas'
-  };
-  static readonly ABILITIES: RouteDef = {
-    path: 'abilities',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/abilities`,
-    title: 'Habilidades'
-  };
-  static readonly EDUCATIONS: RouteDef = {
-    path: 'educations',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/educations`,
-    title: 'Educación'
-  };
-  static readonly CERTIFICATIONS: RouteDef = {
-    path: 'certifications',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/certifications`,
-    title: 'Certificaciones'
-  };
-  static readonly LINKS: RouteDef = {
-    path: 'links',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/links`,
-    title: 'Enlaces'
-  };
-  static readonly TEMPLATES: RouteDef = {
-    path: 'templates',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/templates`,
-    title: 'Plantillas'
-  };
-  static readonly SUMMARY_FORM: RouteDef = {
-    path: 'edit-summary',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-summary`,
-    title: 'Actualizar Resumen'
-  };
-  static readonly EXPERIENCE_FORM: RouteDef = {
-    path: 'edit-experience',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-experience`,
-    title: 'Actualizar Experiencia'
-  };
-  static readonly LANGUAGE_FORM: RouteDef = {
-    path: 'edit-language',
-    pathLink: `${ConstantsRoutes.HOME.pathLink}/edit-language`,
-    title: 'Actualizar Idioma'
-  };
 }

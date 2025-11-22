@@ -229,3 +229,15 @@ div.div-button-title-group {
 .loading-overlay {
   animation: fadeIn 0.3s ease-in;
 }
+
+.info-not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 20px 0;
+}

@@ -2,7 +2,7 @@
   @case (EDITION) {
     <!-- Edit Mode -->
     <section class="section-edit-mode">
-      <button matButton="filled" class="add-button" (click)="goToFormMode('')">
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormLanguage(PATH_NEW)">
         Agregar nuevo<mat-icon>add_box</mat-icon>
       </button>
     </section>
@@ -12,10 +12,10 @@
           <mat-card-title-group>
             <mat-card-title>{{ language.name }}</mat-card-title>
             <div class="div-button-title-group">
-              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(language.id)">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormLanguage(language.id)">
                 <mat-icon class="menu-mat-icon">edit</mat-icon>
               </button>
-              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(language.id)">
                 <mat-icon class="menu-mat-icon">delete</mat-icon>
               </button>
             </div>
@@ -49,7 +49,7 @@
               formControlName="name" 
               placeholder="Idioma">
             <mat-icon matPrefix>language</mat-icon>
-            @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+            @if (getInvalidField('name')) {
               <mat-error>
                 {{ getFieldError('name') }}
               </mat-error>
@@ -62,12 +62,12 @@
             <mat-select formControlName="level" placeholder="Nivel">
               <!-- Options generated from enum -->
               @for (level of LANGUAGE_LEVEL_ENUM; track level) {
-                <mat-option [value]="level.value">{{ level.value }}</mat-option>
+                <mat-option [value]="level.key">{{ level.value }}</mat-option>
               }
 
             </mat-select>
             <mat-icon matPrefix>school</mat-icon>
-            @if (editForm.get('level')?.invalid && editForm.get('level')?.touched) {
+            @if (getInvalidField('level')) {
               <mat-error>
                 {{ getFieldError('level') }}
               </mat-error>
@@ -101,7 +101,7 @@
         </p>
         </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+        <button matButton (click)="navigation.goToEditLanguage()"><mat-icon>edit</mat-icon>Editar</button>
       </mat-card-actions>
     </mat-card>
   }

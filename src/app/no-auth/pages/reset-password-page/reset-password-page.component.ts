@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
 import { Router } from '@angular/router';
-import { Constants, ConstantsRoutes } from '@utils/constants';
+import { Constants } from '@utils/constants';
+import { ConstantsRoutes } from '@app/utils/route-constants';
 
 @Component({
   selector: 'reset-password-page',
@@ -90,6 +91,6 @@ export class ResetPasswordPageComponent {
   }
 
   goToLogin(): void {
-    this.router.navigate([ConstantsRoutes.LOGIN.pathLink]);
+    this.router.navigate([ConstantsRoutes.login.pathLink]);
   }
 }

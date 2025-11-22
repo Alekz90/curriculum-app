@@ -3,12 +3,15 @@ import { ExperienceResponse } from '@interfaces/experience.interface';
 import { MaterialCardModule } from '@modules/material-card.module';
 import { ReplaceLinePipe } from '@pipes/replace-line-pipe';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Constants } from '@app/utils/constants';
-import { ConstantsRoutes } from '@app/utils/route-constants';
+import { Constants } from '@utils/constants';
+import { ConstantsRoutes } from '@utils/route-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { CurriculumService } from '@services/curriculum.service';
+import { NavigationUtils } from '@utils/navigation-utils';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'experience-card',
@@ -21,14 +24,19 @@ export class ExperienceCardComponent {
   readonly DASHBOARD = Constants.DASHBOARD;
   readonly EDITION = Constants.EDITION;
   readonly FORM = Constants.FORM;
-
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
-  private dialog = inject(MatDialog);
+  readonly PATH_NEW = Constants.PATH_NEW;
+  
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
 
   experiences = input.required<ExperienceResponse[]>();
-  viewType = input<string>(Constants.DASHBOARD);
+  detailId    = input<string>('');
+  viewType    = input<string>(Constants.DASHBOARD);
+  
+  experienceId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   editForm: FormGroup = this.formBuilder.group({
     company: ['', [Validators.required, Validators.maxLength(100)]],
@@ -41,8 +49,6 @@ export class ExperienceCardComponent {
     stillWorking: [false, [Validators.required, Validators.maxLength(100)]],
     activities: ['', [Validators.required, Validators.maxLength(2000)]],
   });
-  
-  experienceId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   ngOnInit(): void {
     const experience = this.experiences().find(exp => exp.id === this.experienceId());
@@ -61,22 +67,23 @@ export class ExperienceCardComponent {
     }
   }
 
-  deleteItem() {
-    throw new Error('Method not implemented.');
-  }
-
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      console.log('Form data:', this.editForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.editForm.value);
+      this.curriculumService.saveExperience(this.detailId(), this.experienceId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditExperience();
+            }
+          },
+        });
     }
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditExperience();
       return;
     }
 
@@ -87,7 +94,27 @@ export class ExperienceCardComponent {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+      this.navigation.goToEditExperience();
+      }
+    });
+  }
+  
+  deleteItem(id: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: Constants.CONFIRM_DIALOG_WIDTH,
+      data: Constants.DELETE_DIALOG_DATA
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.curriculumService.deleteExperience(this.detailId(), id)
+          .subscribe(
+            (deleted) => {
+              if (deleted) {
+                this.experiences().splice(this.experiences().findIndex(exp => exp.id === id), 1);
+              }
+            }
+          );
       }
     });
   }
@@ -107,27 +134,17 @@ export class ExperienceCardComponent {
     return `${startStr} – ${endStr}`;
   }
   
-  goToEditMode(): void {
-    this.router.navigate([ConstantsRoutes.experiences.pathLink]);
-  }
-
-  goToFormMode(id: string): void {
-    this.router.navigate([ConstantsRoutes.experienceForm.pathLink, id]);
-  }
-
-  getFieldError(fieldName: string): string {
-    const control = this.editForm.get(fieldName);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    return '';
-  }
-
   checkStillWorking(): void {
     this.editForm.get('stillWorking')?.value
       ? this.editForm.get('endDate')?.disable()
       : this.editForm.get('endDate')?.enable();
+  }
+    
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
+  }
+
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
   }
 }

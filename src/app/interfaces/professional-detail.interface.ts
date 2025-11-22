@@ -5,18 +5,18 @@ import { EducationResponse } from "./education.interface";
 import { ExperienceResponse } from "./experience.interface";
 import { LanguageResponse } from "./language.interface";
 import { LinkResponse } from "./link.interface";
+import { SummaryResponse } from "./summary.interface";
 
 export interface ProfessionalDetail {
-  userId:           string;
-  position:        string;
-  summary:         string;
+  userId:          string;
+  summary?:         SummaryResponse;
+  address?:         AddressResponse;  
   experiences:     ExperienceResponse[];
   languages:       LanguageResponse[];
   abilityGroups:   AbilityGroupResponse[];
   educations:      EducationResponse[]; 
   certifications:  CertificationResponse[];
   links:           LinkResponse[];
-  address:         AddressResponse;  
 }
 
 export interface ProfessionalDetailResponse extends ProfessionalDetail {  
@@ -28,4 +28,3 @@ export interface ProfessionalDetailRequest {
   position: string;
   summary:  string;
 }
-

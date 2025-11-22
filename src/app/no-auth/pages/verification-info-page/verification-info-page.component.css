@@ -1,0 +1,64 @@
+.verification-info-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+.verification-info-card {
+  max-width: 600px;
+  width: 100%;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: white;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+}
+
+.verification-info-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.verification-info-message {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 16px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0 0 0;
+}
+
+@media (max-width: 600px) {
+  .verification-info-card {
+    padding: 24px 10px;
+  }
+  .verification-info-title {
+    font-size: 1.2rem;
+  }
+  .verification-info-message {
+    font-size: 1rem;
+  }
+}

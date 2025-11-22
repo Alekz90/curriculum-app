@@ -2,7 +2,7 @@
   @case (EDITION) {
     <!-- Edition Mode -->
     <section class="section-edit-mode">
-      <button matButton="filled" class="add-button" (click)="goToFormMode('')">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormLink(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
     </section>
     @for (link of links(); track link.id) {
       <mat-card class="detail-card" appearance="outlined">
@@ -12,10 +12,10 @@
             <mat-card-title>{{ link.name }}</mat-card-title>
             <!-- Action Buttons -->
             <div class="div-button-title-group">
-              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(link.id)">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormLink(link.id)">
                 <mat-icon class="menu-mat-icon">edit</mat-icon>
               </button>
-              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(link.id)">
                 <mat-icon class="menu-mat-icon">delete</mat-icon>
               </button>
             </div>
@@ -26,7 +26,7 @@
         <mat-card-content class="mat-card-content">
           <mat-divider></mat-divider>
             <p class="content-card">
-              <a class="a-link-card" href="{{ link.url }}"><mat-icon>open_in_new</mat-icon></a> {{ link.url }}
+              <a class="a-link-card" target="_blank" href="{{ link.url }}"><mat-icon>open_in_new</mat-icon></a> {{ link.url }}
             </p>
           <mat-divider></mat-divider>
         </mat-card-content>
@@ -51,7 +51,7 @@
               formControlName="name" 
               placeholder="Nombre">
             <mat-icon matPrefix>link</mat-icon>
-            @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+            @if (getInvalidField('name')) {
               <mat-error>
                 {{ getFieldError('name') }}
               </mat-error>
@@ -67,7 +67,7 @@
               formControlName="url" 
               placeholder="URL">
             <mat-icon matPrefix>public</mat-icon>
-            @if (editForm.get('url')?.invalid && editForm.get('url')?.touched) {
+            @if (getInvalidField('url')) {
               <mat-error>
                 {{ getFieldError('url') }}
               </mat-error>
@@ -99,13 +99,13 @@
         @for (link of links(); track link.id) {
           <p class="content-card">
             <strong>{{ link.name }}</strong><br>
-            <a class="a-link-card" href="{{ link.url }}">{{ link.url }}</a>
+            <a class="a-link-card" target="_blank" href="{{ link.url }}">{{ link.url }}</a>
           </p>
         }
         <mat-divider></mat-divider>
       </mat-card-content>
       <mat-card-actions class="button-mat-card-actions">
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+        <button matButton (click)="navigation.goToEditLink()"><mat-icon>edit</mat-icon>Editar</button>
       </mat-card-actions>
     </mat-card>
   }

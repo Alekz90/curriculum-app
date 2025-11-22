@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MaterialModule } from '@modules/material.module';
 import { SummaryCardComponent } from "@home/components/summary-card/summary-card.component";
 import { ExperienceCardComponent } from '@home/components/experience-card/experience-card.component';
@@ -8,6 +8,9 @@ import { EducationCardComponent } from "@home/components/education/education-car
 import { CertificationCardComponent } from "@home/components/certification-card/certification-card.component";
 import { LinkCardComponent } from "@home/components/link-card/link-card.component";
 import { CurriculumService } from '@services/curriculum.service';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { Constants } from '@app/utils/constants';
 
 @Component({
   selector: 'dashboard-page',
@@ -25,6 +28,37 @@ import { CurriculumService } from '@services/curriculum.service';
 })
 export class DashboardPageComponent {
 
-  service = inject(CurriculumService);
-  detail = this.service.detail;
+  ID_SUCCESS = Constants.ID_SUCCESS;
+  DETAIL_NOT_FOUND_ID = Constants.PROFESSIONAL_DETAIL_NOT_FOUND_ID;
+
+  private userId: string = inject(AuthenticationService).userId();
+  private curriculumService = inject(CurriculumService);
+
+  resultDetail = rxResource({
+    params: () => ({ userId: this.userId }),
+    stream: (resource) => 
+      this.curriculumService.getProfessionalDetailByUserId(resource.params.userId)
+  });
+
+  hasDetail = computed(() => {
+    if (!this.resultDetail.hasValue()) {
+      return false;
+    }
+
+    const response = this.resultDetail.value();
+
+    if (response.id !== this.ID_SUCCESS || !response.result) {
+      return false;
+    }
+
+    const detail = response.result;
+
+    return detail.summary ||
+      detail.experiences.length > 0 ||
+      detail.languages.length > 0 ||
+      detail.abilityGroups.length > 0 ||
+      detail.educations.length > 0 ||
+      detail.certifications.length > 0 ||
+      detail.links.length > 0;
+  });
 }

@@ -1,13 +1,15 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
 import { ReplaceLinePipe } from '@pipes/replace-line-pipe';
 import { MaterialCardModule } from '@modules/material-card.module';
-import { Constants } from '@app/utils/constants';
-import { ConstantsRoutes } from '@app/utils/route-constants';
-import { Router } from '@angular/router';
+import { Constants } from '@utils/constants';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from '@home/components/confirm-modal.component/confirm-modal.component';
+import { SummaryResponse } from '@interfaces/summary.interface';
+import { NavigationUtils } from '@utils/navigation-utils';
+import { CurriculumService } from '@services/curriculum.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'summary-card',
@@ -15,70 +17,75 @@ import { ConfirmModalComponent } from '@home/components/confirm-modal.component/
   templateUrl: './summary-card.component.html',
 })
 export class SummaryCardComponent implements OnInit {
+  
   readonly DASHBOARD = Constants.DASHBOARD;
   readonly EDITION = Constants.EDITION;
   readonly FORM = Constants.FORM;
+  readonly PATH_NEW = Constants.PATH_NEW
 
-  detail = input.required<ProfessionalDetailResponse>();
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
+
+  detail   = input.required<SummaryResponse>();
+  detailId = input<string>('');
   viewType = input<string>(Constants.DASHBOARD);
-  router = inject(Router);
-  formBuilder = inject(FormBuilder);
-  dialog = inject(MatDialog);
 
   editForm: FormGroup = this.formBuilder.group({
     position: ['', [Validators.required, Validators.maxLength(100)]],
     summary: ['', [Validators.required, Validators.maxLength(1000)]],
   });
 
+  summaryId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
+
   ngOnInit(): void {
-    this.editForm.setValue({
-      position: this.detail().position || '',
-      summary: this.detail().summary || '',
-    });
+    if (this.detail()) {
+      this.editForm.setValue({
+        position: this.detail()?.position || '',
+        summary: this.detail()?.summary || '',
+      });
+    }
   }
 
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      console.log('Form data:', this.editForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.editForm.value);
+      this.curriculumService.saveSummary(this.detailId(), this.summaryId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditSummary();
+            }
+          },
+        });
     }
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditSummary();
       return;
     }
 
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
-      width: '450px',
+      width: Constants.CONFIRM_DIALOG_WIDTH,
       data: Constants.CANCEL_DIALOG_DATA
     });
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+        this.navigation.goToEditSummary();
       }
     });
   }
-  
-  goToEditMode(): void {
-    this.router.navigate([ConstantsRoutes.summaries.pathLink]);
+
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
   }
 
-  goToFormMode(): void {
-    this.router.navigate([ConstantsRoutes.summaryForm.pathLink, this.detail().userId]);
-  }
-  
-  getFieldError(fieldName: string, label: string): string {
-    const control = this.editForm.get(fieldName);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    return '';
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
   }
 }

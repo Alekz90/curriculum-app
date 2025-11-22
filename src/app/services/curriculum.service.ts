@@ -1,23 +1,27 @@
 import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
-import { ProfileResponse } from '@app/interfaces/profile.interface';
-import { User } from '@app/interfaces/user.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProfileResponse } from '@interfaces/profile.interface';
+import { Result } from '@interfaces/result.interface';
+import { SummaryRequest, SummaryResponse } from '@interfaces/summary.interface';
+import { User } from '@interfaces/user.interface';
 import { AbilityGroupResponse, AbilityResponse } from '@interfaces/ability.interface';
 import { AddressResponse } from '@interfaces/address.interface';
-import { CertificationResponse } from '@interfaces/certification.interface';
-import { EducationResponse } from '@interfaces/education.interface';
-import { ExperienceResponse } from '@interfaces/experience.interface';
-import { LanguageResponse } from '@interfaces/language.interface';
-import { LinkResponse } from '@interfaces/link.interface';
+import { CertificationRequest, CertificationResponse } from '@interfaces/certification.interface';
+import { EducationRequest, EducationResponse } from '@interfaces/education.interface';
+import { ExperienceRequest, ExperienceResponse } from '@interfaces/experience.interface';
+import { LanguageRequest, LanguageResponse } from '@interfaces/language.interface';
+import { LinkRequest, LinkResponse } from '@interfaces/link.interface';
 import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
-import { EducationLevelEnum, LanguageLevelEnum } from '@utils/enum';
+import { Constants } from '@utils/constants';
+import { environment } from '@env/environment.development';
+import { EducationLevelEnum, LanguageLevelEnum, RoleEnum } from '@utils/enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurriculumService {
-
-  httpClient = inject(HttpClient);
 
   profile: ProfileResponse = {
     id: 'idProfile',
@@ -31,9 +35,12 @@ export class CurriculumService {
 
   user: User = {
     id: 'userId',
-    password: 'hashed_password_example',
     email: 'alejandro.delangel@example.com',
-    username: 'adelangel'
+    username: 'adelangel',
+    role: RoleEnum.USER,
+    active: true,
+    blocked: false,
+    verified: true
   };
 
   address1: AddressResponse = {
@@ -203,10 +210,9 @@ export class CurriculumService {
       url: 'https://alejandro-del-angel.dev'
     }
   ];
-  
-  detail: ProfessionalDetailResponse = {
-    id: 'idDetail1',
-    userId: 'userIdDetail1',
+
+  summary: SummaryResponse = {
+    id: 'idSummary1',
     position: 'Programador Full Stack Java | Angular',
     summary: 'Programador Full Stack con 7 años experiencia en desarrollo de plataformas basadas en ' +
       'microservicios (RESTful) y monolíticas, implementando tecnologías como Spring Boot, ' +
@@ -216,6 +222,12 @@ export class CurriculumService {
       'análisis de código (SonarQube) y optimización con IA (Copilot).\n\n Apasionado por seguir ' +
       'aprendiendo y reforzando conocimientos en tecnologías emergentes para el desarrollo de ' +
       'aplicaciones.',
+  }
+  
+  detail: ProfessionalDetailResponse = {
+    id: 'idDetail1',
+    userId: 'userIdDetail1',
+    summary:        this.summary,
     experiences:    this.experiences,
     languages:      this.languages,
     abilityGroups:  this.abilityGroups,
@@ -224,4 +236,215 @@ export class CurriculumService {
     links:          this.links,
     address:        this.address1,
   };
+
+  private readonly PROFESSIONAL_DETAIL_URL = `${environment.baseUrl}${environment.professionalDetailsPath}`;
+  private readonly LINKS_URL = `${environment.baseUrl}${environment.linksPath}`;
+  private readonly LANGUAGES_URL = `${environment.baseUrl}${environment.languagesPath}`;
+  private readonly EXPERIENCES_URL = `${environment.baseUrl}${environment.experiencesPath}`;
+  private readonly ABILITIES_URL = `${environment.baseUrl}${environment.abilitiesPath}`;
+  private readonly CERTIFICATIONS_URL = `${environment.baseUrl}${environment.certificationsPath}`;
+  private readonly EDUCATIONS_URL = `${environment.baseUrl}${environment.educationsPath}`;
+  private readonly SUMMARIES_URL = `${environment.baseUrl}${environment.summariesPath}`;
+
+  private httpClient = inject(HttpClient);
+  private snackBar   = inject(MatSnackBar);
+
+  detailsCache: Result<ProfessionalDetailResponse> | null = null;
+
+  // Get professional detail by userId with caching
+  getProfessionalDetailByUserId(userId: string): Observable<Result<ProfessionalDetailResponse>> {
+    if (this.detailsCache && this.detailsCache.result && this.detailsCache.result.userId === userId) {
+      return of(this.detailsCache);
+    }
+
+    return this.httpClient.get<Result<ProfessionalDetailResponse>>(`${this.PROFESSIONAL_DETAIL_URL}/users/${userId}`)
+      .pipe(
+        tap(details => this.setDetailsCache(details)),
+        catchError((response) => this.handleError('Get Professional Detail', response.error)),
+      );
+  }
+
+  // Save or update summary
+  saveSummary(detailId: string, id: string, summary: SummaryRequest): Observable<Result<SummaryResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Summary' : 'Update Summary';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<SummaryResponse>>(`${this.SUMMARIES_URL}/profesional-details/${detailId}`, summary)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<SummaryResponse>>(`${this.SUMMARIES_URL}/${id}/profesional-details/${detailId}`, summary)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Save or update link
+  saveLink(detailId: string, id: string, link: LinkRequest): Observable<Result<LinkResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Link' : 'Update Link';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<LinkResponse>>(`${this.LINKS_URL}/profesional-details/${detailId}`, link)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<LinkResponse>>(`${this.LINKS_URL}/${id}/profesional-details/${detailId}`, link)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Delete link
+  deleteLink(detailId: string, id: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.LINKS_URL}/${id}/profesional-details/${detailId}`)
+      .pipe(
+        map(() => this.cleanDeleteDetailsCache()),
+        catchError((response) => this.handleDeleteError('Delete Link', response.error))
+      );
+  }
+
+  // Save or update language
+  saveLanguage(detailId: string, id: string, language: LanguageRequest): Observable<Result<LanguageResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Language' : 'Update Language';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<LanguageResponse>>(`${this.LANGUAGES_URL}/profesional-details/${detailId}`, language)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<LanguageResponse>>(`${this.LANGUAGES_URL}/${id}/profesional-details/${detailId}`, language)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Delete language
+  deleteLanguage(detailId: string, id: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.LANGUAGES_URL}/${id}/profesional-details/${detailId}`)
+      .pipe(
+        map(() => this.cleanDeleteDetailsCache()),
+        catchError((response) => this.handleDeleteError('Delete Language', response.error))
+      );
+  }
+
+  // Save or update experience
+  saveExperience(detailId: string, id: string, experience: ExperienceRequest): Observable<Result<ExperienceResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Experience' : 'Update Experience';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<ExperienceResponse>>(`${this.EXPERIENCES_URL}/profesional-details/${detailId}`, experience)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<ExperienceResponse>>(`${this.EXPERIENCES_URL}/${id}/profesional-details/${detailId}`, experience)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Delete experience
+  deleteExperience(detailId: string, id: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.EXPERIENCES_URL}/${id}/profesional-details/${detailId}`)
+      .pipe(
+        map(() => this.cleanDeleteDetailsCache()),
+        catchError((response) => this.handleDeleteError('Delete Experience', response.error))
+      );
+  }
+
+  // Save or update certification
+  saveCertification(detailId: string, id: string, certification: CertificationRequest): Observable<Result<CertificationResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Certification' : 'Update Certification';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<CertificationResponse>>(`${this.CERTIFICATIONS_URL}/profesional-details/${detailId}`, certification)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<CertificationResponse>>(`${this.CERTIFICATIONS_URL}/${id}/profesional-details/${detailId}`, certification)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Delete certification
+  deleteCertification(detailId: string, id: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.CERTIFICATIONS_URL}/${id}/profesional-details/${detailId}`)
+      .pipe(
+        map(() => this.cleanDeleteDetailsCache()),
+        catchError((response) => this.handleDeleteError('Delete Certification', response.error))
+      );
+  }
+
+  // Save or update education
+  saveEducation(detailId: string, id: string, education: EducationRequest): Observable<Result<EducationResponse>> {
+    const operation = id === Constants.PATH_NEW ? 'Create Education' : 'Update Education';
+    if (id === Constants.PATH_NEW) {
+      return this.httpClient.post<Result<EducationResponse>>(`${this.EDUCATIONS_URL}/profesional-details/${detailId}`, education)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    } else {
+      return this.httpClient.put<Result<EducationResponse>>(`${this.EDUCATIONS_URL}/${id}/profesional-details/${detailId}`, education)
+        .pipe(
+          tap(() => this.cleanDetailsCache()),
+          catchError((response) => this.handleError(operation, response.error)),
+        );
+    }
+  }
+
+  // Delete education
+  deleteEducation(detailId: string, id: string): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${this.EDUCATIONS_URL}/${id}/profesional-details/${detailId}`)
+      .pipe(
+        map(() => this.cleanDeleteDetailsCache()),
+        catchError((response) => this.handleDeleteError('Delete Education', response.error))
+      );
+  }
+
+  setDetailsCache(details: Result<ProfessionalDetailResponse>) {
+    this.detailsCache = details;
+  }
+
+  cleanDetailsCache() {
+    this.detailsCache = null;
+  }
+
+  handleError(operation: string, result: any) {
+    const message = `${operation} failed: ${result.message}`;
+    console.error(message);
+    this.showMessageError(message);
+    return of(result);
+  }
+
+  cleanDeleteDetailsCache(): boolean {
+    this.cleanDetailsCache();
+    return true;
+  }
+
+  handleDeleteError(operation: string, result: any): Observable<boolean> {
+    const message = `${operation} failed: ${result.message}`;
+    console.error(message);
+    this.showMessageError(message);
+    return of(false);
+  }
+
+  showMessageError(message: string) {
+    this.snackBar.open(message, 'Cerrar');
+  }
 }

@@ -1,16 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
-import { Router, RouterLink } from '@angular/router';
 import { Constants } from '@utils/constants';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConstantsRoutes } from '@app/utils/route-constants';
-import { RegisterRequest } from '@app/interfaces/user.interface';
+import { Authentication } from '@app/interfaces/user.interface';
+import { Result } from '@app/interfaces/result.interface';
+import { NavigationUtils } from '@app/utils/navigation-utils';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'register-page',
-  imports: [MaterialModule, RouterLink],
+  imports: [MaterialModule],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css',
 })
@@ -21,12 +22,12 @@ export class RegisterPageComponent {
   hideConfirmPassword = true;
   isLoading = false;
 
-  private _formBuilder  = inject(FormBuilder);
-  private _router       = inject(Router);
-  private _authService  = inject(AuthenticationService);
-  private _snackBar     = inject(MatSnackBar);
+  private formBuilder  = inject(FormBuilder);
+  private authService  = inject(AuthenticationService);
+  private snackBar     = inject(MatSnackBar);
+  protected navigation = inject(NavigationUtils);
 
-  registerForm: FormGroup = this._formBuilder.group({
+  registerForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email, Validators.pattern(Constants.EMAIL_PATTERN)]],
     username: ['', [Validators.required, Validators.pattern(Constants.USERNAME_PATTERN)]],
     password: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
@@ -42,17 +43,9 @@ export class RegisterPageComponent {
 
       const { email, username, password, acceptTerms } = this.registerForm.value;     
 
-      this._authService.register( { email, username, password, acceptTerms }).subscribe({
-        next: (response) => {
-          console.log('Register successful:', response);
-          if (response.id !== Constants.ID_SUCCESS) {
-            this.showMessageError(response.message!, 'Cerrar');
-          }
-          this.goToHome();
-        },
-        error: (error) => {
-          this.showMessageError(error.message || 'Error en registro', 'Cerrar');
-        },
+      this.authService.register( { email, username, password, acceptTerms }).subscribe({
+        next: (response) => this.successResponse(response),
+        error: (error) => this.showMessageError(error.message || 'Error en registro', 'Cerrar'),
         complete: () => {
           this.isLoading = false;
         }
@@ -81,15 +74,7 @@ export class RegisterPageComponent {
     return null;
   }
 
-  // Marcar todos los campos como tocados para mostrar errores
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-    });
-  }
-
-  getEmailError(): string {
+  /*getEmailError(): string {
     const control = this.registerForm.get('email');
     if (control?.hasError('required')) return 'El correo es requerido';
     if (control?.hasError('pattern')) return 'El correo no es válido';
@@ -101,7 +86,7 @@ export class RegisterPageComponent {
     if (control?.hasError('required')) return 'El nombre de usuario es requerido';
     if (control?.hasError('pattern')) return 'Formato de nombre de usuario no válido';
     return '';
-  }
+  }*/
 
   getPasswordError(): string {
     const control = this.registerForm.get('password');
@@ -117,11 +102,26 @@ export class RegisterPageComponent {
     return '';
   }
   
-  goToHome(): void {
-    this._router.navigate([ConstantsRoutes.home.pathLink]);
+  successResponse(authentication: Result<Authentication>): void {
+    if (authentication.id === Constants.ID_SUCCESS) {
+      const user = authentication.result!.user!;
+      user.verified 
+        ? this.navigation.goToHome()
+        : this.navigation.goToVerificationInfo(user.email);
+    } else {
+      this.showMessageError(authentication.message!, 'Cerrar');
+    }
+  }
+  
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.registerForm.get(fieldName));
+  }
+
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.registerForm.get(fieldName));
   }
 
   showMessageError(message: string, action: string) {
-    this._snackBar.open(message, action);
+    this.snackBar.open(message, action);
   }
 }

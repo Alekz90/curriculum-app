@@ -5,6 +5,9 @@ import { LoginPageComponent } from "@noauth/pages/login-page/login-page.componen
 import { RegisterPageComponent } from "@noauth/pages/register-page/register-page.component";
 import { ResetPasswordPageComponent } from "@noauth/pages/reset-password-page/reset-password-page.component";
 import { SendingRecoveryPageComponent } from "@noauth/pages/sending-recovery-page/sending-recovery-page.component";
+import { VerificationPageComponent } from "@app/no-auth/pages/verification-page/verification-page.component";
+import { VerificationInfoPageComponent } from "@app/no-auth/pages/verification-info-page/verification-info-page.component";
+import { AuthenticatedGuard } from "@guards/authenticated.guard";
 
 
 export const NoAuthRoutes: Routes = [
@@ -17,7 +20,7 @@ export const NoAuthRoutes: Routes = [
         component: LoginPageComponent
       },
       {
-        path: ConstantsRoutes.register  .path,
+        path: ConstantsRoutes.register.path,
         title: ConstantsRoutes.register.title,
         component: RegisterPageComponent
       },
@@ -31,9 +34,20 @@ export const NoAuthRoutes: Routes = [
         title: ConstantsRoutes.sendingRecovery.title,
         component: SendingRecoveryPageComponent
       },
+      {
+        path: ConstantsRoutes.verification.path,
+        title: ConstantsRoutes.verification.title,
+        component: VerificationPageComponent,
+      },
+      {
+        path: ConstantsRoutes.verificationInfo.path,
+        title: ConstantsRoutes.verificationInfo.title,
+        component: VerificationInfoPageComponent,
+      },
       { 
         path: ConstantsRoutes.home.path, 
         loadChildren: () => import('../home/home.routes').then(m => m.HomeRoutes),
+        canMatch: [ AuthenticatedGuard ]
       },
       {
         path: '**',

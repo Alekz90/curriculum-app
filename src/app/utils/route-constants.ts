@@ -33,13 +33,18 @@ export const ConstantsRoutes = {
   },
   resetPassword: {
     path: 'reset-password',
-    pathLink: '/home/reset-password',
+    pathLink: '/reset-password',
     title: 'Restablecer Contraseña'
   },
   verification: {
     path: 'verification/:id',
-    pathLink: '/home/verification',
-    title: 'Verificación'
+    pathLink: '/verification',
+    title: 'Verificación de cuenta'
+  },
+  verificationInfo: {
+    path: 'verification-info',
+    pathLink: '/verification-info',
+    title: 'Información de Verificación'
   },
   //With Session
   dashboard: {
