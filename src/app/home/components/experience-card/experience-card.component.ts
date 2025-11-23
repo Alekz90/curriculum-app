@@ -35,7 +35,7 @@ export class ExperienceCardComponent {
   experiences = input.required<ExperienceResponse[]>();
   detailId    = input<string>('');
   viewType    = input<string>(Constants.DASHBOARD);
-  
+
   experienceId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   editForm: FormGroup = this.formBuilder.group({
@@ -70,7 +70,21 @@ export class ExperienceCardComponent {
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      this.curriculumService.saveExperience(this.detailId(), this.experienceId(), this.editForm.value)
+
+      const experienceData = {
+        ...this.editForm.value,
+        location: {
+          city: this.editForm.value.city,
+          state: this.editForm.value.state,
+          country: this.editForm.value.country,
+          showInCurriculum: true,
+        }
+      };
+      delete experienceData.city;
+      delete experienceData.state;
+      delete experienceData.country;
+
+      this.curriculumService.saveExperience(this.detailId(), this.experienceId(), experienceData)
         .subscribe({
           next: (response) => {
             if (response.id === Constants.ID_SUCCESS) {
@@ -125,8 +139,8 @@ export class ExperienceCardComponent {
   }
 
   getExperienceDurationLabel(experience: ExperienceResponse): string {
-    const start = experience.startDate;
-    const end = experience.stillWorking ? new Date() : experience.endDate;
+    const start = new Date(experience.startDate);
+    const end = experience.stillWorking ? new Date() : new Date(experience.endDate);
 
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
     const startStr = start.toLocaleDateString('es-MX', options);

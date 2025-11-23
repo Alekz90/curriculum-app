@@ -2,18 +2,23 @@
 
 export interface AbilityGroupRequest {
   name: string;
+  abilities: AbilityRequest[];
 }
 
-export interface AbilityGroupResponse extends AbilityGroupRequest {  
+export interface AbilityGroupResponse {  
   id: string;
+  name: string;
   abilities: AbilityResponse[];
 }
 
 export interface AbilityRequest {
-  name:    string;
+  id?:        string;
+  name:       string;
   percentage: number;
 }
 
-export interface AbilityResponse extends AbilityRequest {  
-  id: string;
+export interface AbilityResponse {  
+  id: string;  
+  name:       string;
+  percentage: number;
 }

@@ -1,12 +1,14 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { CertificationResponse } from '@interfaces/certification.interface';
 import { MaterialCardModule } from '@modules/material-card.module';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Constants } from '@app/utils/constants';
-import { ConstantsRoutes } from '@app/utils/route-constants';
+import { ActivatedRoute } from '@angular/router';
+import { Constants } from '@utils/constants';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
+import { CurriculumService } from '@services/curriculum.service';
+import { NavigationUtils } from '@utils/navigation-utils';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'certification-card',
@@ -18,22 +20,25 @@ export class CertificationCardComponent implements OnInit {
   readonly DASHBOARD = Constants.DASHBOARD;
   readonly EDITION = Constants.EDITION;
   readonly FORM = Constants.FORM;
+  readonly PATH_NEW = Constants.PATH_NEW;
 
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
-  private dialog = inject(MatDialog);
-  
-  certifications = input.required<CertificationResponse[]>();
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
+
+  certifications    = input.required<CertificationResponse[]>();
+  detailId = input<string>('');
   viewType = input<string>(Constants.DASHBOARD);
+  
+  certificationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   editForm: FormGroup = this.formBuilder.group({
     id: ['', ],
     name: ['', [Validators.required, Validators.maxLength(100)]],
     description: ['', [Validators.required, Validators.maxLength(500)]],
   });
-  
-  certificationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   ngOnInit(): void {
     const certification = this.certifications().find(cert => cert.id === this.certificationId());
@@ -46,22 +51,23 @@ export class CertificationCardComponent implements OnInit {
     }
   }
 
-  deleteItem() {
-    throw new Error('Method not implemented.');
-  }
-
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      console.log('Form data:', this.editForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.editForm.value);
+      this.curriculumService.saveCertification(this.detailId(), this.certificationId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditCertification();
+            }
+          },
+        });
     }
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditCertification();
       return;
     }
 
@@ -72,26 +78,37 @@ export class CertificationCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+        this.navigation.goToEditCertification();
       }
     });
   }
   
-  goToEditMode(): void {
-    this.router.navigate([ConstantsRoutes.certifications.pathLink]);
-  }
+  deleteItem(id: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: Constants.CONFIRM_DIALOG_WIDTH,
+      data: Constants.DELETE_DIALOG_DATA
+    });
 
-  goToFormMode(id: string): void {
-    this.router.navigate([ConstantsRoutes.certificationForm.pathLink, id]);
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.curriculumService.deleteCertification(this.detailId(), id)
+          .subscribe(
+            (deleted) => {
+              if (deleted) {
+                this.certifications().splice(this.certifications().findIndex(certification => certification.id === id), 1);
+              }
+            }
+          );
+      }
+    });
   }
 
   getFieldError(fieldName: string): string {
-    const control = this.editForm.get(fieldName);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    return '';
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
   }
+
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
+  }
+
 }

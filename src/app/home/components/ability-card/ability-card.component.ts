@@ -1,12 +1,14 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { MaterialCardModule } from '@modules/material-card.module';
 import { AbilityGroupResponse, AbilityResponse } from '@interfaces/ability.interface';
-import { Constants } from '@app/utils/constants';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from '@utils/constants';
+import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConstantsRoutes } from '@app/utils/route-constants';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
+import { FormValidators } from '@utils/form-validators';
+import { NavigationUtils } from '@utils/navigation-utils';
+import { CurriculumService } from '@services/curriculum.service';
 
 @Component({
   selector: 'ability-card',
@@ -18,33 +20,35 @@ export class AbilityCardComponent {
   readonly DASHBOARD = Constants.DASHBOARD;
   readonly EDITION = Constants.EDITION;
   readonly FORM = Constants.FORM;
-  
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
-  private dialog = inject(MatDialog);
-  
+  readonly PATH_NEW = Constants.PATH_NEW;
+
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
+
   abilityGroups = input.required<AbilityGroupResponse[]>();
+  detailId = input<string>('');
   viewType = input<string>(Constants.DASHBOARD);
 
-  editForm!: FormGroup;
-
   groupId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
+
+  editForm!: FormGroup;
   groupAbilities = signal<AbilityGroupResponse | undefined>(undefined);  
 
   ngOnInit(): void {
     this.groupAbilities.set(this.abilityGroups().find(g => g.id === this.groupId()));
-    console.log('Loaded group:', this.groupAbilities());
 
     this.editForm = this.formBuilder.group({
       id: [this.groupAbilities()?.id || null],
-      groupName: ['', [Validators.required, Validators.maxLength(100)]],
+      name: ['', [Validators.required, Validators.maxLength(100)]],
       abilities: this.formBuilder.array([]) // FormArray para habilidades dinámicas
     });
 
     if (this.groupAbilities()) {
       this.editForm.patchValue({
-        groupName: this.groupAbilities()?.name || '',
+        name: this.groupAbilities()?.name || '',
       });
 
       this.groupAbilities()?.abilities.forEach(ability => {
@@ -76,7 +80,6 @@ export class AbilityCardComponent {
   // Eliminar habilidad por índice
   removeAbility(index: number): void {
     if (this.abilities.length > 1) {
-      console.log('Attempting to remove ability at index:', this.abilities.at(index));
       this.abilities.removeAt(index);
       this.editForm.removeControl(index.toString());
     }
@@ -90,20 +93,40 @@ export class AbilityCardComponent {
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      //console.log('Ability Form data:', this.editForm.value);
-      console.log('Ability Form data:', this.editForm.controls);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.abilityForm.value);
+      this.curriculumService.saveAbilityGroup(this.detailId(), this.groupId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditAbility();
+            }
+          },
+        });
     }
   }
 
-  deleteItem() {
-    throw new Error('Method not implemented.');
+  deleteAbilityGroupItem(id: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: Constants.CONFIRM_DIALOG_WIDTH,
+      data: Constants.DELETE_DIALOG_DATA
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.curriculumService.deleteAbilityGroup(this.detailId(), id)
+          .subscribe(
+            (deleted) => {
+              if (deleted) {
+                this.abilityGroups().splice(this.abilityGroups().findIndex(group => group.id === id), 1);
+              }
+            }
+          );
+      }
+    });
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditAbility();
       return;
     }
 
@@ -114,7 +137,7 @@ export class AbilityCardComponent {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+        this.navigation.goToEditAbility();
       }
     });
   }
@@ -123,32 +146,19 @@ export class AbilityCardComponent {
     return abilities.map(ability => ability.name).join(', ');
   }
 
-  goToEditMode(): void {
-    this.router.navigate([ConstantsRoutes.abilities.pathLink]);
-  }
-  
-  goToFormMode(id: string): void {
-    this.router.navigate([ConstantsRoutes.abilityForm.pathLink, id]);
-  }
-
   getFieldError(fieldName: string): string {
-    const control = this.editForm.get(fieldName);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    return '';
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
   }
 
   getFieldArrayError(index: number, name: string): string {
-    const control = this.abilities.at(index).get(name);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    return '';
+    return FormValidators.getFieldError(this.abilities.at(index).get(name));
   }
 
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
+  }
+  
+  getInvalidFieldArray(index: number, name: string): boolean {
+    return FormValidators.getInvalidField(this.abilities.at(index).get(name));
+  }
 }

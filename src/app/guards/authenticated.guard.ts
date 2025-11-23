@@ -8,8 +8,6 @@ export const AuthenticatedGuard: CanMatchFn = async (route, segments) => {
   const authService = inject(AuthenticationService);
   const navigation = inject(NavigationUtils);
 
-  console.log('AuthenticatedGuard#canMatch called');
-
   const isAuthenticated = await firstValueFrom(authService.checkStatus());
 
   if (!isAuthenticated) {

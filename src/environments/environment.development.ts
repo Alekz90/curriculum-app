@@ -12,7 +12,6 @@ export const environment = {
   educationsPath            : "/educations/v1",
   experiencesPath           : "/experiences/v1",
   abilitiesPath             : "/abilities/v1",
-  ability_groupsPath        : "/ability-groups/v1",
   linksPath                 : "/links/v1",
   languagesPath             : "/languages/v1",
   certificationsPath        : "/certifications/v1"

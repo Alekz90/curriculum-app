@@ -2,7 +2,7 @@
   @case (EDITION) {
     <!-- Edition Mode -->
     <section class="section-edit-mode">
-      <button matButton="filled" class="add-button" (click)="goToFormMode('')">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormCertification(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
     </section>
 
     @for (certification of certifications(); track certification.id) {
@@ -13,10 +13,10 @@
             <mat-card-title>{{ certification.name }}</mat-card-title>
             <!-- Action Buttons -->
             <div class="div-button-title-group">
-              <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(certification.id)">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormCertification(certification.id)">
                 <mat-icon class="menu-mat-icon">edit</mat-icon>
               </button>
-              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(certification.id)">
                 <mat-icon class="menu-mat-icon">delete</mat-icon>
               </button>
             </div>
@@ -52,7 +52,7 @@
               formControlName="name" 
               placeholder="Nombre">
             <mat-icon matPrefix>assignment_ind</mat-icon>
-            @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+            @if (getInvalidField('name')) {
               <mat-error>
                 {{ getFieldError('name') }}
               </mat-error>
@@ -68,7 +68,7 @@
               placeholder="Descripción">
             </textarea>
             <mat-icon matPrefix>format_align_justify</mat-icon>
-            @if (editForm.get('description')?.invalid && editForm.get('description')?.touched) {
+            @if (getInvalidField('description')) {
               <mat-error>
                 {{ getFieldError('description') }}
               </mat-error>
@@ -106,7 +106,7 @@
 
       <!-- Card Actions -->
       <mat-card-actions class="button-mat-card-actions">
-        <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+        <button matButton (click)="navigation.goToEditCertification()"><mat-icon>edit</mat-icon>Editar</button>
       </mat-card-actions>
     </mat-card>
   }

@@ -39,20 +39,20 @@ export class Constants {
   static readonly EDUCATION_LEVEL_ENUM = Object.entries(EducationLevelEnum).map(([key, value]) => ({key: key, value: value}));
 
   static readonly CANCEL_DIALOG_DATA: ConfirmDialogData = {
-    title: '¿Continuar con esta acción?',
+    title: 'Cancelar operación',
     message: 'Si continua perderá los cambios realizados. ¿Deseas continuar?',
-    confirmText: 'Sí, continuar',
-    cancelText: 'No, cancelar',
+    confirmText: 'Sí',
+    cancelText: 'No',
     iconCancel: 'cancel',
     iconConfirm: 'warning',
     type: 'warning'
   };
   
   static readonly DELETE_DIALOG_DATA: ConfirmDialogData = {
-    title: '¿Continuar con esta acción?',
-    message: 'Al continuar se eliminará el elemento seleccionado. ¿Deseas continuar?',
-    confirmText: 'Sí, continuar',
-    cancelText: 'No, cancelar',
+    title: 'Eliminar información',
+    message: 'Al continuar se eliminará la información del elemento seleccionado y no podrá recuperarse. ¿Deseas continuar?',
+    confirmText: 'Sí',
+    cancelText: 'No',
     iconCancel: 'cancel',
     iconConfirm: 'warning',
     type: 'warning'

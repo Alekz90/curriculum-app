@@ -50,7 +50,6 @@ export class SummaryPageComponent {
   }
 
   handleSuccess(response: Result<ProfessionalDetailResponse>) {
-    console.log('SummaryPageComponent - handleSuccess', response);
     this.detailId.set(response.result!.id || '');
     this.summary.set(response.result!.summary!);
   }

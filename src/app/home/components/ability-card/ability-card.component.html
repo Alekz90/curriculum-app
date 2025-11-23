@@ -2,7 +2,7 @@
   @case (EDITION) {
     <!-- Edit Mode -->
     <section class="section-edit-mode">
-      <button mat-raised-button class="add-button" (click)="goToFormMode('')"><span>Agregar nuevo</span><mat-icon>add_box</mat-icon></button>
+      <button mat-raised-button class="add-button" (click)="navigation.goToFormAbility(PATH_NEW)"><span>Agregar nuevo</span><mat-icon>add_box</mat-icon></button>
     </section>
     @for (group of abilityGroups(); track $index) {
       <mat-card class="detail-card" appearance="outlined">
@@ -10,10 +10,10 @@
             <mat-card-title-group>
               <mat-card-title>{{ group.name }}</mat-card-title>
               <div class="div-button-title-group">
-                <button mat-icon-button matTooltip="Editar" (click)="goToFormMode(group.id)">
+                <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormAbility(group.id)">
                   <mat-icon class="menu-mat-icon">edit</mat-icon>
                 </button>
-                <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem()">
+                <button mat-icon-button matTooltip="Eliminar" (click)="deleteAbilityGroupItem(group.id)">
                   <mat-icon class="menu-mat-icon">delete</mat-icon>
                 </button>
               </div>
@@ -42,12 +42,12 @@
             <input 
               matInput 
               type="text" 
-              formControlName="groupName" 
+              formControlName="name" 
               placeholder="Grupo de Habilidades">
             <mat-icon matPrefix>verified</mat-icon>
-            @if (editForm.get('groupName')?.invalid && editForm.get('groupName')?.touched) {
+            @if (getInvalidField('name')) {
               <mat-error>
-                {{ getFieldError('groupName') }}
+                {{ getFieldError('name') }}
               </mat-error>
             }
           </mat-form-field>
@@ -66,8 +66,8 @@
                 <!-- Nombre de Habilidad -->
                 <mat-form-field appearance="outline" style="width: 45%;">
                   <mat-label>Nombre</mat-label>
-                  <input matInput formControlName="name" placeholder="Ej: Angular">
-                  @if (ability.get('name')?.invalid && ability.get('name')?.touched) {
+                  <input matInput formControlName="name" placeholder="Ej: Excel">
+                  @if (getInvalidFieldArray(i, 'name')) {
                     <mat-error>
                       {{ getFieldArrayError(i, 'name') }}
                     </mat-error>
@@ -79,7 +79,7 @@
                   <mat-label>Nivel (%)</mat-label>
                   <input matInput type="number" formControlName="percentage" min="0" max="100">
                   <span matSuffix>%</span>
-                  @if (ability.get('percentage')?.invalid && ability.get('percentage')?.touched) {
+                  @if (getInvalidFieldArray(i, 'percentage')) {
                     <mat-error>
                       {{ getFieldArrayError(i, 'percentage') }}
                     </mat-error>
@@ -121,7 +121,7 @@
       }
     </mat-card-content>
     <mat-card-actions class="button-mat-card-actions">
-      <button matButton (click)="goToEditMode()"><mat-icon>edit</mat-icon>Editar</button>
+      <button matButton (click)="navigation.goToEditAbility()"><mat-icon>edit</mat-icon>Editar</button>
     </mat-card-actions>
   </mat-card>
   }

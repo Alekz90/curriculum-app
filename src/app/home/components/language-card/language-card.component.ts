@@ -44,7 +44,6 @@ export class LanguageCardComponent {
 
   ngOnInit(): void {
     const language = this.languages().find(lang => lang.id === this.languageId());
-    console.log('Loaded language for editing:', language);
     if (language) {
       this.editForm.setValue({
         name: language.name || '',
@@ -83,10 +82,10 @@ export class LanguageCardComponent {
         this.navigation.goToEditLanguage();
       }
     });
-  }
+  }  
 
-  languageComputed(language: LanguageResponse): string {
-    return `• ${language.name} (${language.level})`;
+  languageValue(language: LanguageResponse): string {
+    return Constants.LANGUAGE_LEVEL_ENUM.filter(level => level.key === language.level)[0]?.value || 'N/A';
   };
   
   deleteItem(id: string) {

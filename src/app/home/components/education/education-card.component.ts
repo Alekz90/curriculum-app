@@ -6,7 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
-import { ConstantsRoutes } from '@app/utils/route-constants';
+import { CurriculumService } from '@services/curriculum.service';
+import { NavigationUtils } from '@utils/navigation-utils';
+import { FormValidators } from '@app/utils/form-validators';
 
 @Component({
   selector: 'education-card',
@@ -19,14 +21,19 @@ export class EducationCardComponent implements OnInit {
   readonly DASHBOARD = Constants.DASHBOARD;
   readonly EDITION = Constants.EDITION;
   readonly FORM = Constants.FORM;
+  readonly PATH_NEW = Constants.PATH_NEW;
 
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private formBuilder = inject(FormBuilder);
-  private dialog = inject(MatDialog);
+  private activatedRoute    = inject(ActivatedRoute);
+  private formBuilder       = inject(FormBuilder);
+  private dialog            = inject(MatDialog);
+  private curriculumService = inject(CurriculumService);
+  protected navigation      = inject(NavigationUtils);
 
-  educations = input.required<EducationResponse[]>();
+  educations    = input.required<EducationResponse[]>();
+  detailId = input<string>('');
   viewType = input<string>(Constants.DASHBOARD);
+
+  educationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   readonly maxYear = new Date().getFullYear();
   readonly minYear = this.maxYear - 100;
@@ -39,8 +46,6 @@ export class EducationCardComponent implements OnInit {
     endYear: ['', [Validators.required, Validators.min(this.minYear), Validators.max(this.maxYear)]],
     stillStudying: [false, [Validators.required, Validators.maxLength(100)]],
   });
-
-  educationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
   
   ngOnInit(): void {
     const education = this.educations().find(exp => exp.id === this.educationId());
@@ -55,23 +60,27 @@ export class EducationCardComponent implements OnInit {
       });
     }
   }
-
-  deleteItem() {
-    throw new Error('Method not implemented.');
-  }
   
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      console.log('Form data:', this.editForm.value);
-      // Aquí puedes agregar la lógica de autenticación
-      // Por ejemplo: this.authService.login(this.editForm.value);
+      if (this.editForm.get('stillStudying')?.value) {
+        this.editForm.get('endYear')?.setValue(null);
+      }
+      this.curriculumService.saveEducation(this.detailId(), this.educationId(), this.editForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response.id === Constants.ID_SUCCESS) {
+              this.navigation.goToEditEducation();
+            }
+          },
+        });
     }
   }
 
   cancel(): void {
     if (this.editForm.pristine) {
-      this.goToEditMode();
+      this.navigation.goToEditEducation();
       return;
     }
 
@@ -82,7 +91,27 @@ export class EducationCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.goToEditMode();
+        this.navigation.goToEditEducation();
+      }
+    });
+  }
+
+  deleteItem(id: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      width: Constants.CONFIRM_DIALOG_WIDTH,
+      data: Constants.DELETE_DIALOG_DATA
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.curriculumService.deleteEducation(this.detailId(), id)
+          .subscribe(
+            (deleted) => {
+              if (deleted) {
+                this.educations().splice(this.educations().findIndex(education => education.id === id), 1);
+              }
+            }
+          );
       }
     });
   }
@@ -94,38 +123,18 @@ export class EducationCardComponent implements OnInit {
       return `${education.startYear} - ${education.endYear}`;
     }
   }
-
-  goToEditMode() {
-    this.router.navigate([ConstantsRoutes.educations.pathLink]);
-  }
-
-  goToFormMode(id: string): void {
-    this.router.navigate([ConstantsRoutes.educationForm.pathLink, id]);
-  }
   
-  getFieldError(fieldName: string): string {
-    const control = this.editForm.get(fieldName);
-    console.log('Checking errors for field:', fieldName, control?.errors);
-    if (control?.hasError('required')) return `Esta informacion es obligatoria`;
-    if (control?.hasError('maxlength')) {
-      const maxLength = control.getError('maxlength').requiredLength;
-      return `Esta información no puede exceder ${maxLength} caracteres`;
-    }
-    if (control?.hasError('min')) {
-      const min = control.getError('min').min;
-      return `Este dato no puede ser menor que ${min}`;
-    }
-    if (control?.hasError('max')) {
-      const max = control.getError('max').max;
-      return `Este dato no puede ser mayor que ${max}`;
-    }
-
-    return '';
-  }
-
   checkStillStudying(): void {
     this.editForm.get('stillStudying')?.value
       ? this.editForm.get('endYear')?.disable()
       : this.editForm.get('endYear')?.enable();  
+  }
+
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.editForm.get(fieldName));
+  }
+
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.editForm.get(fieldName));
   }
 }
