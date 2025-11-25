@@ -29,7 +29,6 @@ export class ProfileCardComponent {
   protected navigation      = inject(NavigationUtils);
 
   profile = input.required<ProfileResponse>();
-  userId = input<string>('');
   viewType  = signal<string>(this.VIEW_MODE);
   
   profileId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
@@ -51,9 +50,10 @@ export class ProfileCardComponent {
 
   ngOnInit(): void {
     if (this.profile()) {
+      const birthDate = new Date(this.profile().birthDate);
       this.editForm.setValue({
         fullName: this.profile().fullName,
-        birthDate: this.profile().birthDate == Constants.EMPTY_DATE ? '' : this.profile().birthDate,
+        birthDate: birthDate === Constants.EMPTY_DATE ? '' : birthDate,
         codePhone: this.profile().codePhone,
         cellphone: this.profile().cellphone,
       });
@@ -63,7 +63,7 @@ export class ProfileCardComponent {
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      this.profilesService.saveProfile(this.userId(), this.profileId(), this.editForm.value)
+      this.profilesService.saveProfile(this.profileId(), this.editForm.value)
         .subscribe({
           next: (response) => {
             if (response.id === Constants.ID_SUCCESS) {
@@ -101,7 +101,8 @@ export class ProfileCardComponent {
     };
 
     const date = new Date(this.profile().birthDate);
-    return date == Constants.EMPTY_DATE ? date.toLocaleDateString('es-MX', longFormat) : '';
+
+    return date !== Constants.EMPTY_DATE ? date.toLocaleDateString('es-MX', longFormat) : '';
   }
   
   getFieldError(fieldName: string): string {

@@ -29,7 +29,7 @@ export class AddressCardComponent {
   protected navigation      = inject(NavigationUtils);
 
   address = input.required<AddressResponse>();
-  userId = input<string>('');
+  profileId = input<string>('');
   viewType  = signal<string>(this.VIEW_MODE);
   
   addressId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
@@ -63,7 +63,7 @@ export class AddressCardComponent {
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      this.profilesService.saveAddress(this.userId(), this.addressId(), this.editForm.value)
+      this.profilesService.saveAddress(this.profileId(), this.addressId(), this.editForm.value)
         .subscribe({
           next: (response) => {
             if (response.id === Constants.ID_SUCCESS) {

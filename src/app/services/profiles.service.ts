@@ -4,10 +4,8 @@ import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProfileRequest, ProfileResponse } from '@interfaces/profile.interface';
 import { Result } from '@interfaces/result.interface';
-import { Constants } from '@utils/constants';
 import { environment } from '@env/environment.development';
-import { AddressEmpty, AddressRequest, AddressResponse } from '@app/interfaces/address.interface';
-import { Utils } from '@app/utils/utils';
+import { AddressRequest, AddressResponse } from '@app/interfaces/address.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,39 +34,21 @@ export class ProfilesService {
   }
 
   // Save or update profile
-  saveProfile(userId: string, id: string, profile: ProfileRequest): Observable<Result<ProfileResponse>> {
-    const operation = id === Constants.PATH_NEW ? 'Create Profile' : 'Update Profile';
-    if (id === Constants.PATH_NEW) {
-      return this.httpClient.post<Result<ProfileResponse>>(`${this.PROFILES_URL}/users/${userId}`, profile)
-        .pipe(
-          tap(() => this.cleanProfileCache()),
-          catchError((response) => this.handleError(operation, response.error)),
-        );
-    } else {
-      return this.httpClient.put<Result<ProfileResponse>>(`${this.PROFILES_URL}/${id}`, profile)
-        .pipe(
-          tap(() => this.cleanProfileCache()),
-          catchError((response) => this.handleError(operation, response.error)),
-        );
-    }
+  saveProfile(id: string, profile: ProfileRequest): Observable<Result<ProfileResponse>> {
+    return this.httpClient.put<Result<ProfileResponse>>(`${this.PROFILES_URL}/${id}`, profile)
+      .pipe(
+        tap(() => this.cleanProfileCache()),
+        catchError((response) => this.handleError('Update Profile', response.error)),
+      );
   }
 
   // Save or update address
   saveAddress(profileId: string, id: string, address: AddressRequest): Observable<Result<AddressResponse>> {
-    const operation = id === Constants.PATH_NEW ? 'Create Address' : 'Update Address';
-    if (id === Constants.PATH_NEW) {
-      return this.httpClient.post<Result<AddressResponse>>(`${this.ADDRESS_URL}/profiles/${profileId}`, address)
-        .pipe(
-          tap(() => this.cleanProfileCache()),
-          catchError((response) => this.handleError(operation, response.error)),
-        );
-    } else {
-      return this.httpClient.put<Result<AddressResponse>>(`${this.ADDRESS_URL}/${id}/profiles/${profileId}`, address)
-        .pipe(
-          tap(() => this.cleanProfileCache()),
-          catchError((response) => this.handleError(operation, response.error)),
-        );
-    }
+    return this.httpClient.put<Result<AddressResponse>>(`${this.ADDRESS_URL}/${id}/profiles/${profileId}`, address)
+      .pipe(
+        tap(() => this.cleanProfileCache()),
+        catchError((response) => this.handleError('Update Address', response.error)),
+      );    
   }
 
   private handleError(operation: string, result: any): Observable<any> {
