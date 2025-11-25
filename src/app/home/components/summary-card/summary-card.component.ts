@@ -4,12 +4,12 @@ import { MaterialCardModule } from '@modules/material-card.module';
 import { Constants } from '@utils/constants';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmModalComponent } from '@home/components/confirm-modal.component/confirm-modal.component';
+import { ConfirmModalComponent } from '@home-cards/confirm-modal.component/confirm-modal.component';
 import { SummaryResponse } from '@interfaces/summary.interface';
 import { NavigationUtils } from '@utils/navigation-utils';
 import { CurriculumService } from '@services/curriculum.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormValidators } from '@app/utils/form-validators';
+import { FormValidators } from '@utils/form-validators';
 
 @Component({
   selector: 'summary-card',
@@ -18,9 +18,9 @@ import { FormValidators } from '@app/utils/form-validators';
 })
 export class SummaryCardComponent implements OnInit {
   
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW
 
   private activatedRoute    = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class SummaryCardComponent implements OnInit {
 
   detail   = input.required<SummaryResponse>();
   detailId = input<string>('');
-  viewType = input<string>(Constants.DASHBOARD);
+  viewType = input<string>(Constants.DASHBOARD_MODE);
 
   editForm: FormGroup = this.formBuilder.group({
     position: ['', [Validators.required, Validators.maxLength(100)]],
@@ -43,8 +43,8 @@ export class SummaryCardComponent implements OnInit {
   ngOnInit(): void {
     if (this.detail()) {
       this.editForm.setValue({
-        position: this.detail()?.position || '',
-        summary: this.detail()?.summary || '',
+        position: this.detail().position || '',
+        summary: this.detail().summary || '',
       });
     }
   }

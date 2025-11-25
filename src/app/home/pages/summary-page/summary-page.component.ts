@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SummaryCardComponent } from '@home/components/summary-card/summary-card.component';
 import { AuthenticationService } from '@services/authentication.service';
@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NavigationUtils } from '@utils/navigation-utils';
-import { SummaryResponse } from '@app/interfaces/summary.interface';
+import { SummaryEmpty, SummaryResponse } from '@app/interfaces/summary.interface';
 import { Result } from '@app/interfaces/result.interface';
 import { ProfessionalDetailResponse } from '@app/interfaces/professional-detail.interface';
 
@@ -27,8 +27,8 @@ export class SummaryPageComponent {
   protected navigation      = inject(NavigationUtils);
 
   detailId  = signal<string>('');
-  summary   = signal<SummaryResponse>(Constants.SummaryResponseEmpty);
-  viewType  = signal<string>(Constants.EDITION);
+  summary   = signal<SummaryResponse>(SummaryEmpty);
+  viewType  = signal<string>(Constants.VIEW_MODE);
 
   details = rxResource({
     params: () => ({ userId: this.userId }),
@@ -41,12 +41,8 @@ export class SummaryPageComponent {
 
   ngOnInit(): void {
     this.router.url.includes(ConstantsRoutes.summaryForm.pathLink)
-      ? this.viewType.set(Constants.FORM)
-      : this.viewType.set(Constants.EDITION);
-  }
-
-  showMessageError(message: string) {
-    this.snackBar.open(message, 'Cerrar');
+      ? this.viewType.set(Constants.FORM_MODE)
+      : this.viewType.set(Constants.VIEW_MODE);
   }
 
   handleSuccess(response: Result<ProfessionalDetailResponse>) {

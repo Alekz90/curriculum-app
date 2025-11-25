@@ -28,10 +28,11 @@ export interface Authentication {
   user:  User;
 }
 
-export interface ChangePasswordRequest extends RecoveryPasswordRequest {
-  oldPassword: string;
+export interface RecoveryPasswordRequest {
+  newPassword: string;
 }
 
-export interface RecoveryPasswordRequest {
+export interface ChangePasswordRequest {
+  oldPassword: string;
   newPassword: string;
 }

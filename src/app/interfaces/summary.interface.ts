@@ -9,3 +9,9 @@ export interface SummaryResponse extends Summary {
 
 export interface SummaryRequest extends Summary {
 }
+
+export const SummaryEmpty: SummaryResponse = {
+  id:       '',
+  position: '',
+  summary:  '',
+};

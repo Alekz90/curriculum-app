@@ -1,5 +1,7 @@
+import { Constants } from "@utils/constants";
+import { AddressEmpty, AddressResponse } from "@interfaces/address.interface";
+
 export interface ProfileRequest {
-  userId:    string;
   birthDate: Date;
   codePhone: string;
   cellphone: string;
@@ -8,5 +10,16 @@ export interface ProfileRequest {
 
 export interface ProfileResponse extends ProfileRequest {
   id:        string;
-  image:     string;
+  userId:    string;
+  address:   AddressResponse;
 }
+
+export const ProfileEmpty: ProfileResponse = {
+    id: '',
+    userId: '',
+    fullName: '',
+    birthDate: Constants.EMPTY_DATE,
+    codePhone: '',
+    cellphone: '',
+    address: AddressEmpty,
+  };

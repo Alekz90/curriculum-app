@@ -18,14 +18,34 @@ export const HomeRoutes: Routes = [
     path: '', component: HomePageComponent,
     children: [
       {
-        path: ConstantsRoutes.dashboard.path,
-        title: ConstantsRoutes.dashboard.title,
-        component: DashboardPageComponent
-      },
-      {
         path: ConstantsRoutes.profile.path,
         title: ConstantsRoutes.profile.title,
         component: ProfilePageComponent
+      },
+      {
+        path: ConstantsRoutes.profileForm.path,
+        title: ConstantsRoutes.profileForm.title,
+        component: ProfilePageComponent
+      },
+      {
+        path: ConstantsRoutes.imageForm.path,
+        title: ConstantsRoutes.imageForm.title,
+        component: ProfilePageComponent
+      },
+      {
+        path: ConstantsRoutes.passwordForm.path,
+        title: ConstantsRoutes.passwordForm.title,
+        component: ProfilePageComponent
+      },
+      {
+        path: ConstantsRoutes.addressForm.path,
+        title: ConstantsRoutes.addressForm.title,
+        component: ProfilePageComponent
+      },
+      {
+        path: ConstantsRoutes.dashboard.path,
+        title: ConstantsRoutes.dashboard.title,
+        component: DashboardPageComponent
       },
       {
         path: ConstantsRoutes.summaries.path,

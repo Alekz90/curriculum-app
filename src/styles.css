@@ -50,6 +50,10 @@ span.menu-span-label {
   color: white;
 }
 
+.img-profile-mat-icon {
+  color: #ba005dd7;
+}
+
 /* Contenedores de las páginas de inicio e inicio de sesión */
 .container-page {
   align-items: center;
@@ -128,20 +132,22 @@ button span.mat-button-span {
   color: black;
 }
 
-div.profile-image-card {
-  width: 180px;
+.div-image-card {
+  width: 200px;
   height: 150px;
   margin: auto;
-  border-radius: 8px;
   background-color: transparent;
+  flex: auto;
+  flex-direction: row;
+  display: flex;
 }
 
-img.profile-image-card {
+.img-image-card {
   width: 150px;
   height: 150px;
-  border-radius: 8px;
+  border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 15px auto;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
 .detail-card:hover, .profile-card:hover {

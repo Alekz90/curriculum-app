@@ -17,9 +17,9 @@ import { CurriculumService } from '@services/curriculum.service';
 })
 export class AbilityCardComponent {
 
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW;
 
   private activatedRoute    = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class AbilityCardComponent {
 
   abilityGroups = input.required<AbilityGroupResponse[]>();
   detailId = input<string>('');
-  viewType = input<string>(Constants.DASHBOARD);
+  viewType = input<string>(Constants.DASHBOARD_MODE);
 
   groupId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 

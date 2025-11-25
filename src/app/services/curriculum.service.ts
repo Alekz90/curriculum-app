@@ -16,12 +16,20 @@ import { LinkRequest, LinkResponse } from '@interfaces/link.interface';
 import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
 import { Constants } from '@utils/constants';
 import { environment } from '@env/environment.development';
-import { EducationLevelEnum, LanguageLevelEnum, RoleEnum } from '@utils/enum';
+import { RoleEnum } from '@utils/enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurriculumService {
+
+  address: AddressResponse = {
+    id: 'addressId',
+    city: 'Springfield',
+    state: 'Illinois',
+    country: 'USA',
+    showInCurriculum: true
+  }
 
   profile: ProfileResponse = {
     id: 'idProfile',
@@ -29,8 +37,8 @@ export class CurriculumService {
     birthDate: new Date('1995-06-15'),
     codePhone: '+52',
     cellphone: '8112345678',
-    image: 'https://example.com/images/alejandro-del-angel.jpg',
     fullName: 'Alejandro Del Ángel',
+    address: this.address,
   };
 
   user: User = {

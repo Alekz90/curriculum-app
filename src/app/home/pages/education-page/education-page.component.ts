@@ -26,12 +26,12 @@ export class EducationPageComponent implements OnInit {
   
   detailId  = signal<string>('');
   educations     = signal<EducationResponse[]>([]);
-  viewType  = signal<string>(Constants.EDITION);
+  viewType  = signal<string>(Constants.VIEW_MODE);
   
   ngOnInit(): void {
     this.router.url.includes(ConstantsRoutes.educationForm.pathLink)
-      ? this.viewType.set(Constants.FORM)
-      : this.viewType.set(Constants.EDITION);
+      ? this.viewType.set(Constants.FORM_MODE)
+      : this.viewType.set(Constants.VIEW_MODE);
   }
 
   details = rxResource({

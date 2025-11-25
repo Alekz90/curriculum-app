@@ -4,14 +4,13 @@ import { MaterialCardModule } from '@modules/material-card.module';
 import { ReplaceLinePipe } from '@pipes/replace-line-pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from '@utils/constants';
-import { ConstantsRoutes } from '@utils/route-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmModalComponent } from '../confirm-modal.component/confirm-modal.component';
+import { ConfirmModalComponent } from '@home-cards/confirm-modal.component/confirm-modal.component';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { CurriculumService } from '@services/curriculum.service';
 import { NavigationUtils } from '@utils/navigation-utils';
-import { FormValidators } from '@app/utils/form-validators';
+import { FormValidators } from '@utils/form-validators';
 
 @Component({
   selector: 'experience-card',
@@ -21,9 +20,9 @@ import { FormValidators } from '@app/utils/form-validators';
 })
 export class ExperienceCardComponent {
 
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW;
   
   private activatedRoute    = inject(ActivatedRoute);
@@ -34,7 +33,7 @@ export class ExperienceCardComponent {
 
   experiences = input.required<ExperienceResponse[]>();
   detailId    = input<string>('');
-  viewType    = input<string>(Constants.DASHBOARD);
+  viewType    = input<string>(Constants.DASHBOARD_MODE);
 
   experienceId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
@@ -46,7 +45,7 @@ export class ExperienceCardComponent {
     country: ['', [Validators.required, Validators.maxLength(100)]],
     startDate: ['', [Validators.required, Validators.maxLength(100)]],
     endDate: ['', [Validators.required, Validators.maxLength(100)]],
-    stillWorking: [false, [Validators.required, Validators.maxLength(100)]],
+    stillWorking: [false, [Validators.required]],
     activities: ['', [Validators.required, Validators.maxLength(2000)]],
   });
 

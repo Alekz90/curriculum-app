@@ -1,1 +1,14 @@
-<profile-card [profile]="profile" [user]="user"></profile-card>
+  <!-- Profile image -->
+  <!-- <profile-image></profile-image> -->
+
+  <!-- Account information -->
+  <user-card [user]="user()"></user-card>
+  
+  <!-- Profile information -->
+  <profile-card [profile]="profile()" [userId]="user().id"></profile-card>
+  
+  <!-- Update password -->
+  <!-- <password-card></password-card> -->
+  
+  <!-- Address information -->
+  <address-card [address]="profile().address!" [userId]="user().id"></address-card>

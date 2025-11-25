@@ -18,9 +18,9 @@ import { FormValidators } from '@app/utils/form-validators';
 export class EducationCardComponent implements OnInit {
 
   readonly EDUCATION_LEVEL_ENUM = Constants.EDUCATION_LEVEL_ENUM;
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW;
 
   private activatedRoute    = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class EducationCardComponent implements OnInit {
 
   educations    = input.required<EducationResponse[]>();
   detailId = input<string>('');
-  viewType = input<string>(Constants.DASHBOARD);
+  viewType = input<string>(Constants.DASHBOARD_MODE);
 
   educationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 

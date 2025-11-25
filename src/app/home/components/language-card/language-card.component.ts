@@ -20,9 +20,9 @@ import { FormValidators } from '@app/utils/form-validators';
 export class LanguageCardComponent {
 
   readonly LANGUAGE_LEVEL_ENUM = Constants.LANGUAGE_LEVEL_ENUM;
-  readonly DASHBOARD           = Constants.DASHBOARD;
-  readonly EDITION             = Constants.EDITION;
-  readonly FORM                = Constants.FORM;
+  readonly DASHBOARD           = Constants.DASHBOARD_MODE;
+  readonly EDITION             = Constants.VIEW_MODE;
+  readonly FORM                = Constants.FORM_MODE;
   readonly PATH_NEW            = Constants.PATH_NEW
   
   private activatedRoute    = inject(ActivatedRoute);
@@ -33,7 +33,7 @@ export class LanguageCardComponent {
 
   languages = input.required<LanguageResponse[]>();
   detailId  = input<string>('');
-  viewType  = input<string>(Constants.DASHBOARD);
+  viewType  = input<string>(Constants.DASHBOARD_MODE);
   
   editForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],

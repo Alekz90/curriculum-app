@@ -2,25 +2,25 @@ import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { AddressResponse } from '@interfaces/address.interface';
+import { MaterialCardModule } from '@modules/material-card.module';
+import { ProfilesService } from '@services/profiles.service';
 import { Constants } from '@utils/constants';
-import { FormValidators } from '@utils/form-validators';
 import { NavigationUtils } from '@utils/navigation-utils';
 import { ConstantsRoutes } from '@utils/route-constants';
-import { ProfileResponse } from '@interfaces/profile.interface';
-import { MaterialCardModule } from '@modules/material-card.module';
-import { ProfilesService } from '@app/services/profiles.service';
 import { ConfirmModalComponent } from '@home-cards/confirm-modal.component/confirm-modal.component';
+import { FormValidators } from '@utils/form-validators';
 
 @Component({
-  selector: 'profile-card',
+  selector: 'address-card',
   imports: [MaterialCardModule],
-  templateUrl: './profile-card.component.html',
+  templateUrl: './address-card.component.html',
 })
-export class ProfileCardComponent {
+export class AddressCardComponent {
   
-  protected readonly VIEW_MODE    = Constants.VIEW_MODE;
-  protected readonly PROFILE_FORM = Constants.PROFILE_FORM;
-  protected readonly HIDDEN_MODE  = Constants.HIDDEN_MODE;
+  protected readonly VIEW_MODE     = Constants.VIEW_MODE;
+  protected readonly ADDRESS_FORM  = Constants.ADDRESS_FORM;
+  protected readonly HIDDEN_MODE   = Constants.HIDDEN_MODE;
 
   private activatedRoute    = inject(ActivatedRoute);
   private formBuilder       = inject(FormBuilder);
@@ -28,34 +28,34 @@ export class ProfileCardComponent {
   private profilesService   = inject(ProfilesService);
   protected navigation      = inject(NavigationUtils);
 
-  profile = input.required<ProfileResponse>();
+  address = input.required<AddressResponse>();
   userId = input<string>('');
   viewType  = signal<string>(this.VIEW_MODE);
   
-  profileId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
+  addressId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   editForm: FormGroup = this.formBuilder.group({
-    fullName: ['', [Validators.required, Validators.maxLength(100)]],
-    birthDate: ['', [Validators.required]],
-    codePhone: ['', [Validators.required, Validators.pattern(Constants.PHONE_CODE_PATTERN)]],
-    cellphone: ['', [Validators.required, Validators.pattern(Constants.PHONE_PATTERN)]],
+    city: ['', [Validators.required, Validators.maxLength(100)]],
+    state: ['', [Validators.required, Validators.maxLength(100)]],
+    country: ['', [Validators.required, Validators.maxLength(100)]],
+    showInCurriculum: [false, [Validators.required]],
   });
 
   ngOnChanges(): void {
-    this.navigation.includesUrl(ConstantsRoutes.profileForm.pathLink)
-      ? this.viewType.set(this.PROFILE_FORM)
+    this.navigation.includesUrl(ConstantsRoutes.addressForm.pathLink)
+      ? this.viewType.set(this.ADDRESS_FORM)
       : this.navigation.includesUrl(ConstantsRoutes.profile.pathLink)
         ? this.viewType.set(this.VIEW_MODE)
         : this.viewType.set(this.HIDDEN_MODE);
   }
 
   ngOnInit(): void {
-    if (this.profile()) {
+    if (this.address()) {
       this.editForm.setValue({
-        fullName: this.profile().fullName,
-        birthDate: this.profile().birthDate == Constants.EMPTY_DATE ? '' : this.profile().birthDate,
-        codePhone: this.profile().codePhone,
-        cellphone: this.profile().cellphone,
+        city: this.address().city,
+        state: this.address().state,
+        country: this.address().country,
+        showInCurriculum: this.address().showInCurriculum,
       });
     }
   }
@@ -63,7 +63,7 @@ export class ProfileCardComponent {
   save(): void {
     this.editForm.markAllAsTouched();
     if (this.editForm.valid) {
-      this.profilesService.saveProfile(this.userId(), this.profileId(), this.editForm.value)
+      this.profilesService.saveAddress(this.userId(), this.addressId(), this.editForm.value)
         .subscribe({
           next: (response) => {
             if (response.id === Constants.ID_SUCCESS) {
@@ -73,7 +73,7 @@ export class ProfileCardComponent {
         });
     }
   }
-  
+
   cancel(): void {
     if (this.editForm.pristine) {
       this.navigation.goToProfile();
@@ -90,20 +90,8 @@ export class ProfileCardComponent {
         this.navigation.goToProfile();
       }
     });
-  }
-
-  getBirthDateFormatted(): string {
-    const longFormat: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'America/Mexico_City'
-    };
-
-    const date = new Date(this.profile().birthDate);
-    return date == Constants.EMPTY_DATE ? date.toLocaleDateString('es-MX', longFormat) : '';
-  }
-  
+  } 
+      
   getFieldError(fieldName: string): string {
     return FormValidators.getFieldError(this.editForm.get(fieldName));
   }

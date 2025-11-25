@@ -1,123 +1,115 @@
-<!-- Profile image -->
-<div class="profile-image-card" appearance="outlined">
-  <table class="table-content-card">
-      <tr>
-        <td class="first-cell-content-card">
-          <p class="content-card">
-            <img mat-card-image src="assets/images/no-user.svg" alt="User Image" class="profile-image-card">
-          </p>
-        </td>
-        <td class="last-cell-content-card">
-          <button matButton><mat-icon>edit</mat-icon></button>
-        </td>
-      </tr>
-    </table>
-</div>
+@switch (viewType()) {
+  @case (VIEW_MODE) {
+    <!-- View Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <!-- Card Header -->
+      <mat-card-header class="edit-card-header">
+        <mat-card-title-group>
+          <mat-card-title><strong>Información personal</strong></mat-card-title>
+          <!-- Action Buttons -->
+          <div class="div-button-title-group">
+            <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormProfile(profile().id)">
+              <mat-icon class="menu-mat-icon">edit</mat-icon>
+            </button>
+          </div>
+        </mat-card-title-group>
+      </mat-card-header>
 
-<!-- Account information -->
-<mat-card class="profile-card" appearance="outlined">
-  <!-- Card Header -->
-  <mat-card-header class="edit-card-header">
-    <mat-card-title-group>
-      <mat-card-title><strong>Información de la cuenta</strong></mat-card-title>
-      <!-- Action Buttons -->
-      <div class="div-button-title-group">
-        <button mat-icon-button matTooltip="Editar">
-          <mat-icon class="menu-mat-icon">edit</mat-icon>
-        </button>
-      </div>
-    </mat-card-title-group>
-  </mat-card-header>
+      <!-- Card Content -->
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
+        <p class="content-card">
+          <strong>Nombre:</strong> {{ profile().fullName }}
+          <br />
+          <strong>Fecha de nacimiento:</strong> {{ getBirthDateFormatted() }}
+          <br />
+          <strong>Teléfono:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
+        </p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+    </mat-card>
+  } @case (PROFILE_FORM) {
+    <!-- Profile Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información personal</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
 
-  <!-- Card Content -->
-  <mat-card-content class="mat-card-content">
-    <mat-divider></mat-divider>
-    <p class="content-card">
-      <strong>Nombre de usuario:</strong> {{ user().username }}
-      <br />
-      <strong>Correo electrónico:</strong> {{ user().email }}
-    </p>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-</mat-card>
+          <!-- Full Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre completo</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="fullName" 
+              placeholder="Nombre completo">
+            <mat-icon matPrefix>badge</mat-icon>
+            @if (getInvalidField('fullName')) {
+              <mat-error>
+                {{ getFieldError('fullName') }}
+              </mat-error>
+            }
+          </mat-form-field>
 
-<!-- Update password -->
-<mat-card class="profile-card" appearance="outlined">
-  <!-- Card Header -->
-  <mat-card-header class="edit-card-header">
-    <mat-card-title-group>
-      <mat-card-title><strong>Información de contraseña</strong></mat-card-title>
-      <!-- Action Buttons -->
-      <div class="div-button-title-group">
-        <button mat-icon-button matTooltip="Editar">
-          <mat-icon class="menu-mat-icon">edit</mat-icon>
-        </button>
-      </div>
-    </mat-card-title-group>
-  </mat-card-header>
+          <!-- Birth Date -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input 
+              matInput 
+              [matDatepicker]="pickerBirthDate" 
+              formControlName="birthDate" 
+              placeholder="Fecha de nacimiento">
+            <mat-icon matPrefix>cake</mat-icon>
+            <mat-datepicker-toggle matSuffix [for]="pickerBirthDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerBirthDate></mat-datepicker>
+            @if (getInvalidField('birthDate')) {
+              <mat-error>
+                {{ getFieldError('birthDate') }}
+              </mat-error>
+            }
+          </mat-form-field>
 
-  <!-- Card Content -->
-  <mat-card-content class="mat-card-content">
-    <mat-divider></mat-divider>
-    <p class="content-card">
-      <strong>Contraseña:</strong> **********
-    </p>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-</mat-card>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Código de teléfono</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="codePhone" 
+              placeholder="Código de teléfono">
+            <mat-icon matPrefix>password</mat-icon>
+            @if (getInvalidField('codePhone')) {
+              <mat-error>
+                {{ getFieldError('codePhone') }}
+              </mat-error>
+            }
+          </mat-form-field>
 
-<!-- Personal information -->
-<mat-card class="profile-card" appearance="outlined">
-  <!-- Card Header -->
-  <mat-card-header class="edit-card-header">
-    <mat-card-title-group>
-      <mat-card-title><strong>Información personal</strong></mat-card-title>
-      <!-- Action Buttons -->
-      <div class="div-button-title-group">
-        <button mat-icon-button matTooltip="Editar">
-          <mat-icon class="menu-mat-icon">edit</mat-icon>
-        </button>
-      </div>
-    </mat-card-title-group>
-  </mat-card-header>
-
-  <!-- Card Content -->
-  <mat-card-content class="mat-card-content">
-    <mat-divider></mat-divider>
-    <p class="content-card">
-      <strong>Nombre:</strong> {{ profile().fullName || 'No especificada' }}
-      <br />
-      <strong>Fecha de nacimiento:</strong> {{ profile().birthDate | date:'longDate' }}
-      <br />
-      <strong>Teléfono:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
-    </p>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-</mat-card>
-
-<!-- Address information -->
-<mat-card class="profile-card" appearance="outlined">  
-  <!-- Card Header -->
-  <mat-card-header class="edit-card-header">
-    <mat-card-title-group>
-      <mat-card-title><strong>Información de dirección</strong></mat-card-title>
-      <!-- Action Buttons -->
-      <div class="div-button-title-group">
-        <button mat-icon-button matTooltip="Editar">
-          <mat-icon class="menu-mat-icon">edit</mat-icon>
-        </button>
-      </div>
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-content class="mat-card-content">
-    <mat-divider></mat-divider>
-    <p class="content-card">
-      <strong>Ciudad:</strong> {{ profile().fullName || 'No especificada' }}
-      <br />
-      <strong>Estado:</strong> {{ profile().birthDate | date:'longDate' }}
-      <br />
-      <strong>País:</strong> {{ profile().codePhone }} {{ profile().cellphone }}
-    </p>
-    <mat-divider></mat-divider>
-  </mat-card-content>
-</mat-card>
+          <!-- Cellphone -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="cellphone" 
+              placeholder="Teléfono">
+            <mat-icon matPrefix>phone</mat-icon>
+            @if (getInvalidField('cellphone')) {
+              <mat-error>
+                {{ getFieldError('cellphone') }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+}

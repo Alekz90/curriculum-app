@@ -26,12 +26,12 @@ export class CertificationPageComponent implements OnInit {
   
   detailId        = signal<string>('');
   certifications  = signal<CertificationResponse[]>([]);
-  viewType        = signal<string>(Constants.EDITION);
+  viewType        = signal<string>(Constants.VIEW_MODE);
 
   ngOnInit(): void {
     this.router.url.includes(ConstantsRoutes.certificationForm.pathLink)
-      ? this.viewType.set(Constants.FORM)
-      : this.viewType.set(Constants.EDITION);
+      ? this.viewType.set(Constants.FORM_MODE)
+      : this.viewType.set(Constants.VIEW_MODE);
   }
 
   details = rxResource({

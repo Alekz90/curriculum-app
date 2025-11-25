@@ -47,15 +47,15 @@ export const ConstantsRoutes = {
     title: 'Información de Verificación'
   },
   //With Session
-  dashboard: {
-    path: 'dashboard',
-    pathLink: '/home/dashboard',
-    title: 'Curriculum'
-  },
   profile: {
     path: 'profiles',
     pathLink: '/home/profiles',
     title: 'Perfil'
+  },
+  dashboard: {
+    path: 'dashboard',
+    pathLink: '/home/dashboard',
+    title: 'Curriculum'
   },
   settings: {
     path: 'settings',
@@ -113,6 +113,26 @@ export const ConstantsRoutes = {
     title: 'Plantillas'
   },
   //Forms
+  profileForm: {
+    path: 'edit-profile/:id',
+    pathLink: '/home/edit-profile',
+    title: 'Perfil'
+  },
+  imageForm: {
+    path: 'edit-image-profile/:id',
+    pathLink: '/home/edit-image-profile',
+    title: 'Perfil'
+  },
+  addressForm: {
+    path: 'edit-address/:id',
+    pathLink: '/home/edit-address',
+    title: 'Perfil'
+  },
+  passwordForm: {
+    path: 'edit-password/:id',
+    pathLink: '/home/edit-password',
+    title: 'Perfil'
+  },
   summaryForm: {
     path: 'edit-summary/:id',
     pathLink: '/home/edit-summary',
@@ -120,7 +140,7 @@ export const ConstantsRoutes = {
   },
   experienceForm: {
     path: 'edit-experience/:id',
-    pathLink: '/home/edit-experience/',
+    pathLink: '/home/edit-experience',
     title: 'Actualizar Experiencia'
   },
   languageForm: {

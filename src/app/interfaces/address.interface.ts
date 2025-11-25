@@ -8,3 +8,11 @@ export interface AddressRequest {
 export interface AddressResponse extends AddressRequest {
   id:               string;
 }
+
+export const AddressEmpty: AddressResponse = {
+  id:               '',
+  country:          '',
+  state:            '',
+  city:             '',
+  showInCurriculum: false,
+};

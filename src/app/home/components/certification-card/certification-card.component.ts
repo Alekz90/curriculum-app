@@ -17,9 +17,9 @@ import { FormValidators } from '@app/utils/form-validators';
 })
 export class CertificationCardComponent implements OnInit {
 
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW;
 
   private activatedRoute    = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class CertificationCardComponent implements OnInit {
 
   certifications    = input.required<CertificationResponse[]>();
   detailId = input<string>('');
-  viewType = input<string>(Constants.DASHBOARD);
+  viewType = input<string>(Constants.DASHBOARD_MODE);
   
   certificationId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 

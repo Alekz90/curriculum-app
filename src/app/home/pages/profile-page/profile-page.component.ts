@@ -1,14 +1,42 @@
-import { Component, inject } from '@angular/core';
-import { ProfileCardComponent } from '@app/home/components/profile-card/profile-card.component';
-import { CurriculumService } from '@app/services/curriculum.service';
+import { Component, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { ProfilesService } from '@services/profiles.service';
+import { Result } from '@interfaces/result.interface';
+import { User } from '@interfaces/user.interface';
+import { ProfileEmpty, ProfileResponse } from '@interfaces/profile.interface';
+import { Constants } from '@utils/constants';
+import { ProfileCardComponent } from '@home-cards/profile-card/profile-card.component';
+import { AddressCardComponent } from "@home-cards/address-card/address-card.component";
+import { UserCardComponent } from "@home-cards/user-card/user-card.component";
 
 @Component({
   selector: 'profile-page',
-  imports: [ProfileCardComponent],
+  imports: [ProfileCardComponent, UserCardComponent, AddressCardComponent],
   templateUrl: './profile-page.component.html',
 })
 export class ProfilePageComponent {
-  service = inject(CurriculumService);
-  profile = this.service.profile;
-  user = this.service.user;
+
+  private authenticationService = inject(AuthenticationService);
+  private profilesService     = inject(ProfilesService);
+
+  profile   = signal<ProfileResponse>(ProfileEmpty);
+  user      = signal<User>(this.authenticationService.user()!);
+  viewType  = signal<string>(Constants.VIEW_MODE);
+
+  profilesResource = rxResource({
+    params: () => ({ userId: this.user().id! }),
+    stream: (resource) => 
+      this.profilesService.getProfileByUserId(resource.params.userId)
+        .pipe(
+          tap(response => this.handleSuccess(response)),
+        ),
+  });
+
+  handleSuccess(response: Result<ProfileResponse>) {
+    if (response.result) {
+      this.profile.set(response.result!);
+    }
+  }
 }

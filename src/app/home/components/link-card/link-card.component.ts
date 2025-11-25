@@ -17,9 +17,9 @@ import { FormValidators } from '@utils/form-validators';
 })
 export class LinkCardComponent {
 
-  readonly DASHBOARD = Constants.DASHBOARD;
-  readonly EDITION = Constants.EDITION;
-  readonly FORM = Constants.FORM;
+  readonly DASHBOARD = Constants.DASHBOARD_MODE;
+  readonly EDITION = Constants.VIEW_MODE;
+  readonly FORM = Constants.FORM_MODE;
   readonly PATH_NEW = Constants.PATH_NEW;
 
   private activatedRoute    = inject(ActivatedRoute);
@@ -30,7 +30,7 @@ export class LinkCardComponent {
 
   links    = input.required<LinkResponse[]>();
   detailId = input<string>('');
-  viewType = input<string>(Constants.DASHBOARD);
+  viewType = input<string>(Constants.DASHBOARD_MODE);
   
   linkId = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
