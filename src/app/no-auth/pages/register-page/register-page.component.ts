@@ -16,7 +16,7 @@ import { FormValidators } from '@app/utils/form-validators';
   styleUrl: './register-page.component.css',
 })
 export class RegisterPageComponent {
-  patternPasswordMessage: string = `Mínimo 10 caracteres, una mayúscula, una minúscula, un número, un carácter especial ${Constants.PASSWORD_SPECIAL_PATTERN}`;
+  protected readonly patternPasswordMessage = Constants.PATTERN_PASSWORD_MESSAGE;
 
   hidePassword = true;
   hideConfirmPassword = true;
@@ -52,55 +52,6 @@ export class RegisterPageComponent {
       });
     }
   }
-
-  // Validador personalizado para verificar que las contraseñas coincidan
-  passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    
-    // Si ambos campos tienen valor y no coinciden, retorna error
-    if (password && confirmPassword && password !== confirmPassword) {
-      // Asigna el error al campo confirmPassword
-      formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
-      return { passwordMismatch: true };
-    }
-    
-    // Si coinciden, limpia el error passwordMismatch del confirmPassword
-    const confirmPasswordControl = formGroup.get('confirmPassword');
-    if (confirmPasswordControl?.hasError('passwordMismatch')) {
-      confirmPasswordControl.setErrors(null);
-    }
-    
-    return null;
-  }
-
-  /*getEmailError(): string {
-    const control = this.registerForm.get('email');
-    if (control?.hasError('required')) return 'El correo es requerido';
-    if (control?.hasError('pattern')) return 'El correo no es válido';
-    return '';
-  }
-
-  getUserNameError() {
-    const control = this.registerForm.get('userName');
-    if (control?.hasError('required')) return 'El nombre de usuario es requerido';
-    if (control?.hasError('pattern')) return 'Formato de nombre de usuario no válido';
-    return '';
-  }*/
-
-  getPasswordError(): string {
-    const control = this.registerForm.get('password');
-    if (control?.hasError('required')) return 'La contraseña es requerida';
-    if (control?.hasError('pattern')) return `Formato de contraseña no válido: ${this.patternPasswordMessage}`;
-    return '';
-  }
-
-  getConfirmPasswordError(): string {
-    const control = this.registerForm.get('confirmPassword');
-    if (control?.hasError('required')) return 'Confirma tu contraseña';
-    if (control?.hasError('passwordMismatch')) return 'Las contraseñas no coinciden';
-    return '';
-  }
   
   successResponse(authentication: Result<Authentication>): void {
     if (authentication.id === Constants.ID_SUCCESS) {
@@ -119,6 +70,14 @@ export class RegisterPageComponent {
 
   getInvalidField(fieldName: string): boolean {
     return FormValidators.getInvalidField(this.registerForm.get(fieldName));
+  }
+
+  passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
+    return FormValidators.passwordMatchValidator(formGroup.get('password'), formGroup.get('confirmPassword'));
+  }
+
+  getPasswordError(): string {
+    return FormValidators.getPasswordError(this.registerForm.get('password'));
   }
 
   showMessageError(message: string, action: string) {

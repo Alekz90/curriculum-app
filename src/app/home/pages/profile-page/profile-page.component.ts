@@ -10,10 +10,11 @@ import { Constants } from '@utils/constants';
 import { ProfileCardComponent } from '@home-cards/profile-card/profile-card.component';
 import { AddressCardComponent } from "@home-cards/address-card/address-card.component";
 import { UserCardComponent } from "@home-cards/user-card/user-card.component";
+import { PasswordCardComponent } from "@home-cards/password-card/password-card.component";
 
 @Component({
   selector: 'profile-page',
-  imports: [ProfileCardComponent, UserCardComponent, AddressCardComponent],
+  imports: [ProfileCardComponent, UserCardComponent, AddressCardComponent, PasswordCardComponent],
   templateUrl: './profile-page.component.html',
 })
 export class ProfilePageComponent {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ErrorResult, Result } from '@app/interfaces/result.interface';
+import { Result } from '@app/interfaces/result.interface';
 import { Authentication, LoginRequest, RegisterRequest, User } from '@app/interfaces/user.interface';
 import { Constants } from '@app/utils/constants';
 import { AuthenticationStatusEnum, RoleEnum } from '@app/utils/enum';

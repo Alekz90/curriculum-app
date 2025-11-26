@@ -1,4 +1,5 @@
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, FormArray, ValidationErrors } from '@angular/forms';
+import { Constants } from './constants';
 
 export class FormValidators {
   
@@ -43,6 +44,62 @@ export class FormValidators {
     }
     
     return '';
+  }
+
+  static getPasswordError(control: AbstractControl | null): string {
+    if (control?.hasError('required')) {
+      return 'La contraseña es requerida';
+    }
+    if (control?.hasError('pattern')) {
+      return `Formato de contraseña no válido: ${Constants.PATTERN_PASSWORD_MESSAGE}`;
+    }
+    if (control?.hasError('passwordMatch')) {
+      return 'La nueva contraseña no puede ser igual a la anterior';
+    }
+    return '';
+  }
+
+  // Validador personalizado para verificar que las contraseñas coincidan
+  static passwordMatchValidator(passwordControl: AbstractControl | null, confirmControl: AbstractControl | null): ValidationErrors | null {
+    const password = passwordControl?.value;
+    const confirmPassword = confirmControl?.value;
+    
+    // Si ambos campos tienen valor y no coinciden, retorna error
+    if (password && confirmPassword && password !== confirmPassword) {
+      // Asigna el error al campo confirmPassword
+      confirmControl?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    
+    // Si coinciden, limpia el error passwordMismatch del confirmPassword
+    const confirmPasswordControl = confirmControl;
+    if (confirmPasswordControl?.hasError('passwordMismatch')) {
+      confirmPasswordControl.setErrors(null);
+    }
+    
+    return null;
+  }
+ 
+
+  // Validador personalizado para verificar que las contraseñas no sea iguales
+  static passwordNotMatchValidator(oldPasswordControl: AbstractControl | null, newPasswordControl: AbstractControl | null): ValidationErrors | null {
+    const oldPassword = oldPasswordControl?.value;
+    const newPassword = newPasswordControl?.value;
+    
+    // Si ambos campos tienen valor y no coinciden, retorna error
+    if (oldPassword && newPassword && oldPassword === newPassword) {
+      // Asigna el error al campo confirmPassword
+      newPasswordControl?.setErrors({ passwordMatch: true });
+      return { passwordMatch: true };
+    }
+    
+    // Si coinciden, limpia el error passwordMatch del confirmPassword
+    const confirmPasswordControl = newPasswordControl;
+    if (confirmPasswordControl?.hasError('passwordMatch')) {
+      confirmPasswordControl.setErrors(null);
+    }
+    
+    return null;
   }
 
   // Obtener error de un control en FormArray

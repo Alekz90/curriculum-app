@@ -85,9 +85,9 @@
             [attr.aria-label]="'Ocultar contraseña'">
             <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty) {
+          @if (getInvalidField('confirmPassword')) {
             <mat-error>
-              {{ getConfirmPasswordError() }}
+              {{ getFieldError('confirmPassword') }}
             </mat-error>
           }
         </mat-form-field>

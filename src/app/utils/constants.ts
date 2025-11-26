@@ -18,7 +18,8 @@ export class Constants {
 
 
   static readonly CONFIRM_DIALOG_WIDTH = '450px';
-  static readonly PASSWORD_MIN_LENGTH = 8;
+  static readonly PASSWORD_MIN_LENGTH = 10;
+  static readonly PASSWORD_MAX_LENGTH = 100;
   static readonly USERNAME_MIN_LENGTH = 2;
   static readonly USERNAME_PATTERN = "^[a-zA-Z@$!%*¿?&.\\-_\\d ]{1,100}$";
   static readonly PHONE_CODE_PATTERN = "^\\+\\d{1,3}$";
@@ -29,8 +30,9 @@ export class Constants {
   static readonly IDENTIFIER_PATTERN = "^[a-fA-F0-9]{24}$";
   static readonly EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   static readonly PASSWORD_SPECIAL_PATTERN = "@$¡!%*¿?&\\-+=.#";
-  static readonly PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[" + Constants.PASSWORD_SPECIAL_PATTERN 
-                                   + "])[A-Za-z\\d" + Constants.PASSWORD_SPECIAL_PATTERN + " ]{10,100}$";
+  static readonly PASSWORD_PATTERN = 
+    `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[${Constants.PASSWORD_SPECIAL_PATTERN}])[A-Za-z\\d${Constants.PASSWORD_SPECIAL_PATTERN} ]{${Constants.PASSWORD_MIN_LENGTH},${Constants.PASSWORD_MAX_LENGTH}}$`;
+  static readonly PATTERN_PASSWORD_MESSAGE = `Mínimo ${Constants.PASSWORD_MIN_LENGTH} caracteres, una mayúscula, una minúscula, un número, un carácter especial ${Constants.PASSWORD_SPECIAL_PATTERN}`;
 
   static readonly IGNORE_ERRORS_LIST = [
     '0014', // Profile not found

@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProfileRequest, ProfileResponse } from '@interfaces/profile.interface';
 import { Result } from '@interfaces/result.interface';
 import { environment } from '@env/environment.development';
 import { AddressRequest, AddressResponse } from '@app/interfaces/address.interface';
+import { ChangePasswordRequest } from '@app/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ProfilesService {
   private readonly PROFILES_URL = `${environment.baseUrl}${environment.profilesPath}`;
   private readonly IMAGES_URL = `${environment.baseUrl}${environment.imagesPath}`;
   private readonly ADDRESS_URL = `${environment.baseUrl}${environment.addressPath}`;
+  private readonly AUTHENTICATION_URL = `${environment.baseUrl}${environment.authenticationsPath}`;
 
   private httpClient = inject(HttpClient);
   private snackBar   = inject(MatSnackBar);
@@ -49,6 +51,20 @@ export class ProfilesService {
         tap(() => this.cleanProfileCache()),
         catchError((response) => this.handleError('Update Address', response.error)),
       );    
+  }
+
+  // Change password
+  changePassword(id: string, request: ChangePasswordRequest): Observable<boolean> {
+    return this.httpClient.patch<Result<boolean>>(`${this.AUTHENTICATION_URL}/change-password/${id}`, request)
+      .pipe(
+        map(() => true),
+        catchError((response) => this.handleErrorBoolean('Change Password', response.error)),
+    );
+  }
+
+  handleErrorBoolean(operation: string, result: any): Observable<boolean> {
+    this.handleError(operation, result);
+    return of(false);
   }
 
   private handleError(operation: string, result: any): Observable<any> {
