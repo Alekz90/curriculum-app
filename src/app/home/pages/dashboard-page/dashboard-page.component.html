@@ -1,0 +1,55 @@
+<div class="container-page">
+  <!-- Loading Overlay -->
+  @if (resultDetail.isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner diameter="60" color="primary"></mat-spinner>
+      <p class="loading-text">Verificando código...</p>
+    </div>
+  }
+
+  @if (!hasDetail()) {
+    <div class="info-not-found">
+      <mat-icon>error</mat-icon>
+      <span>No se han agregado información profesional para mostrar.</span>
+    </div>
+  }
+
+  <!-- Resumen Profesional Card -->
+  @if (hasDetail()) {
+
+    @if (resultDetail.value()!.result!.summary!) {
+      <summary-card [detail]="resultDetail.value()!.result!.summary!"/>
+    }
+
+    <!-- Experiencia Profesional Card -->
+    @if (resultDetail.value()!.result!.experiences.length > 0) {
+      <experience-card [experiences]="resultDetail.value()!.result!.experiences"></experience-card>
+    }
+  
+    <!-- Language Card -->
+    @if (resultDetail.value()!.result!.languages.length > 0) {
+      <language-card [languages]="resultDetail.value()!.result!.languages"></language-card>
+    }
+  
+    <!-- Abilities Card -->   
+    @if (resultDetail.value()!.result!.abilityGroups.length > 0) {
+      <ability-card [abilityGroups]="resultDetail.value()!.result!.abilityGroups"></ability-card>
+    }
+  
+    <!-- Education Card -->
+    @if (resultDetail.value()!.result!.educations.length > 0) {
+      <education-card [educations]="resultDetail.value()!.result!.educations"></education-card>
+    }
+  
+    <!-- Certifications Card -->
+    @if (resultDetail.value()!.result!.certifications.length > 0) {
+      <certification-card [certifications]="resultDetail.value()!.result!.certifications"></certification-card>
+    }
+    
+    <!-- Links Card -->
+    @if (resultDetail.value()!.result!.links.length > 0) {
+      <link-card [links]="resultDetail.value()!.result!.links"></link-card>
+    }
+  }
+  
+</div>

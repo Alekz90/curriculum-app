@@ -1,0 +1,108 @@
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edit Mode -->
+    <section class="section-edit-mode">
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormLanguage(PATH_NEW)">
+        Agregar nuevo<mat-icon>add_box</mat-icon>
+      </button>
+    </section>
+    @for (language of languages(); track language.id) {
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ language.name }}</mat-card-title>
+            <div class="div-button-title-group">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormLanguage(language.id)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(language.id)">
+                <mat-icon class="menu-mat-icon">delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
+          <p class="content-card">
+            <strong>Nivel: </strong> {{ languageValue(language) }}
+          </p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información de idioma</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+          
+          <!-- Language Name -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Idioma</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="name" 
+              placeholder="Idioma">
+            <mat-icon matPrefix>language</mat-icon>
+            @if (getInvalidField('name')) {
+              <mat-error>
+                {{ getFieldError('name') }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Language Level Select -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nivel</mat-label>
+            <mat-select formControlName="level" placeholder="Nivel">
+              <!-- Options generated from enum -->
+              @for (level of LANGUAGE_LEVEL_ENUM; track level) {
+                <mat-option [value]="level.key">{{ level.value }}</mat-option>
+              }
+
+            </mat-select>
+            <mat-icon matPrefix>school</mat-icon>
+            @if (getInvalidField('level')) {
+              <mat-error>
+                {{ getFieldError('level') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-divider></mat-divider>
+        </form>
+      </mat-card-content>
+
+      <!-- Buttons -->
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  } @default {
+    <!-- View Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Idiomas</strong></mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
+        <p class="content-card">
+          @for (language of languages(); track language.id) {
+            <strong>{{ language.name }} </strong> <br>( {{ languageValue(language) }} )<br>
+            <mat-divider></mat-divider>
+          }
+        </p>
+        </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <button matButton (click)="navigation.goToEditLanguage()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+}

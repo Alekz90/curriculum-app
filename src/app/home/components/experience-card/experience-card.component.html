@@ -1,0 +1,203 @@
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edit Mode -->
+    <section class="section-edit-mode">
+      <button matButton="filled" class="add-button" (click)="navigation.goToFormExperience(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+    </section>
+    @for (experience of experiences(); track experience.id) {
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ generateCompanyPositionLabel(experience) }}</mat-card-title>
+            <div class="div-button-title-group">
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormExperience(experience.id)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Eliminar" (click)="deleteItem(experience.id)">
+                <mat-icon class="menu-mat-icon">delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
+          <p class="content-card">
+            <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
+            <span [innerHTML]="experience.activities | replaceLine"></span>        
+          </p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información de experiencia profesional</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+
+          <!-- Position -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Puesto</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="position" 
+              placeholder="Puesto">
+            <mat-icon matPrefix>assignment_ind</mat-icon>
+            @if (getInvalidField('position')) {
+              <mat-error>
+                {{ getFieldError('position') }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Company -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Empresa</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="company" 
+              placeholder="Empresa">
+            <mat-icon matPrefix>home_work</mat-icon>
+            @if (getInvalidField('company')) {
+              <mat-error>
+                {{ getFieldError('company') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          
+          <!-- Location -->
+          <div>
+            <!-- City -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Ciudad</mat-label>
+              <input 
+                matInput 
+                type="text" 
+                formControlName="city" 
+                placeholder="Ciudad">
+              <mat-icon matPrefix>location_city</mat-icon>
+              @if (getInvalidField('city')) {
+                <mat-error>
+                  {{ getFieldError('city') }}
+                </mat-error>
+              }
+            </mat-form-field>
+            
+            <!-- State -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Estado</mat-label>
+              <input 
+                matInput 
+                type="text" 
+                formControlName="state" 
+                placeholder="Estado">
+              <mat-icon matPrefix>local_library</mat-icon>
+              @if (getInvalidField('state')) {
+                <mat-error>
+                  {{ getFieldError('state') }}
+                </mat-error>
+              }
+            </mat-form-field>
+            
+            <!-- Country -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>País</mat-label>
+              <input 
+                matInput 
+                type="text" 
+                formControlName="country" 
+                placeholder="País">
+              <mat-icon matPrefix>south_america</mat-icon>
+              @if (getInvalidField('country')) {
+                <mat-error>
+                  {{ getFieldError('country') }}
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+          
+          <div>
+            <!-- Start Date -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Fecha de inicio</mat-label>
+              <input 
+                matInput 
+                [matDatepicker]="startPicker"
+                formControlName="startDate">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconPrefix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- End Date -->
+            <mat-form-field appearance="outline" class="column-3-width">
+              <mat-label>Fecha de inicio</mat-label>
+              <input 
+                matInput 
+                [matDatepicker]="endPicker"
+                formControlName="endDate">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconPrefix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+            
+            <!-- Still Working -->
+            <mat-checkbox formControlName="stillWorking" class="column-3-width" [checked]="checkStillWorking()">
+              Sigó trabajando
+            </mat-checkbox>
+          </div>
+  
+          <!-- Description -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea
+              matInput
+              formControlName="activities"
+              placeholder="Descripción">
+            </textarea>
+            <mat-icon matPrefix>format_align_justify</mat-icon>
+            @if (getInvalidField('activities')) {
+              <mat-error>
+                {{ getFieldError('activities') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-divider></mat-divider>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  } @default {
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Experiencia profesional</strong></mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <mat-divider></mat-divider>
+        @for (experience of experiences(); track experience.id) {
+          <p class="content-card">
+            <strong>{{ generateCompanyPositionLabel(experience) }}</strong><br>
+            <strong>{{ getExperienceDurationLabel(experience) | titlecase }}</strong><br>
+            <span [innerHTML]="experience.activities | replaceLine"></span>        
+          </p>
+          <mat-divider></mat-divider>
+        }
+      </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <button matButton (click)="navigation.goToEditExperience()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
+      
+    </mat-card>
+  }
+}

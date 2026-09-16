@@ -1,0 +1,100 @@
+@switch (viewType()) {
+  @case (EDITION) {
+    <!-- Edition Mode -->
+    @if (detail()) {
+      <mat-card class="detail-card" appearance="outlined">
+        <mat-card-header class="edit-card-header">
+          <mat-card-title-group>
+            <mat-card-title>{{ detail().position }}</mat-card-title>
+            <div>
+              <button mat-icon-button matTooltip="Editar" (click)="navigation.goToFormSummary(detail().id!)">
+                <mat-icon class="menu-mat-icon">edit</mat-icon>
+              </button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <mat-divider></mat-divider>
+          <p class="content-card">
+            <span [innerHTML]="detail().summary || '' | replaceLine"></span>
+          </p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <section class="section-edit-mode">
+        <button matButton="filled" class="add-button" (click)="navigation.goToFormSummary(PATH_NEW)">Agregar nuevo<mat-icon>add_box</mat-icon></button>
+      </section>
+    }
+  } @case (FORM) {
+    <!-- Form Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="form-card-header">
+        <mat-card-title>Información de resumen profesional</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content">
+        <form [formGroup]="editForm" class="edit-form">
+          <mat-divider></mat-divider>
+          <!-- Position -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Puesto</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="position" 
+              placeholder="Puesto">
+            <mat-icon matPrefix>assignment_ind</mat-icon>
+            @if (getInvalidField('position')) {
+              <mat-error>
+                {{ getFieldError('position') }}
+              </mat-error>
+            }
+          </mat-form-field>
+  
+          <!-- Summary -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Resumen profesional</mat-label>
+            <textarea
+              matInput
+              formControlName="summary"
+              placeholder="Resumen profesional">
+            </textarea>
+            <mat-icon matPrefix>format_align_justify</mat-icon>
+            @if (getInvalidField('summary')) {
+              <mat-error>
+                {{ getFieldError('summary') }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-divider></mat-divider>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="button-mat-card-actions">
+        <!-- Cancel Button -->
+        <button matButton type="button" (click)="cancel()"><mat-icon>cancel</mat-icon>Cancelar</button>
+        <!-- Save Button -->
+        <button matButton type="submit" [disabled]="editForm.invalid" (click)="save()"><mat-icon>save</mat-icon>Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  } @default {
+    <!-- Dashboard Mode -->
+    <mat-card class="detail-card" appearance="outlined">
+      <mat-card-header class="view-card-header">
+        <mat-card-title><strong>Resumen profesional</strong></mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content  class="mat-card-content">
+        <mat-divider></mat-divider>
+        <p class="content-card" >
+          <strong> {{ detail().position }} </strong><br />
+          <span [innerHTML]="detail().summary! | replaceLine"></span>
+        </p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+
+      <mat-card-actions class="button-mat-card-actions">
+        <button matButton (click)="navigation.goToEditSummary()"><mat-icon>edit</mat-icon>Editar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+}

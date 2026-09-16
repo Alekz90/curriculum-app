@@ -1,0 +1,72 @@
+<!--<div class="confirm-dialog-container" [class]="'dialog-' + type">-->
+  
+  <!-- Icono de advertencia -->
+  <!--<div class="icon-container">
+    <mat-icon class="warning-icon">{{ icon }}</mat-icon>
+  </div>-->
+
+  <!-- Título -->
+  <!--<h4 mat-dialog-title class="dialog-title">{{ title }}</h4>-->
+
+  <!-- Mensaje -->
+  <!--<mat-dialog-content class="dialog-content">
+    <p class="dialog-message">{{ message }}</p>
+  </mat-dialog-content>-->
+
+  <!-- Botones de acción -->
+  <!--<mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      (click)="onCancel()"
+      class="cancel-button">
+      {{ cancelText }}
+    </button>
+    <button 
+      mat-raised-button 
+      [color]="type === 'danger' ? 'warn' : 'primary'"
+      (click)="onConfirm()"
+      class="confirm-button">
+      <mat-icon>{{ icon }}</mat-icon>
+      {{ confirmText }}
+    </button>
+  </mat-dialog-actions>
+
+</div>-->
+
+
+<mat-card class="modal-card">
+  
+  <!-- Header card -->
+  <mat-card-header class="modal-card-header">
+    <mat-card-title-group>
+      <mat-icon>{{ iconConfirm }}</mat-icon>
+      <mat-card-title>
+        <strong>{{ title }}</strong>
+      </mat-card-title>          
+    </mat-card-title-group>
+  </mat-card-header>
+
+  <!-- Content card -->
+  <mat-card-content class="modal-card-content">
+    <p class="dialog-message-2">{{ message }}</p>
+  </mat-card-content>
+  <mat-card-actions style="display: flex; justify-content: flex-end; padding: 20px;">
+
+    <!-- Cancel button -->
+    <button 
+      matButton="filled" class="button-modal"
+      (click)="onCancel()">
+      <mat-icon>{{ iconCancel }}</mat-icon>
+      {{ cancelText }}
+    </button>
+
+    <!-- Confirm button -->
+    <button 
+      matButton="elevated" class="button-modal"
+      [color]="type === 'danger' ? 'warn' : 'primary'"
+      (click)="onConfirm()">
+      <mat-icon>{{ iconConfirm }}</mat-icon>
+      {{ confirmText }}
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,56 @@
+<div class="verification-info-container">
+  <mat-card class="verification-info-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="verification-info-icon">verified_user</mat-icon>Cuenta no verificada
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="verification-info-message">
+        Tu cuenta aún no ha sido verificada.<br><br>
+        Por favor, revisa tu correo electrónico y sigue las instrucciones para activarla.
+        Si no encuentras el correo, revisa la carpeta de spam o solicita un nuevo código.
+      </p>
+      @if (email()) {
+        <div class="verification-info-message">
+          <strong>Correo: {{ email() }}</strong>
+        </div>
+      }
+      @if (message()) {
+        <div class="verification-info-message" style="color: #388e3c;">
+          <mat-icon color="primary">check_circle</mat-icon> {{ message() }}
+        </div>
+      }
+      @if (error()) {
+        <div class="verification-info-message" style="color: #d32f2f;">
+          <mat-icon color="warn">error</mat-icon> {{ error() }}
+        </div>
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      
+      <!-- Resend Code Button -->
+      <button mat-button 
+        color="primary"
+        (click)="resendVerificationEmail()"
+        [disabled]="isLoading()">
+        <mat-icon>refresh</mat-icon>
+        Reenviar código
+      </button>
+
+      <!-- Back to Login Button -->
+      <button mat-button
+        (click)="this.navigation.goToLogin()"
+        [disabled]="isLoading()">
+        Volver al Login
+      </button>
+    </mat-card-actions>  
+  </mat-card>
+  
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner diameter="60" color="primary"></mat-spinner>
+      <p class="loading-text">Verificando código...</p>
+    </div>
+  }
+</div>

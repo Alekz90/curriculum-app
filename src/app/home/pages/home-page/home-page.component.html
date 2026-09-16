@@ -1,0 +1,39 @@
+
+<div class="container-page">
+  <mat-drawer-container class="drawer-container" hasBackdrop="True">
+    <mat-drawer #drawer mode="side" class="menu-mat-drawer">
+      <div class="drawer-header" fxLayout="column" fxLayoutAlign="center center">
+        <img mat-card-image src="assets/images/no-user.svg" alt="User Image" class="drawer-image">
+        <h3>{{ user?.username }}</h3>
+        <p>{{ user?.email }} </p>
+      </div>
+      <mat-nav-list>
+        @for (item of menuItems; track $index) {
+          <a class="menu-a-list" mat-list-item [routerLink]="item.route" (click)="drawer.close(); title.set(item.label)">
+              <mat-icon class="menu-mat-icon" matListIcon>{{ item.icon }}</mat-icon>
+              <span matLine class="menu-span-label">{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <mat-toolbar class="mat-toolbar">
+        <button matIconButton class="example-icon" #menuButton (click)="drawer.toggle()">
+          <mat-icon class="menu-mat-icon">menu</mat-icon>
+        </button>
+        <strong>{{ title() }}</strong>
+        <span class="example-spacer"></span>
+        <button matIconButton (click)="goToProfile()">
+          <mat-icon class="menu-mat-icon">manage_accounts</mat-icon>
+        </button>
+        <button matIconButton (click)="goToLogout()">
+          <mat-icon class="menu-mat-icon">exit_to_app</mat-icon>
+        </button>
+      </mat-toolbar>
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>      
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

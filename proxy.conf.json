@@ -1,0 +1,8 @@
+{
+  "/ms-curriculum": {
+    "target": "http://ms-resume-service",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

@@ -1,0 +1,86 @@
+<div class="verification-container">
+  <mat-card class="verification-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="verification-icon">verified_user</mat-icon>Verificación de Cuenta
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="verification-description">
+        Hemos enviado un código de verificación de 8 dígitos a tu correo electrónico.
+        Por favor, ingrésalo a continuación:
+      </p>
+
+      <div class="code-input-container">
+        @for (digit of verificationCode(); track i; let i = $index) {
+          <input
+            type="text"
+            [id]="'code-' + i"
+            class="code-input"
+            maxlength="1"
+            [value]="digit"
+            (input)="onCodeInput($event, i)"
+            (keydown)="onKeyDown($event, i)"
+            (paste)="i === 0 ? onPaste($event) : null"
+            [disabled]="isLoading()"
+            autocomplete="off"
+          />
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <div class="resend-section">
+        @if (!canResend()) {
+          <p class="resend-timer">
+            Podrás solicitar un nuevo código en {{ resendTimer() }} segundos
+          </p>
+        } @else {
+          <button 
+            mat-button 
+            color="primary"
+            (click)="resendCode()"
+            [disabled]="isLoading()">
+            <mat-icon>refresh</mat-icon>
+            Reenviar código
+          </button>
+        }
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="verifyCode()"
+        [disabled]="isLoading() || !isCodeComplete()"
+        class="verify-button">
+        @if (isLoading()) {
+          Verificando...
+        } @else {
+          Verificar Cuenta
+        }
+      </button>
+
+      <button 
+        mat-button
+        (click)="this.navigation.goToLogin()"
+        [disabled]="isLoading()">
+        Volver al Login
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner diameter="60" color="primary"></mat-spinner>
+      <p class="loading-text">Verificando código...</p>
+    </div>
+  }
+</div>
