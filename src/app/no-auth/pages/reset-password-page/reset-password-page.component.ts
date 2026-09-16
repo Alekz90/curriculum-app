@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from '@utils/constants';
 import { ConstantsRoutes } from '@app/utils/route-constants';
+import { FormValidators } from '@app/utils/form-validators';
+import { NavigationUtils } from '@app/utils/navigation-utils';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from '@app/services/authentication.service';
 
 @Component({
   selector: 'reset-password-page',
@@ -13,84 +17,55 @@ import { ConstantsRoutes } from '@app/utils/route-constants';
   standalone: true
 })
 export class ResetPasswordPageComponent {
+  protected readonly patternPasswordMessage =  Constants.PATTERN_PASSWORD_MESSAGE;
   
-  patternPasswordMessage: string = `Mínimo 10 caracteres, una mayúscula, una minúscula, un número, un carácter especial ${Constants.PASSWORD_SPECIAL_PATTERN}`;
-  
-  resetPasswordForm: FormGroup;
   hidePassword = true;
   hideConfirmPassword = true;
   resetSuccess = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
-    this.resetPasswordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
-      confirmPassword: ['', [Validators.required]]
-    }, {
-      validators: this.passwordMatchValidator
-    });
-  }
+  private formBuilder  = inject(FormBuilder);
+  private authService  = inject(AuthenticationService);
+  protected navigation = inject(NavigationUtils);
+  private activatedRoute    = inject(ActivatedRoute);
 
-  // Validador personalizado para verificar que las contraseñas coincidan
-  passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    
-    if (password && confirmPassword && password !== confirmPassword) {
-      formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
-      return { passwordMismatch: true };
-    }
-    
-    const confirmPasswordControl = formGroup.get('confirmPassword');
-    if (confirmPasswordControl?.hasError('passwordMismatch')) {
-      confirmPasswordControl.setErrors(null);
-    }
-    
-    return null;
-  }
+  resetPasswordForm: FormGroup = this.formBuilder.group({
+    newPassword: ['', [Validators.required, Validators.pattern(Constants.PASSWORD_PATTERN)]],
+    confirmPassword: ['', [Validators.required]]
+  }, {
+    validators: this.passwordMatchValidator
+  });
+
+  recoveryId    = signal(this.activatedRoute.snapshot.paramMap.get('id') || '');
 
   onSubmit(): void {
-    if (this.resetPasswordForm.valid) {
-      const { password } = this.resetPasswordForm.value;
-      console.log('Nueva contraseña:', password);
-      // Aquí puedes agregar la lógica para resetear la contraseña
-      // Por ejemplo: this.authService.resetPassword(password, token);
-      
-      // Simular éxito
-      this.resetSuccess = true;
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 3000);
-    } else {
-      this.markFormGroupTouched(this.resetPasswordForm);
+    if (this.resetPasswordForm.valid) {      
+      this.authService.recoveryPassword(this.recoveryId(), this.resetPasswordForm.value)
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this.resetSuccess = true;
+              setTimeout(() => {
+                this.navigation.goToLogin();
+              }, 5000);
+            }
+          },
+        });
     }
   }
-
-  // Marcar todos los campos como tocados para mostrar errores
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-    });
+  
+  passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
+    return FormValidators.passwordMatchValidator(formGroup.get('newPassword'), formGroup.get('confirmPassword'));
   }
 
   getPasswordError(): string {
-    const control = this.resetPasswordForm.get('password');
-    if (control?.hasError('required')) return 'La contraseña es requerida';
-    if (control?.hasError('pattern')) return `Formato de contraseña no válido: ${this.patternPasswordMessage}`;
-    return '';
+    return FormValidators.getPasswordError(this.resetPasswordForm.get('newPassword'));
   }
 
-  getConfirmPasswordError(): string {
-    const control = this.resetPasswordForm.get('confirmPassword');
-    if (control?.hasError('required')) return 'Confirma tu contraseña';
-    if (control?.hasError('passwordMismatch')) return 'Las contraseñas no coinciden';
-    return '';
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.resetPasswordForm.get(fieldName));
   }
 
-  goToLogin(): void {
-    this.router.navigate([ConstantsRoutes.login.pathLink]);
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.resetPasswordForm.get(fieldName));
   }
 }

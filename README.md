@@ -1,59 +1,75 @@
-# CurriculumApp
+# Curriculum App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+An Angular application for managing and displaying curriculum information, including courses, subjects, lessons, and related educational content.
+
+## Features
+
+- View curriculum information
+- Organize courses and subjects
+- Display lesson details
+- Responsive user interface
+- Angular-based component architecture
+
+## Technologies
+
+- Angular
+- TypeScript
+- HTML5
+- SCSS/CSS
+- RxJS
+
+## Prerequisites
+
+- Node.js
+- npm
+- Angular CLI
+
+## Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone <repository-url>
+cd curriculum-app
+npm install
+```
 
 ## Development server
 
-To start a local development server, run:
+Run the following command:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/` in your browser. The application reloads automatically when source files are changed.
 
-## Code scaffolding
+## Build
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Create a production build with:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The compiled files are stored in the `dist/` directory.
 
-## Running unit tests
+## Testing
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run unit tests with:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Project structure
 
-For end-to-end (e2e) testing, run:
+- `src/app/` – Application components, services, and modules
+- `src/assets/` – Static assets
+- `src/environments/` – Environment-specific configuration
+- `src/index.html` – Main HTML page
+- `src/styles.scss` – Global styles
 
-```bash
-ng e2e
-```
+## License
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is for educational and development purposes.

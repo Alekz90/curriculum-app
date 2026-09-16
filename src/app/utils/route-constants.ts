@@ -32,7 +32,7 @@ export const ConstantsRoutes = {
     title: 'Enviando Recuperación'
   },
   resetPassword: {
-    path: 'reset-password',
+    path: 'reset-password/:id',
     pathLink: '/reset-password',
     title: 'Restablecer Contraseña'
   },

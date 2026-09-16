@@ -59,6 +59,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatOptionModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-  ],
+  ],  
 })
 export class MaterialCardModule { }

@@ -11,10 +11,11 @@ import { ProfileCardComponent } from '@home-cards/profile-card/profile-card.comp
 import { AddressCardComponent } from "@home-cards/address-card/address-card.component";
 import { UserCardComponent } from "@home-cards/user-card/user-card.component";
 import { PasswordCardComponent } from "@home-cards/password-card/password-card.component";
+import { ProfileImageComponent } from "@app/home/components/profile-image/profile-image.component";
 
 @Component({
   selector: 'profile-page',
-  imports: [ProfileCardComponent, UserCardComponent, AddressCardComponent, PasswordCardComponent],
+  imports: [ProfileCardComponent, UserCardComponent, AddressCardComponent, PasswordCardComponent, ProfileImageComponent],
   templateUrl: './profile-page.component.html',
 })
 export class ProfilePageComponent {

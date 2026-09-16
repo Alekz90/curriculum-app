@@ -64,6 +64,7 @@ export class ExperienceCardComponent {
         activities: experience.activities || '',
       });
     }
+    
   }
 
   save(): void {

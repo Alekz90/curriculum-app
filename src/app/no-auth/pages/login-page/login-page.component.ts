@@ -1,29 +1,26 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
-import { Router } from '@angular/router';
 import { Constants } from '@utils/constants';
 import { FormValidators } from '@app/utils/form-validators';
 import { AuthenticationService } from '@app/services/authentication.service';
-import { ConstantsRoutes } from '@app/utils/route-constants';
 import { Result } from '@app/interfaces/result.interface';
-import { Authentication, User } from '@app/interfaces/user.interface';
+import { Authentication } from '@app/interfaces/user.interface';
 import { NavigationUtils } from '@app/utils/navigation-utils';
 
 @Component({
   selector: 'login-page',
   imports: [MaterialModule],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
 
   hidePassword = true;
   isLoading = false;
   private formBuilder  = inject(FormBuilder);
-  private router       = inject(Router);
   private authService  = inject(AuthenticationService);
-  protected navigation  = inject(NavigationUtils);
+  protected navigation = inject(NavigationUtils);
 
   errorMessage = signal('');
 

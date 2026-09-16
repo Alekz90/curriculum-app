@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from '@modules/material.module';
-import { Router } from '@angular/router';
+import { AuthenticationService } from '@services/authentication.service';
 import { Constants } from '@utils/constants';
-import { ConstantsRoutes } from '@app/utils/route-constants';
+import { FormValidators } from '@utils/form-validators';
+import { NavigationUtils } from '@utils/navigation-utils';
 
 @Component({
   selector: 'sending-recovery-page',
@@ -14,61 +15,46 @@ import { ConstantsRoutes } from '@app/utils/route-constants';
 })
 export class SendingRecoveryPageComponent {
   
-  recoveryForm: FormGroup;
-  emailSent = false;
-  isLoading = false;
-  userEmail = '';
+  emailSent = signal(false);
+  isLoading = signal(false);
+  userEmail = signal('');
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
-    this.recoveryForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.pattern(Constants.EMAIL_PATTERN)]]
-    });
-  }
+  private formBuilder  = inject(FormBuilder);
+  private authService  = inject(AuthenticationService);
+  protected navigation = inject(NavigationUtils);
 
-  onSubmit(): void {
+  recoveryForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.pattern(Constants.EMAIL_PATTERN)]]
+  });
+
+  enviar(): void {
     if (this.recoveryForm.valid) {
-      this.isLoading = true;
-      this.userEmail = this.recoveryForm.get('email')?.value;
+      this.isLoading.set(true);
+      const email = this.recoveryForm.get('email')?.value!;
       
-      console.log('Enviando email de recuperación a:', this.userEmail);
-      
-      // Simular llamada al servicio de recuperación
-      // this.authService.sendPasswordRecovery(this.userEmail).subscribe(...)
-      
-      // Simular delay de envío
-      setTimeout(() => {
-        this.isLoading = false;
-        this.emailSent = true;
-      }, 2000);
-    } else {
-      this.markFormGroupTouched(this.recoveryForm);
+      this.authService.sendingPasswordRecoveryEmail(email)
+      .subscribe({
+        next: (success) => {
+          if (success) {
+            this.emailSent.set(true);
+            this.userEmail.set(email);
+          }
+          this.isLoading.set(false);          
+        },
+      });
     }
   }
 
-  // Marcar todos los campos como tocados para mostrar errores
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-    });
+  getFieldError(fieldName: string): string {
+    return FormValidators.getFieldError(this.recoveryForm.get(fieldName));
   }
 
-  getEmailError(): string {
-    const control = this.recoveryForm.get('email');
-    if (control?.hasError('required')) return 'El email es requerido';
-    if (control?.hasError('email') || control?.hasError('pattern')) return 'Email no válido';
-    return '';
-  }
-
-  goToLogin(): void {
-    this.router.navigate([ConstantsRoutes.login.pathLink]);
+  getInvalidField(fieldName: string): boolean {
+    return FormValidators.getInvalidField(this.recoveryForm.get(fieldName));
   }
 
   resendEmail(): void {
-    this.emailSent = false;
-    this.recoveryForm.patchValue({ email: this.userEmail });
+    this.emailSent.set(false);
+    this.recoveryForm.patchValue({ email: this.userEmail() });
   }
 }

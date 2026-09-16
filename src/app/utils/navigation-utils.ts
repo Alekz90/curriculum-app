@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConstantsRoutes } from '@utils/route-constants';
 import { Constants } from './constants';
 
@@ -9,9 +9,14 @@ import { Constants } from './constants';
 export class NavigationUtils {
 
   private router = inject(Router);
+  private activatedRoute    = inject(ActivatedRoute);
 
   includesUrl(urlFragment: string): boolean {
     return this.router.url.includes(urlFragment);
+  }
+
+  getRouteParam(paramName: string): string {
+    return this.activatedRoute.snapshot.paramMap.get(paramName) || '';
   }
   
   goToLogin() {

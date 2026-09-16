@@ -16,7 +16,7 @@ export class ProfilesService {
   private readonly PROFILES_URL = `${environment.baseUrl}${environment.profilesPath}`;
   private readonly IMAGES_URL = `${environment.baseUrl}${environment.imagesPath}`;
   private readonly ADDRESS_URL = `${environment.baseUrl}${environment.addressPath}`;
-  private readonly AUTHENTICATION_URL = `${environment.baseUrl}${environment.authenticationsPath}`;
+  private readonly USERS_URL = `${environment.baseUrl}${environment.usersPath}`;
 
   private httpClient = inject(HttpClient);
   private snackBar   = inject(MatSnackBar);
@@ -55,7 +55,7 @@ export class ProfilesService {
 
   // Change password
   changePassword(id: string, request: ChangePasswordRequest): Observable<boolean> {
-    return this.httpClient.patch<Result<boolean>>(`${this.AUTHENTICATION_URL}/change-password/${id}`, request)
+    return this.httpClient.patch<Result<boolean>>(`${this.USERS_URL}/change-password/${id}`, request)
       .pipe(
         map(() => true),
         catchError((response) => this.handleErrorBoolean('Change Password', response.error)),

@@ -2,12 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProfileResponse } from '@interfaces/profile.interface';
 import { Result } from '@interfaces/result.interface';
 import { SummaryRequest, SummaryResponse } from '@interfaces/summary.interface';
-import { User } from '@interfaces/user.interface';
 import { AbilityGroupRequest, AbilityGroupResponse, AbilityResponse } from '@interfaces/ability.interface';
-import { AddressResponse } from '@interfaces/address.interface';
 import { CertificationRequest, CertificationResponse } from '@interfaces/certification.interface';
 import { EducationRequest, EducationResponse } from '@interfaces/education.interface';
 import { ExperienceRequest, ExperienceResponse } from '@interfaces/experience.interface';
@@ -16,40 +13,11 @@ import { LinkRequest, LinkResponse } from '@interfaces/link.interface';
 import { ProfessionalDetailResponse } from '@interfaces/professional-detail.interface';
 import { Constants } from '@utils/constants';
 import { environment } from '@env/environment.development';
-import { RoleEnum } from '@utils/enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurriculumService {
-
-  address: AddressResponse = {
-    id: 'addressId',
-    city: 'Springfield',
-    state: 'Illinois',
-    country: 'USA',
-    showInCurriculum: true
-  }
-
-  profile: ProfileResponse = {
-    id: 'idProfile',
-    userId: 'userIdProfile',
-    birthDate: new Date('1995-06-15'),
-    codePhone: '+52',
-    cellphone: '8112345678',
-    fullName: 'Alejandro Del Ángel',
-    address: this.address,
-  };
-
-  user: User = {
-    id: 'userId',
-    email: 'alejandro.delangel@example.com',
-    username: 'adelangel',
-    role: RoleEnum.USER,
-    active: true,
-    blocked: false,
-    verified: true
-  };
 
   private readonly PROFESSIONAL_DETAIL_URL = `${environment.baseUrl}${environment.professionalDetailsPath}`;
   private readonly LINKS_URL = `${environment.baseUrl}${environment.linksPath}`;
